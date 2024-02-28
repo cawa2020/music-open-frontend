@@ -1,0 +1,7 @@
+:host {
+  & ::ng-deep .p-slider-handle {
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--border-color);
+  }
+}

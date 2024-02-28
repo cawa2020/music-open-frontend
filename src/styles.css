@@ -1,1 +1,164 @@
-/* You can add global styles to this file, and also import other style files */
+/* @import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities"; */
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap");
+@import "primeicons/primeicons.css";
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: "liga";
+}
+
+* {
+  font-family: "Jost";
+}
+
+:root {
+  --bg-color-secondary: rgb(245, 245, 245);
+  --bg-color-main: white;
+  --text-button-color: #ffffff;
+  --text-input-color: #000000;
+  --text-color: #222;
+  --text-color-secondary: #818c99;
+  --icon-color: #5f6368;
+  --main-color: #3b82f6;
+  --border-color: #d1d5db;
+  --hover-color: #2563eb;
+  --focus-color: #2563eb;
+
+  --border-radius: 8px;
+  --transition-time: 0.3s;
+  --side-margin: 12px;
+  --main-height: 80vh;
+}
+
+body {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 12s ease infinite;
+  height: 100vh;
+  backdrop-filter: brightness(50%);
+  padding: var(--side-margin);
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+main,
+header {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(10, 1fr);
+
+  & section {
+    padding: 12px 18px;
+    border-radius: calc(4px + var(--border-radius));
+    background-color: var(--bg-color-main);
+    border: 1px solid var(--border-color);
+  }
+}
+
+main {
+  margin: var(--side-margin) 0;
+  grid-auto-rows: minmax(var(--main-height), auto);
+}
+
+header {
+  grid-auto-rows: minmax(60px, auto);
+}
+
+.button {
+  padding: 0 12px;
+  height: 40px;
+  background-color: var(--main-color);
+  border: none;
+  color: var(--text-button-color);
+  border-radius: var(--border-radius);
+  transition: var(--transition-time);
+
+  &:hover {
+    background-color: var(--hover-color);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--main-color);
+  }
+}
+
+mat-icon.mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}
+
+.icon-button {
+  padding: 6px;
+  border-radius: 9999px;
+  height: 32px;
+  width: 32px;
+}
+
+input:not([type="range"]) {
+  padding: 0 12px;
+  height: 40px;
+  color: var(--text-input-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  outline: none;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 300px;
+  height: 4px;
+  background: #ddd;
+  border: none;
+  border-radius: var(--border-radius);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 8px;
+  width: 8px;
+  background: var(--main-color);
+  margin-top: -2px;
+  border-radius: 99999px;
+}

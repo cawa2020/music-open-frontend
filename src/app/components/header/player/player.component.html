@@ -1,0 +1,57 @@
+<div class="flex items-center gap-4 w-full">
+  <div class="flex items-center">
+    <button class="icon-button">
+      <mat-icon
+        class="text-[var(--main-color)]"
+        fontIcon="skip_previous"
+      ></mat-icon>
+    </button>
+    <button class="button icon-button" (click)="toggleTrack()">
+      @if (player.getAudio().paused) {
+      <mat-icon fontIcon="play_arrow-round"></mat-icon>
+      } @else {
+      <mat-icon fontIcon="pause-round"></mat-icon>
+      }
+    </button>
+    <button class="text-[var(--main-color)] icon-button">
+      <mat-icon fontIcon="skip_next"></mat-icon>
+    </button>
+  </div>
+  <div class="grid gap-2">
+    <div class="flex gap-2 items-end">
+      <img
+        class="rounded"
+        src="/assets/cover.jpg"
+        width="32px"
+        height="32px"
+        alt="song cover"
+      />
+      <div class="grid h-[32px]">
+        <h4 class="leading-none truncate w-full">Рискуя не умереть молодым</h4>
+        <a
+          [routerLink]="['/artist/123213']"
+          class="leading-none text-[var(--text-color-secondary)] w-fit"
+          >ШАРЫ</a
+        >
+      </div>
+      <div class="ml-8 text-sm w-8 text-right">
+        {{ getTime() }}
+      </div>
+    </div>
+    <app-slider [duration]="songDuration" />
+  </div>
+  <div class="flex items-center">
+    <button class="icon-button">
+      <mat-icon fontIcon="add"></mat-icon>
+    </button>
+    <button class="icon-button">
+      <mat-icon fontIcon="volume_up_rounded"></mat-icon>
+    </button>
+    <button class="icon-button">
+      <mat-icon fontIcon="shuffle_rounded"></mat-icon>
+    </button>
+    <button class="icon-button">
+      <mat-icon fontIcon="repeat"></mat-icon>
+    </button>
+  </div>
+</div>
