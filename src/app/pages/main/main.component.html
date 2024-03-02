@@ -1,7 +1,11 @@
 <main>
-  <section style="grid-column: 1 / 4">
+  <section
+    class="flex"
+    [style]="'grid-column:' + gridTemplate[0][0] + ' / ' + gridTemplate[0][1]"
+  ></section>
+  <section
+    [style]="'grid-column:' + gridTemplate[1][0] + ' / ' + gridTemplate[1][1]"
+  >
     <app-current-playlist></app-current-playlist>
   </section>
-  <section class="flex" style="grid-column: 4 / 9"></section>
-  <section class="flex justify-between" style="grid-column: 9 / 11"></section>
 </main>

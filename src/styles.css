@@ -13,8 +13,7 @@
 .material-icons {
   font-family: "Material Icons";
   font-weight: normal;
-  font-style: normal;
-  font-size: 24px; /* Preferred icon size */
+  font-size: 20px;
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -35,20 +34,28 @@
   font-feature-settings: "liga";
 }
 
+mat-icon.mat-icon {
+  width: 20px;
+  height: 20px;
+}
+
 * {
   font-family: "Jost";
+  color: var(--text-color);
 }
 
 :root {
-  --bg-color-secondary: rgb(245, 245, 245);
   --bg-color-main: white;
+  --bg-color-secondary: rgb(245, 245, 245);
+
   --text-button-color: #ffffff;
   --text-input-color: #000000;
   --text-color: #222;
   --text-color-secondary: #818c99;
   --icon-color: #5f6368;
-  --main-color: #3b82f6;
   --border-color: #d1d5db;
+
+  --main-color: #3b82f6;
   --hover-color: #2563eb;
   --focus-color: #2563eb;
 
@@ -59,11 +66,12 @@
 }
 
 body {
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
   animation: gradient 12s ease infinite;
   height: 100vh;
-  backdrop-filter: brightness(50%);
+  backdrop-filter: brightness(50%); */
+  background-color: var(--bg-color-secondary);
   padding: var(--side-margin);
 }
 
@@ -79,6 +87,10 @@ body {
   }
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 main,
 header {
   display: grid;
@@ -86,7 +98,7 @@ header {
   grid-template-columns: repeat(10, 1fr);
 
   & section {
-    padding: 12px 18px;
+    padding: 12px;
     border-radius: calc(4px + var(--border-radius));
     background-color: var(--bg-color-main);
     border: 1px solid var(--border-color);
@@ -116,14 +128,23 @@ header {
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--main-color);
+    box-shadow: 0 0 0 2px var(--bg-color-secondary), 0 0 0 4px var(--main-color);
   }
 }
 
-mat-icon.mat-icon {
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
+.active-button {
+  color: var(--main-color);
+  position: relative;
+
+  &::after {
+    content: "";
+    border-radius: 9999px;
+    padding: 2px;
+    position: absolute;
+    background-color: var(--main-color);
+    bottom: -2px;
+    left: 45%;
+  }
 }
 
 .icon-button {
@@ -133,7 +154,7 @@ mat-icon.mat-icon {
   width: 32px;
 }
 
-input:not([type="range"]) {
+input:not([type="range"]):not([type="color"]) {
   padding: 0 12px;
   height: 40px;
   color: var(--text-input-color);
@@ -161,4 +182,94 @@ input[type="range"]::-webkit-slider-thumb {
   background: var(--main-color);
   margin-top: -2px;
   border-radius: 99999px;
+}
+
+.equalizer {
+  display: flex;
+  align-items: end;
+  gap: 2px;
+
+  & div {
+    background-color: white;
+    width: 2px;
+    height: 100%;
+    transition: var(--transition-time);
+
+    &:nth-child(1) {
+      animation: equalizer-animation-1 0.5s infinite;
+    }
+
+    &:nth-child(2) {
+      animation: equalizer-animation-2 1s infinite;
+    }
+
+    &:nth-child(3) {
+      animation: equalizer-animation-3 0.5s infinite;
+    }
+
+    &:nth-child(4) {
+      animation: equalizer-animation-2 2s infinite reverse;
+    }
+  }
+}
+
+@keyframes equalizer-animation-1 {
+  0% {
+    height: 12px;
+  }
+
+  25% {
+    height: 14px;
+  }
+
+  75% {
+    height: 12px;
+  }
+
+  100% {
+    height: 10px;
+  }
+}
+
+@keyframes equalizer-animation-2 {
+  0% {
+    height: 12px;
+  }
+
+  25% {
+    height: 10px;
+  }
+
+  75% {
+    height: 12px;
+  }
+
+  100% {
+    height: 8px;
+  }
+}
+
+@keyframes equalizer-animation-3 {
+  0% {
+    height: 10px;
+  }
+
+  25% {
+    height: 8px;
+  }
+
+  75% {
+    height: 12px;
+  }
+
+  100% {
+    height: 14px;
+  }
+}
+
+.one-stroke-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

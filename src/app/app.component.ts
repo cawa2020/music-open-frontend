@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
-import { CurrentPlaylistComponent } from "./pages/main/current-playlist/current-playlist.component";
+import { CurrentPlaylistComponent } from "./components/current-playlist/current-playlist.component";
 
 @Component({
     selector: 'app-root',

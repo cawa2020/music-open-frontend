@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class SliderComponent {
   @Input() duration!: number
   public time: number = 0
-  public editableTimeWhenDisable: number = 0 // При изменении времени мы хотим его менять только при mouseup event
+  public editableTimeWhenDisable: number = 0
   public disableChanging: boolean = false
 
   constructor(private player: PlayerService) { }

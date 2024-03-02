@@ -4,4 +4,8 @@
     height: 10px;
     border: 1px solid var(--border-color);
   }
+
+  & .theme:hover .theme-input {
+    visibility: visible;
+  }
 }

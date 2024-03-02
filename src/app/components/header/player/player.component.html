@@ -1,57 +1,93 @@
-<div class="flex items-center gap-4 w-full">
-  <div class="flex items-center">
-    <button class="icon-button">
-      <mat-icon
-        class="text-[var(--main-color)]"
-        fontIcon="skip_previous"
-      ></mat-icon>
-    </button>
-    <button class="button icon-button" (click)="toggleTrack()">
-      @if (player.getAudio().paused) {
-      <mat-icon fontIcon="play_arrow-round"></mat-icon>
-      } @else {
-      <mat-icon fontIcon="pause-round"></mat-icon>
-      }
-    </button>
-    <button class="text-[var(--main-color)] icon-button">
-      <mat-icon fontIcon="skip_next"></mat-icon>
-    </button>
+<div class="flex items-center justify-between gap-4 w-full">
+  <div class="flex gap-2">
+    <img class="rounded w-11 h-11" [src]="getSong().cover" alt="song cover" />
+    <div class="flex flex-col justify-center w-52">
+      <h4 class="w-fit truncate">
+        {{ getSong().name }}
+      </h4>
+      <a
+        [routerLink]="['/artist/123213']"
+        class="leading-none w-fit text-[var(--text-color-secondary)] truncate"
+        >{{ getSong().author }}</a
+      >
+    </div>
   </div>
-  <div class="grid gap-2">
-    <div class="flex gap-2 items-end">
-      <img
-        class="rounded"
-        src="/assets/cover.jpg"
-        width="32px"
-        height="32px"
-        alt="song cover"
-      />
-      <div class="grid h-[32px]">
-        <h4 class="leading-none truncate w-full">Рискуя не умереть молодым</h4>
-        <a
-          [routerLink]="['/artist/123213']"
-          class="leading-none text-[var(--text-color-secondary)] w-fit"
-          >ШАРЫ</a
+  <div class="flex gap-2">
+    <div class="flex gap-2 w-full">
+      <div class="flex items-center">
+        <button
+          class="icon-button"
+          [class.active-button]="isShuffled"
+          (click)="toggleShuffle()"
         >
+          <mat-icon fontIcon="shuffle_rounded"></mat-icon>
+        </button>
+        <button class="icon-button" (click)="prevSong()">
+          <mat-icon fontIcon="skip_previous"></mat-icon>
+        </button>
+        <button class="icon-button button" (click)="toggleTrack()">
+          @if (isSongPause()) {
+          <mat-icon fontIcon="play_arrow-round"></mat-icon>
+          } @else {
+          <mat-icon fontIcon="pause-round"></mat-icon>
+          }
+        </button>
+        <button class="icon-button" (click)="nextSong()">
+          <mat-icon fontIcon="skip_next"></mat-icon>
+        </button>
+        <button
+          class="icon-button"
+          [class.active-button]="getRepeat() !== 'none'"
+          (click)="toggleRepeat()"
+        >
+          @switch (getRepeat()) { @case ('playlist') {
+          <mat-icon fontIcon="repeat"></mat-icon>
+          } @case ('song') {
+          <mat-icon fontIcon="repeat_one"></mat-icon>
+          } @default {
+          <mat-icon fontIcon="repeat"></mat-icon>
+          } }
+        </button>
       </div>
-      <div class="ml-8 text-sm w-8 text-right">
-        {{ getTime() }}
+      <div class="flex gap-2 justify-center items-center">
+        <app-slider [duration]="songDurationNum" />
+        <div class="flex items-center">
+          <span class="text-sm min-w-9">
+            {{ getSongTimeFormatted() }}
+          </span>
+          <span class="text-xs text-[var(--text-color-secondary)] min-w-9">{{
+            "/ " + songDurationStr
+          }}</span>
+        </div>
       </div>
     </div>
-    <app-slider [duration]="songDuration" />
   </div>
-  <div class="flex items-center">
+  <div class="flex items-center justify-end">
     <button class="icon-button">
       <mat-icon fontIcon="add"></mat-icon>
     </button>
-    <button class="icon-button">
-      <mat-icon fontIcon="volume_up_rounded"></mat-icon>
-    </button>
-    <button class="icon-button">
-      <mat-icon fontIcon="shuffle_rounded"></mat-icon>
-    </button>
-    <button class="icon-button">
-      <mat-icon fontIcon="repeat"></mat-icon>
-    </button>
+    <div class="volume relative select-none">
+      <button class="icon-button" (click)="toggleVolume()">
+        @if (getSongVolume()) { @if (volume >= 50) {
+        <mat-icon fontIcon="volume_up"></mat-icon>
+        } @else {
+        <mat-icon fontIcon="volume_down"></mat-icon>
+
+        } } @else {
+        <mat-icon fontIcon="volume_off"></mat-icon>
+        }
+      </button>
+      <div
+        class="volume-slider invisible border border-[var(--border-color)] absolute bottom-[-40px] left-[-120%] bg-[var(--bg-color-main)] px-4 py-2 rounded shadow-md"
+      >
+        <input
+          class="w-20"
+          step="1"
+          type="range"
+          [ngModel]="volume"
+          (ngModelChange)="handleVolume($event)"
+        />
+      </div>
+    </div>
   </div>
 </div>

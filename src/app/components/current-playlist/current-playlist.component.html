@@ -1,0 +1,53 @@
+<div
+  class="flex items-center gap-2 cursor-pointer justify-center h-8"
+  (click)="toggleShort()"
+>
+  <mat-icon class="!text-[24px] !h-6 !w-6 text-[var(--main-color)]"
+    >queue_music</mat-icon
+  >
+  @if (!isShort) {
+  <h2 class="text-lg">Текущий плейлист</h2>
+  }
+</div>
+<hr class="w-full text-[var(--border-color)] my-3" />
+<div class="grid gap-1">
+  @for (song of playlist; track $index) {
+  <div
+    (click)="setTrack($index)"
+    class="rounded-lg cursor-pointer relative flex items-center gap-2 p-2 hover:bg-[var(--bg-color-secondary)]"
+    [class.bg-[var(--bg-color-secondary)]]="isCurrentSong(song.id)"
+  >
+    @if (isCurrentSong(song.id)) {
+    <div
+      class="equalizer absolute bottom-[20px] left-[20px] text-[var(--bg-color-main)] z-[2]"
+    >
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    }
+    <img
+      class="h-10 w-10 rounded"
+      [class.brightness-50]="isCurrentSong(song.id)"
+      [src]="song.cover"
+      alt="cover"
+    />
+    @if (!isShort) {
+    <div class="flex justify-between w-full items-center gap-4">
+      <div class="flex flex-col">
+        <h4 class="one-stroke-text">
+          {{ song.name }}
+        </h4>
+        <a
+          [routerLink]="['/artist/' + song.author]"
+          class="one-stroke-text text-[var(--text-color-secondary)] leading-none"
+          >{{ song.author }}</a
+        >
+      </div>
+      <span class="text-sm">{{ getDuration(song.duration) }}</span>
+    </div>
+    }
+  </div>
+  }
+</div>
