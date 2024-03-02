@@ -1,5 +1,8 @@
 <header>
-  <section class="flex gap-4 items-center" style="grid-column: 1 / 3">
+  <section
+    class="flex gap-4 items-center"
+    [style]="'grid-column:' + gridTemplate[0][0] + ' / ' + gridTemplate[0][1]"
+  >
     <a [routerLink]="['/']" class="h-6">
       <mat-icon class="!h-6 !w-6 !text-[24px] text-[var(--main-color)]">
         library_music
@@ -7,47 +10,14 @@
     </a>
     <input class="w-full" type="text" placeholder="поиск" />
   </section>
-  <section style="grid-column: 3 / 10">
+  <section
+    [style]="'grid-column:' + gridTemplate[1][0] + ' / ' + gridTemplate[1][1]"
+  >
     <app-player />
   </section>
   <section
-    class="flex justify-center items-center gap-4 text-[var(--icon-color)]"
-    style="grid-column: 10 / 11"
+    [style]="'grid-column:' + gridTemplate[2][0] + ' / ' + gridTemplate[2][1]"
   >
-    <button class="h-5" (click)="toggleMode()">
-      @if (theme.getMode() === 'light') {
-      <mat-icon>dark_mode</mat-icon>
-      } @else {
-      <mat-icon>light_mode</mat-icon>
-      }
-    </button>
-    <div class="theme relative h-5">
-      <mat-icon fontIcon="palette" class="text-[var(--icon-color)]"></mat-icon>
-      <div
-        class="theme-input invisible z-20 grid gap-2 border border-[var(--border-color)] absolute bottom-[-375%] right-0 bg-[var(--bg-color-main)] p-2 rounded shadow-md"
-      >
-        <div class="relative p-2 flex justify-between items-center gap-2">
-          <div
-            class="w-8 h-8 rounded cursor-pointer"
-            [style.backgroundColor]="color"
-          ></div>
-          <input
-            type="text"
-            [(ngModel)]="color"
-            (ngModelChange)="changeColor($event)"
-          />
-          <input
-            type="color"
-            class="w-8 h-8 opacity-0 absolute top-3 left-2 z-30"
-            [(ngModel)]="color"
-            (ngModelChange)="changeColor($event)"
-          />
-        </div>
-      </div>
-    </div>
-    <mat-icon fontIcon="terrain"></mat-icon>
-    <a [routerLink]="['/profile']">
-      <mat-icon fontIcon="person"></mat-icon>
-    </a>
+    <app-widget />
   </section>
 </header>

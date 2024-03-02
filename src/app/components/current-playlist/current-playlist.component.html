@@ -2,14 +2,12 @@
   class="flex items-center gap-2 cursor-pointer justify-center h-8"
   (click)="toggleShort()"
 >
-  <mat-icon class="!text-[24px] !h-6 !w-6 text-[var(--main-color)]"
-    >queue_music</mat-icon
-  >
+  <mat-icon class="!text-[24px] !h-6 !w-6 text-[var(--main-color)]">queue_music</mat-icon>
   @if (!isShort) {
   <h2 class="text-lg">Текущий плейлист</h2>
   }
 </div>
-<hr class="w-full text-[var(--border-color)] my-3" />
+<hr class="my-3" />
 <div class="grid gap-1">
   @for (song of playlist; track $index) {
   <div

@@ -11,10 +11,8 @@ export class PlayerService {
   private currentSong!: Song
 
   private audio: HTMLAudioElement = new Audio()
-  private volume = new BehaviorSubject<number>(Number(localStorage.getItem('volume')) / 100)
+  public audioBehavior$ = new BehaviorSubject<HTMLAudioElement>(this.audio)
   private repeat: Repeat = 'none'
-  private currentTime$ = new BehaviorSubject<number>(0)
-  private timeInterval!: any
 
   constructor() { }
 
@@ -42,12 +40,16 @@ export class PlayerService {
     return this.playlist$
   }
 
+  setCurrentTime(newTime: number) {
+    this.audio.currentTime = newTime
+  }
+
   setCurrentSong(song: Song) {
-    clearInterval(this.timeInterval)
     this.currentSong = song
     this.audio.src = song.songSource
-    this.audio.volume = this.volume.getValue()
-    this.currentTime$.next(0)
+    this.audio.currentTime = 0
+    this.audioBehavior$.next(this.audio)
+    localStorage.setItem('lastSongId', song.id)
   }
 
   getCurrentSong(): Song {
@@ -66,34 +68,20 @@ export class PlayerService {
   }
 
   setTime(time: number) {
-    this.currentTime$.next(time)
     this.audio.currentTime = time
-  }
-
-  getTime(): BehaviorSubject<number> {
-    return this.currentTime$
+    localStorage.setItem('currentTime', time.toString())
   }
 
   continueSong() {
-    this.audio.load();
     this.audio.play();
-    this.audio.currentTime = this.currentTime$.getValue()
-    this.timeInterval = setInterval(() => {
-      this.currentTime$.next(this.currentTime$.getValue() + 0.2)
-    }, 200)
   }
 
-  getDurationFormated(duration: number): string {
-    const time = Math.floor(duration)
-    const minutes = Math.floor(time / 60)
-    const seconds = time % 60
-    const correctedSeconds = String(seconds).length == 1 ? '0' + seconds : seconds
-    return `${minutes}:${correctedSeconds}`
+  getDuration(): number  {
+    return this.audio.duration
   }
 
   pauseSong() {
     this.audio.pause()
-    clearInterval(this.timeInterval)
   }
 
   getAudio(): HTMLAudioElement {
@@ -104,8 +92,7 @@ export class PlayerService {
     this.audio.src = src
   }
 
-  changeVolume(value: number) {
-    this.volume.next(value)
+  setVolume(value: number) {
     this.audio.volume = value
   }
 
@@ -121,7 +108,7 @@ export class PlayerService {
     } else if (this.repeat === 'playlist' && isLastSong && direction === 'next') {
       newIndex = 0
     } else if (isLastSong && direction === 'next') {
-      newIndex = null
+      newIndex = 0
     } else if (this.repeat === 'song' && this.audio.duration === this.audio.currentTime) {
       newIndex = index
     } else {

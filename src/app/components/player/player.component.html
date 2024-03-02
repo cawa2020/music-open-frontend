@@ -50,13 +50,13 @@
         </button>
       </div>
       <div class="flex gap-2 justify-center items-center">
-        <app-slider [duration]="songDurationNum" />
+        <app-slider [duration]="getTime()"/>
         <div class="flex items-center">
           <span class="text-sm min-w-9">
-            {{ getSongTimeFormatted() }}
+            {{ getFormattedTime() }}
           </span>
           <span class="text-xs text-[var(--text-color-secondary)] min-w-9">{{
-            "/ " + songDurationStr
+            "/ " + getDurationTime()
           }}</span>
         </div>
       </div>

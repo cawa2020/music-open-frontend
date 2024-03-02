@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { PlayerService } from '../../../services/player.service';
-import { SliderComponent } from "./slider/slider.component";
+import { PlayerService } from '../../services/player.service';
+import { SliderComponent } from "../slider/slider.component";
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import data from '../../../data/data';
+import data from '../../data/data';
 import { HttpClientModule } from '@angular/common/http';
-import { FormatterService } from '../../../services/formatter.service';
-import { Repeat, Song } from '../../../interfaces/app.interface';
+import { FormatterService } from '../../services/formatter.service';
+import { Song } from '../../interfaces/app.interface';
 
 @Component({
   selector: 'app-player',
@@ -17,35 +17,44 @@ import { Repeat, Song } from '../../../interfaces/app.interface';
   imports: [SliderComponent, RouterLink, RouterLinkActive, MatIconModule, FormsModule, HttpClientModule]
 })
 export class PlayerComponent {
-  public songDurationNum!: number
-  public songDurationStr: string = '0:00'
   public pastVolume!: number
   public volume: number = Number(localStorage.getItem('volume'))
-  public volumeTimeOut!: any
   public isShuffled: boolean = false
 
   constructor(private player: PlayerService, private formatter: FormatterService) { }
 
   ngOnInit() {
     this.player.setPlaylist(data)
-    this.player.setCurrentSong(data[0])
-    this.player.getAudio().oncanplaythrough = () => {
-      this.initDuration()
-    }
+    const lastSongId = localStorage.getItem('lastSongId')
+    const prevSongIndex = data.findIndex(el => el.id === lastSongId)
+    const index = prevSongIndex === -1 ? 0 : prevSongIndex
+    this.player.setCurrentSong(data[index])
+    this.player.setVolume(this.volume / 100)
     this.player.getAudio().onended = () => {
       this.player.skipSong('next')
     }
   }
 
+  getTime(): number {
+    return this.player.getAudio().duration
+  }
+
+  getDurationTime(): string {
+    return this.formatter.getTime(this.player.getAudio().duration)
+  }
+
+  getFormattedTime(): string {
+    return this.formatter.getTime(this.player.getAudio().currentTime)
+  }
+
   initDuration() {
-    this.songDurationStr = this.formatter.getTime(this.player.getAudio().duration)
-    this.songDurationNum = this.player.getAudio().duration
   }
 
   handleVolume(value: number) {
-    this.player.changeVolume(value / 100)
-    clearTimeout(this.volumeTimeOut)
-    this.volumeTimeOut = setTimeout(() => {
+    this.player.setVolume(value / 100)
+    var volumeTimeOut
+    clearTimeout(volumeTimeOut)
+    volumeTimeOut = setTimeout(() => {
       localStorage.setItem('volume', value.toString())
     }, 500)
   }
@@ -54,9 +63,9 @@ export class PlayerComponent {
     if (this.player.getAudio().volume > 0) {
       this.pastVolume = this.player.getAudio().volume
       this.volume = 0
-      this.player.changeVolume(0)
+      this.player.setVolume(0)
     } else {
-      this.player.changeVolume(this.pastVolume)
+      this.player.setVolume(this.pastVolume)
       this.volume = this.pastVolume * 100
     }
   }
@@ -122,10 +131,5 @@ export class PlayerComponent {
 
   getSongVolume(): number {
     return this.player.getAudio().volume
-  }
-
-  getSongTimeFormatted(): string {
-    const time = this.player.getTime().getValue()
-    return this.formatter.getTime(time)
   }
 }

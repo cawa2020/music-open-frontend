@@ -1,0 +1,37 @@
+<div class="flex justify-center items-center gap-4 h-full">
+  <button class="h-5" (click)="toggleMode()">
+    @if (theme.getMode() === 'light') {
+    <mat-icon>dark_mode</mat-icon>
+    } @else {
+    <mat-icon>light_mode</mat-icon>
+    }
+  </button>
+  <div class="theme relative h-5">
+    <mat-icon fontIcon="palette"></mat-icon>
+    <div
+      class="theme-input invisible z-20 grid gap-2 border border-[var(--border-color)] absolute bottom-[-375%] right-0 bg-[var(--bg-color-main)] p-2 rounded shadow-md"
+    >
+      <div class="relative p-2 flex justify-between items-center gap-2">
+        <input
+          type="text"
+          [(ngModel)]="color"
+          (ngModelChange)="changeColor($event)"
+        />
+        <div
+          class="w-7 h-7 rounded-full cursor-pointer"
+          [style.backgroundColor]="color"
+        ></div>
+        <input
+          type="color"
+          class="w-7 h-7 rounded-full opacity-0 absolute top-[14px] right-2 z-30"
+          [(ngModel)]="color"
+          (ngModelChange)="changeColor($event)"
+        />
+      </div>
+    </div>
+  </div>
+  <mat-icon fontIcon="terrain"></mat-icon>
+  <a [routerLink]="['/profile']" class="h-5">
+    <mat-icon fontIcon="person"></mat-icon>
+  </a>
+</div>

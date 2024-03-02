@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class GridTemplateService {
-  private headerGrid = new BehaviorSubject<number[][]>([[1, 3], [3, 10], [10, 11]])
+  private headerGrid = new BehaviorSubject<number[][]>([[1, 3], [3, 9], [9, 11]])
   private mainGrid = new BehaviorSubject<number[][]>([[1, 9], [9, 11]])
 
   constructor() { }

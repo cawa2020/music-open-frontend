@@ -12,6 +12,9 @@ export class FormatterService {
     const minutes = Math.floor(time / 60)
     const seconds = time % 60
     const correctedSeconds = String(seconds).length == 1 ? '0' + seconds : seconds
+    if (isNaN(minutes) || isNaN(seconds)) {
+      return '0:00'
+    }
     return `${minutes}:${correctedSeconds}`
   }
 }

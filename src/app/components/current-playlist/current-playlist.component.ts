@@ -4,6 +4,7 @@ import { Song } from '../../interfaces/app.interface';
 import { PlayerService } from '../../services/player.service';
 import { RouterLink } from '@angular/router';
 import { GridTemplateService } from '../../services/grid-template.service';
+import { FormatterService } from '../../services/formatter.service';
 
 @Component({
   selector: 'app-current-playlist',
@@ -16,7 +17,7 @@ export class CurrentPlaylistComponent {
   public playlist!: Song[]
   public isShort: boolean = false
 
-  constructor(private player: PlayerService, private grid: GridTemplateService) { }
+  constructor(private player: PlayerService, private grid: GridTemplateService, private formatter: FormatterService) { }
 
   ngOnInit() {
     this.player.getPlaylist().subscribe((item) => {
@@ -26,12 +27,20 @@ export class CurrentPlaylistComponent {
 
   setTrack(index: number) {
     const song = this.player.getPlaylist().getValue()[index]
-    this.player.setCurrentSong(song)
-    this.player.continueSong()
+    if (song.id === this.player.getCurrentSong().id) {
+      if (this.player.getAudio().paused) {
+        this.player.continueSong()
+      } else {
+        this.player.pauseSong()
+      }
+    } else {
+      this.player.setCurrentSong(song)
+      this.player.continueSong()
+    }
   }
 
   getDuration(duration: number): string {
-    return this.player.getDurationFormated(duration)
+    return this.formatter.getTime(duration)
   }
 
   isCurrentSong(songId: string): boolean {
