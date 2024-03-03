@@ -21,9 +21,10 @@ export class SliderComponent implements OnChanges {
     this.player.getAudio().oncanplaythrough = () => {
       this.duration = this.player.getAudio().duration
       if (this.time === undefined) {
-        const currentTime = Number(localStorage.getItem('currentTime'))
-        this.time = currentTime / this.duration * 100
-        this.player.setCurrentTime(currentTime)
+        // const currentTime = Number(localStorage.getItem('currentTime'))
+        // this.time = currentTime / this.duration * 100
+        this.time = 0
+        this.player.setCurrentTime(0)
       } else {
         this.time = this.player.getAudio().currentTime / this.duration * 100
       }

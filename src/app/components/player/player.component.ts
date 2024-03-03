@@ -7,31 +7,34 @@ import { FormsModule } from '@angular/forms';
 import data from '../../data/data';
 import { HttpClientModule } from '@angular/common/http';
 import { FormatterService } from '../../services/formatter.service';
-import { Song } from '../../interfaces/app.interface';
+import { Playlist, Track } from '../../interfaces/app.interface';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-player',
   standalone: true,
   templateUrl: './player.component.html',
   styleUrl: './player.component.css',
-  imports: [SliderComponent, RouterLink, RouterLinkActive, MatIconModule, FormsModule, HttpClientModule]
+  imports: [SliderComponent, RouterLink, RouterLinkActive, MatIconModule, FormsModule, HttpClientModule],
+  providers: [HttpClientModule]
 })
 export class PlayerComponent {
   public pastVolume!: number
   public volume: number = Number(localStorage.getItem('volume'))
   public isShuffled: boolean = false
 
-  constructor(private player: PlayerService, private formatter: FormatterService) { }
+  constructor(private player: PlayerService, private formatter: FormatterService, private api: ApiService) { }
 
   ngOnInit() {
-    this.player.setPlaylist(data)
-    const lastSongId = localStorage.getItem('lastSongId')
-    const prevSongIndex = data.findIndex(el => el.id === lastSongId)
-    const index = prevSongIndex === -1 ? 0 : prevSongIndex
-    this.player.setCurrentSong(data[index])
-    this.player.setVolume(this.volume / 100)
+
+    // this.player.setPlaylist(data)
+    // const lastSongId = localStorage.getItem('lastSongId')
+    // const prevSongIndex = data.findIndex(el => el.id === lastSongId)
+    // const index = prevSongIndex === -1 ? 0 : prevSongIndex
+    // this.player.setCurrentSong(data[index])
+    // this.player.setVolume(this.volume / 100)
     this.player.getAudio().onended = () => {
-      this.player.skipSong('next')
+      this.player.skipSong('next', true)
     }
   }
 
@@ -45,9 +48,6 @@ export class PlayerComponent {
 
   getFormattedTime(): string {
     return this.formatter.getTime(this.player.getAudio().currentTime)
-  }
-
-  initDuration() {
   }
 
   handleVolume(value: number) {
@@ -70,19 +70,22 @@ export class PlayerComponent {
     }
   }
 
-  shuffleSongs(array: Song[]): Song[] {
+  shuffleSongs(playlist: Playlist): Playlist {
+    const array = playlist.tracks.data
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
-    return array
+    playlist.tracks.data = array
+    return playlist
   }
 
   toggleShuffle() {
     this.isShuffled = !this.isShuffled
     if (this.isShuffled) {
-      const queue = [...this.player.getPlaylist().getValue()]
-      this.player.setUnshPlaylist([...queue])
+      const queue: Playlist | null = this.player.getPlaylist().getValue()
+      if (!queue) return
+      this.player.setUnshPlaylist({ ...queue })
       this.player.setPlaylist(this.shuffleSongs(queue))
     } else {
       this.player.setPlaylist(this.player.getUnshPlaylist())
@@ -121,11 +124,11 @@ export class PlayerComponent {
     return this.player.getRepeat()
   }
 
-  getSong(): Song {
+  getSong(): Track | undefined {
     return this.player.getCurrentSong()
   }
 
-  isSongPause(): boolean {
+  isSongPaused(): boolean {
     return this.player.getAudio().paused
   }
 

@@ -1,14 +1,14 @@
 <div class="flex items-center justify-between gap-4 w-full">
   <div class="flex gap-2">
-    <img class="rounded w-11 h-11" [src]="getSong().cover" alt="song cover" />
-    <div class="flex flex-col justify-center w-52">
-      <h4 class="w-fit truncate">
-        {{ getSong().name }}
+    <img class="rounded w-11 h-11" [src]="getSong()?.album?.cover_small" alt="song cover" />
+    <div class="flex flex-col justify-center w-60 truncate">
+      <h4 class="truncate">
+        {{ getSong()?.title }}
       </h4>
       <a
         [routerLink]="['/artist/123213']"
-        class="leading-none w-fit text-[var(--text-color-secondary)] truncate"
-        >{{ getSong().author }}</a
+        class="leading-none truncate text-[var(--text-color-secondary)]"
+        >{{ getSong()?.artist?.name }}</a
       >
     </div>
   </div>
@@ -20,16 +20,16 @@
           [class.active-button]="isShuffled"
           (click)="toggleShuffle()"
         >
-          <mat-icon fontIcon="shuffle_rounded"></mat-icon>
+          <mat-icon fontIcon="shuffle"></mat-icon>
         </button>
         <button class="icon-button" (click)="prevSong()">
           <mat-icon fontIcon="skip_previous"></mat-icon>
         </button>
         <button class="icon-button button" (click)="toggleTrack()">
-          @if (isSongPause()) {
-          <mat-icon fontIcon="play_arrow-round"></mat-icon>
+          @if (isSongPaused()) {
+          <mat-icon fontIcon="play_arrow"></mat-icon>
           } @else {
-          <mat-icon fontIcon="pause-round"></mat-icon>
+          <mat-icon fontIcon="pause"></mat-icon>
           }
         </button>
         <button class="icon-button" (click)="nextSong()">
@@ -50,9 +50,9 @@
         </button>
       </div>
       <div class="flex gap-2 justify-center items-center">
-        <app-slider [duration]="getTime()"/>
+        <app-slider [duration]="getTime()" />
         <div class="flex items-center">
-          <span class="text-sm min-w-9">
+          <span class="text-sm min-w-[32px]">
             {{ getFormattedTime() }}
           </span>
           <span class="text-xs text-[var(--text-color-secondary)] min-w-9">{{

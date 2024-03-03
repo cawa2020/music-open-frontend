@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Repeat, Song } from '../interfaces/app.interface';
+import { Album, Playlist, Repeat, Song, Track } from '../interfaces/app.interface';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerService {
-  private playlist$ = new BehaviorSubject<Song[]>([])
-  private unshuffledPlaylist!: Song[]
-  private currentSong!: Song
+  private playlist$ = new BehaviorSubject<Playlist | null>(null)
+  private unshuffledPlaylist!: Playlist
+  private currentSong!: Track
 
+  private repeat: Repeat = 'none'
   private audio: HTMLAudioElement = new Audio()
   public audioBehavior$ = new BehaviorSubject<HTMLAudioElement>(this.audio)
-  private repeat: Repeat = 'none'
 
   constructor() { }
 
@@ -24,19 +24,20 @@ export class PlayerService {
     this.repeat = newValue
   }
 
-  getUnshPlaylist(): Song[] {
+  getUnshPlaylist(): Playlist {
     return this.unshuffledPlaylist
   }
 
-  setUnshPlaylist(newPlaylist: Song[]) {
+  setUnshPlaylist(newPlaylist: Playlist) {
     this.unshuffledPlaylist = newPlaylist
   }
 
-  setPlaylist(value: Song[]) {
-    this.playlist$.next(value)
+  setPlaylist(album: Playlist) {
+    this.playlist$.next(album)
+    localStorage.setItem('lastPlaylistId', String(album.id))
   }
 
-  getPlaylist(): BehaviorSubject<Song[]> {
+  getPlaylist(): BehaviorSubject<Playlist | null> {
     return this.playlist$
   }
 
@@ -44,26 +45,27 @@ export class PlayerService {
     this.audio.currentTime = newTime
   }
 
-  setCurrentSong(song: Song) {
+  setCurrentSong(song: Track) {
     this.currentSong = song
-    this.audio.src = song.songSource
+    this.audio.src = song.preview
     this.audio.currentTime = 0
     this.audioBehavior$.next(this.audio)
-    localStorage.setItem('lastSongId', song.id)
+    localStorage.setItem('lastSongId', String(song.id))
   }
 
-  getCurrentSong(): Song {
+  getCurrentSong(): Track {
     return this.currentSong
   }
 
-  skipSong(direction: 'prev' | 'next') {
-    const playlist = this.playlist$.getValue()
-    const index = this.getIndexOfNextSong(direction)
+  skipSong(direction: 'prev' | 'next', isEndedByItself?: boolean) {
+    const playlist: Playlist | null = this.playlist$.getValue()
+    const index = this.getIndexOfNextSong(direction, isEndedByItself)
     if (index === null) {
       this.pauseSong()
       return
     }
-    this.setCurrentSong(playlist[index])
+    if (!playlist) return
+    this.setCurrentSong(playlist.tracks.data[index])
     this.continueSong()
   }
 
@@ -76,7 +78,7 @@ export class PlayerService {
     this.audio.play();
   }
 
-  getDuration(): number  {
+  getDuration(): number {
     return this.audio.duration
   }
 
@@ -96,19 +98,19 @@ export class PlayerService {
     this.audio.volume = value
   }
 
-  private getIndexOfNextSong(direction: 'prev' | 'next'): number | null {
+  private getIndexOfNextSong(direction: 'prev' | 'next', isEndedByItself?: boolean): number | null {
     const playlist = this.playlist$.getValue()
-    const index = playlist.findIndex(el => el.id === this.currentSong.id)
-    const isLastSong = index === playlist.length - 1
+    const index = playlist?.tracks.data.findIndex(el => el.id === this.currentSong.id) ?? 0
+    const isLastSong = index === (playlist?.tracks.data.length ?? 9999) - 1
     const isFirstSong = index === 0
 
     let newIndex
     if (isFirstSong && direction == 'prev') {
       newIndex = index
-    } else if (this.repeat === 'playlist' && isLastSong && direction === 'next') {
+    } else if ((this.repeat === 'playlist' && isLastSong && direction === 'next') || (isLastSong && direction === 'next' && !isEndedByItself)) {
       newIndex = 0
-    } else if (isLastSong && direction === 'next') {
-      newIndex = 0
+    } else if (isLastSong && direction === 'next' && isEndedByItself) {
+      newIndex = null
     } else if (this.repeat === 'song' && this.audio.duration === this.audio.currentTime) {
       newIndex = index
     } else {

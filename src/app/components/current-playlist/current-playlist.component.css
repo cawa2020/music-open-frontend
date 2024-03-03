@@ -1,0 +1,8 @@
+.section {
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-color) var(--bg-color-main);
+}
+
+.section::-webkit-scrollbar-track {
+  background-color: var(--bg-color-secondary);
+}

@@ -1,10 +1,14 @@
 <main>
   <section
-    class="flex"
     [style]="'grid-column:' + gridTemplate[0][0] + ' / ' + gridTemplate[0][1]"
-  ></section>
+  >
+    <app-playlists></app-playlists>
+  </section>
   <section
     [style]="'grid-column:' + gridTemplate[1][0] + ' / ' + gridTemplate[1][1]"
+  ></section>
+  <section
+    [style]="'grid-column:' + gridTemplate[2][0] + ' / ' + gridTemplate[2][1]"
   >
     <app-current-playlist></app-current-playlist>
   </section>

@@ -4,8 +4,9 @@
     min-width: 200px;
     height: 4px;
     position: relative;
-    background-color: #ddd;
+    background-color: var(--slider-color);
     border-radius: 9999px;
+
   }
 
   & .slider-input {

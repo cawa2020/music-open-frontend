@@ -1,51 +1,71 @@
-<div
-  class="flex items-center gap-2 cursor-pointer justify-center h-8"
-  (click)="toggleShort()"
->
-  <mat-icon class="!text-[24px] !h-6 !w-6 text-[var(--main-color)]">queue_music</mat-icon>
-  @if (!isShort) {
-  <h2 class="text-lg">Текущий плейлист</h2>
-  }
-</div>
-<hr class="my-3" />
-<div class="grid gap-1">
-  @for (song of playlist; track $index) {
+<div class="w-full">
   <div
-    (click)="setTrack($index)"
-    class="rounded-lg cursor-pointer relative flex items-center gap-2 p-2 hover:bg-[var(--bg-color-secondary)]"
-    [class.bg-[var(--bg-color-secondary)]]="isCurrentSong(song.id)"
+    class="flex items-center gap-2 cursor-pointer justify-center h-8"
+    (click)="toggleShort()"
   >
-    @if (isCurrentSong(song.id)) {
-    <div
-      class="equalizer absolute bottom-[20px] left-[20px] text-[var(--bg-color-main)] z-[2]"
+    <mat-icon class="!text-[24px] !h-6 !w-6 text-[var(--main-color)]"
+      >queue_music</mat-icon
     >
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    }
-    <img
-      class="h-10 w-10 rounded"
-      [class.brightness-50]="isCurrentSong(song.id)"
-      [src]="song.cover"
-      alt="cover"
-    />
     @if (!isShort) {
-    <div class="flex justify-between w-full items-center gap-4">
-      <div class="flex flex-col">
-        <h4 class="one-stroke-text">
-          {{ song.name }}
-        </h4>
-        <a
-          [routerLink]="['/artist/' + song.author]"
-          class="one-stroke-text text-[var(--text-color-secondary)] leading-none"
-          >{{ song.author }}</a
-        >
-      </div>
-      <span class="text-sm">{{ getDuration(song.duration) }}</span>
-    </div>
+    <h2 class="text-lg">Текущий плейлист</h2>
     }
   </div>
-  }
+  <hr class="my-3 border-[var(--border-color)]" />
+  <div
+    cdkDropList
+    class="grid gap-1 justify-center section overflow-y-auto"
+    (cdkDropListDropped)="drop($event)"
+  >
+    @for (song of playlist; track $index) {
+    <div
+      (click)="setTrack($index)"
+      class="rounded-lg cursor-pointer relative flex items-center gap-2 p-2 hover:bg-[var(--bg-color-secondary)]"
+      [class.bg-[var(--bg-color-secondary)]]="isCurrentSong(song.id)"
+      cdkDrag
+    >
+      <div
+        class="w-10 h-10 relative aspect-square flex justify-center items-center"
+      >
+        <img
+          [src]="song.album.cover_small"
+          [class.brightness-50]="isCurrentSong(song.id)"
+          class="rounded absolute top-0 left-0 right-0 bottom-0"
+          alt="обложка"
+        />
+        @if (isCurrentSong(song.id)) { @if (isSongPause()) {
+        <mat-icon
+          class="!w-[24px] !h-[24px] !text-[24px] text-white relative z-10"
+          >play_arrow</mat-icon
+        >
+        } @else {
+        <div class="equalizer text-[var(--bg-color-main)] relative z-10">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        } }
+      </div>
+      @if (!isShort) {
+      <div class="flex justify-between w-full items-center gap-4">
+        <div class="flex flex-col">
+          <h4 class="one-stroke-text">
+            {{ song.title }}
+          </h4>
+          <a
+            [routerLink]="['/artist/' + song.id]"
+            class="one-stroke-text text-[var(--text-color-secondary)] leading-none"
+            >{{ song.artist.name }}</a
+          >
+        </div>
+        <span class="text-sm">{{ getDuration(song.duration) }}</span>
+      </div>
+      }
+    </div>
+    } @empty {
+    <p class="text-[var(--text-color-secondary)]">
+      @if (isShort) { пусто } @else { Здесь пока пусто :( }
+    </p>
+    }
+  </div>
 </div>

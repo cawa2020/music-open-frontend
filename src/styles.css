@@ -48,12 +48,12 @@ mat-icon.mat-icon {
   --bg-color-main: white;
   --bg-color-secondary: rgb(245, 245, 245);
 
-  --text-button-color: #ffffff;
-  --text-input-color: #000000;
   --text-color: #222;
   --text-color-secondary: #818c99;
   --icon-color: #5f6368;
   --border-color: #d1d5db;
+  --bg-input-color: white;
+  --slider-color: #ddd;
 
   --main-color: #3b82f6;
   --hover-color: #2563eb;
@@ -95,7 +95,7 @@ main,
 header {
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(18, 1fr);
 
   & section {
     padding: 12px;
@@ -107,7 +107,7 @@ header {
 
 main {
   margin: var(--side-margin) 0;
-  grid-auto-rows: minmax(var(--main-height), auto);
+  grid-auto-rows: minmax(var(--main-height), var(--main-height));
 }
 
 header {
@@ -119,7 +119,7 @@ header {
   height: 40px;
   background-color: var(--main-color);
   border: none;
-  color: var(--text-button-color);
+  color: white;
   border-radius: var(--border-radius);
   transition: var(--transition-time);
 
@@ -157,10 +157,11 @@ header {
 input:not([type="range"]):not([type="color"]) {
   padding: 0 12px;
   height: 40px;
-  color: var(--text-input-color);
+  color: var(--text-color);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   outline: none;
+  background-color: var(--bg-input-color);
 }
 
 input[type="range"] {
@@ -185,6 +186,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .equalizer {
+  height: 16px;
   display: flex;
   align-items: end;
   gap: 2px;
@@ -272,4 +274,22 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.cdk-drop-list-dragging .cdk-drag:not(.cdk-drag-preview) {
+  transition: var(--transition-time);
+  cursor: unset;
+  user-select: none;
+
+  &:hover {
+    background-color: var(--bg-color-main);
+  }
+}
+
+.cdk-drag-placeholder {
+  visibility: hidden;
+}
+
+.cdk-drag-preview {
+  background-color: var(--bg-color-secondary);
 }

@@ -1,0 +1,31 @@
+<div class="flex items-center gap-2 cursor-pointer justify-center h-8">
+  <mat-icon class="!text-[24px] !h-6 !w-6 text-[var(--main-color)]"
+    >backup_table</mat-icon
+  >
+  <h2 class="text-lg">Плейлисты</h2>
+</div>
+<hr class="my-3 border-[var(--border-color)]" />
+<div class="grid gap-3">
+  @for (list of playlists; track $index) {
+  <div
+    class="flex gap-2 hover:bg-[var(--bg-color-secondary)] p-2 cursor-pointer rounded-lg"
+    (click)="setPlaylist(list)"
+  >
+    <img class="w-14 h-14 rounded-md" [src]="list.cover_medium" alt="" />
+    <div class="flex flex-col justify-center gap-1">
+      <h4 class="leading-none text-lg">
+        {{ list.title }} -
+        <a
+          [routerLink]="['/routePath']"
+          class="leading-none text-[var(--text-color-secondary)]"
+          >{{ list.artist.name }}</a
+        >
+      </h4>
+      <p class="leading-none text-[var(--text-color-secondary)] text-sm">
+        {{ list.type }} ∘ {{ list.tracks.data.length }} треков ∘
+        {{ getTime(list.duration) }}
+      </p>
+    </div>
+  </div>
+  }
+</div>
