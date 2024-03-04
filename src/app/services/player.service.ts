@@ -111,7 +111,7 @@ export class PlayerService {
       newIndex = 0
     } else if (isLastSong && direction === 'next' && isEndedByItself) {
       newIndex = null
-    } else if (this.repeat === 'song' && this.audio.duration === this.audio.currentTime) {
+    } else if (this.repeat === 'song' && this.audio.duration >= this.audio.currentTime) {
       newIndex = index
     } else {
       newIndex = (direction === 'next' ? 1 : -1) + index
