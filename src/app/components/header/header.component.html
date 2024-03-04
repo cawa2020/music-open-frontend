@@ -1,19 +1,23 @@
 <header>
-  <section class="flex gap-2 items-center" [style]="'grid-column:' + gridTemplate[0][0] + ' / ' + gridTemplate[0][1]">
-    <button class="button flex items-center gap-2">
-      <mat-icon class="!h-6 !w-6 !text-[24px] text-[var(--text-color)]">
-        search
+  <section
+    class="flex gap-4 items-center"
+    [style]="'grid-column:' + gridTemplate[0][0] + ' / ' + gridTemplate[0][1]"
+  >
+    <a [routerLink]="['/']" class="h-6">
+      <mat-icon class="!h-6 !w-6 !text-[24px] text-[var(--main-color)]">
+        library_music
       </mat-icon>
-      поиск
-    </button>
-    <!-- <a class="h-6">
     </a>
-    <input class="w-full" type="text" placeholder="поиск" /> -->
+    <input class="w-full" type="text" placeholder="поиск" />
   </section>
-  <section [style]="'grid-column:' + gridTemplate[1][0] + ' / ' + gridTemplate[1][1]">
+  <section
+    [style]="'grid-column:' + gridTemplate[1][0] + ' / ' + gridTemplate[1][1]"
+  >
     <app-player />
   </section>
-  <section [style]="'grid-column:' + gridTemplate[2][0] + ' / ' + gridTemplate[2][1]">
+  <section
+    [style]="'grid-column:' + gridTemplate[2][0] + ' / ' + gridTemplate[2][1]"
+  >
     <app-widget />
   </section>
 </header>
