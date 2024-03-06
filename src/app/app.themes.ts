@@ -2,7 +2,7 @@ import { ModeCSS } from "./interfaces/app.interface"
 
 export const light: ModeCSS = {
   "--bg-color-main": "white",
-  "--bg-color-secondary": "rgb(245, 245, 245)",
+  "--bg-color-secondary": "rgb(235, 235, 235)",
 
   "--text-input-color": "#000000",
   "--text-color": "#222",

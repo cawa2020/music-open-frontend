@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Album, Playlist, Repeat, Song, Track } from '../interfaces/app.interface';
+import { Album, Repeat, Song, Track } from '../interfaces/app.interface';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerService {
-  private playlist$ = new BehaviorSubject<Playlist | null>(null)
-  private unshuffledPlaylist!: Playlist
+  private playlist$ = new BehaviorSubject<Album | null>(null)
+  private unshuffledPlaylist!: Album
   private currentSong!: Track
 
   private repeat: Repeat = 'none'
@@ -24,20 +24,20 @@ export class PlayerService {
     this.repeat = newValue
   }
 
-  getUnshPlaylist(): Playlist {
+  getUnshPlaylist(): Album {
     return this.unshuffledPlaylist
   }
 
-  setUnshPlaylist(newPlaylist: Playlist) {
+  setUnshPlaylist(newPlaylist: Album) {
     this.unshuffledPlaylist = newPlaylist
   }
 
-  setPlaylist(album: Playlist) {
+  setPlaylist(album: Album) {
     this.playlist$.next(album)
     localStorage.setItem('lastPlaylistId', String(album.id))
   }
 
-  getPlaylist(): BehaviorSubject<Playlist | null> {
+  getPlaylist(): BehaviorSubject<Album | null> {
     return this.playlist$
   }
 
@@ -58,7 +58,7 @@ export class PlayerService {
   }
 
   skipSong(direction: 'prev' | 'next', isEndedByItself?: boolean) {
-    const playlist: Playlist | null = this.playlist$.getValue()
+    const playlist: Album | null = this.playlist$.getValue()
     const index = this.getIndexOfNextSong(direction, isEndedByItself)
     if (index === null) {
       this.pauseSong()
@@ -111,7 +111,7 @@ export class PlayerService {
       newIndex = 0
     } else if (isLastSong && direction === 'next' && isEndedByItself) {
       newIndex = null
-    } else if (this.repeat === 'song' && this.audio.duration === this.audio.currentTime) {
+    } else if (this.repeat === 'song' && this.audio.duration >= this.audio.currentTime && isEndedByItself) {
       newIndex = index
     } else {
       newIndex = (direction === 'next' ? 1 : -1) + index

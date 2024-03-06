@@ -3,7 +3,6 @@ import { WidgetComponent } from "../widget/widget.component";
 import { RouterLink } from '@angular/router';
 import { PlayerComponent } from '../player/player.component';
 import { MatIconModule } from '@angular/material/icon';
-import { GridTemplateService } from '../../services/grid-template.service';
 
 @Component({
   selector: 'app-header',
@@ -13,13 +12,9 @@ import { GridTemplateService } from '../../services/grid-template.service';
   imports: [WidgetComponent, RouterLink, PlayerComponent, MatIconModule]
 })
 export class HeaderComponent {
-  public gridTemplate!: number[][]
 
-  constructor(private grid: GridTemplateService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.grid.getHeaderGrid().subscribe(item => {
-      this.gridTemplate = item
-    })
   }
 }

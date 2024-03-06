@@ -4,10 +4,9 @@ import { SliderComponent } from "../slider/slider.component";
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import data from '../../data/data';
 import { HttpClientModule } from '@angular/common/http';
 import { FormatterService } from '../../services/formatter.service';
-import { Playlist, Track } from '../../interfaces/app.interface';
+import { Album, Track } from '../../interfaces/app.interface';
 import { ApiService } from '../../services/api.service';
 
 @Component({
@@ -26,16 +25,12 @@ export class PlayerComponent {
   constructor(private player: PlayerService, private formatter: FormatterService, private api: ApiService) { }
 
   ngOnInit() {
-
-    // this.player.setPlaylist(data)
-    // const lastSongId = localStorage.getItem('lastSongId')
-    // const prevSongIndex = data.findIndex(el => el.id === lastSongId)
-    // const index = prevSongIndex === -1 ? 0 : prevSongIndex
-    // this.player.setCurrentSong(data[index])
-    // this.player.setVolume(this.volume / 100)
+    this.player.setVolume(this.volume / 100)
     this.player.getAudio().onended = () => {
       this.player.skipSong('next', true)
     }
+
+    fetch('https://api.deezer.com/album/302127').then(res => console.log(res))
   }
 
   getTime(): number {
@@ -70,7 +65,7 @@ export class PlayerComponent {
     }
   }
 
-  shuffleSongs(playlist: Playlist): Playlist {
+  shuffleSongs(playlist: Album): Album {
     const array = playlist.tracks.data
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -83,7 +78,7 @@ export class PlayerComponent {
   toggleShuffle() {
     this.isShuffled = !this.isShuffled
     if (this.isShuffled) {
-      const queue: Playlist | null = this.player.getPlaylist().getValue()
+      const queue: Album | null = this.player.getPlaylist().getValue()
       if (!queue) return
       this.player.setUnshPlaylist({ ...queue })
       this.player.setPlaylist(this.shuffleSongs(queue))

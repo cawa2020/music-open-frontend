@@ -1,0 +1,24 @@
+<main>
+  <section>
+    <app-playlists></app-playlists>
+  </section>
+  <section class="overflow-auto w-full">
+    <div>
+      <input
+        class="w-52"
+        type="text"
+        placeholder="Что послушаем сегодня?"
+        [(ngModel)]="search"
+        (ngModelChange)="handleSearch($event)"
+      />
+      <div>
+        @for (song of findedSongs; track $index) {
+        <app-song [playlist]="playlist" [song]="song" [index]="$index"></app-song>
+        } @empty {
+        <p class="text-[var(--text-color-secondary)]">Здесь пока пусто :(</p>
+        }
+      </div>
+      <!-- <app-current-playlist></app-current-playlist> -->
+    </div>
+  </section>
+</main>

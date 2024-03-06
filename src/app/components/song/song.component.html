@@ -1,0 +1,55 @@
+<div
+  (click)="setTrack(index)"
+  class="rounded-lg cursor-pointer relative flex items-center gap-2 p-2 hover:bg-[var(--bg-color-secondary)]"
+  [class.bg-[var(--bg-color-secondary)]]="isCurrentSong(song.id)"
+  cdkDrag
+>
+  <div
+    class="w-10 h-10 flex justify-center items-center text-[var(--text-color)]"
+  >
+   @if (isCurrentSong(song.id)) { @if (isSongPause()) {
+    <mat-icon
+      class="!w-[24px] !h-[24px] !text-[24px] relative z-10"
+      >play_arrow</mat-icon
+    >
+    } @else {
+    <div
+      class="equalizer relative z-10"
+    >
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    } } @else {
+    {{ index + 1 }}
+    }
+  </div>
+  <div class="grid justify-between w-full items-center gap-4" style="grid-template-columns: repeat(20,1fr);">
+    <div class="flex gap-2" style="grid-column: 1/10;">
+      @if (!hideImg) {
+        <img
+          [src]="song.album.cover_medium"
+          class="w-10 h-10 rounded"
+          alt="song_cover"
+        />
+        }
+        <div class="flex flex-col justify-center">
+          <h4 class="one-stroke-text">
+            {{ song.title }}
+          </h4>
+          @if (!hideArtist) {
+            <a
+              [routerLink]="['/artist/' + song.artist.id]"
+              class="one-stroke-text text-[var(--text-color-secondary)] leading-none w-fit"
+              >{{ song.artist.name }}</a
+            >
+          }
+        </div>
+    </div>
+    @if (!hideAlbum) {
+      <a style="grid-column: 13/19;" class="text-[var(--text-color-secondary)] truncate w-72" [routerLink]="['/album/' + song.album.id]">{{song.album.title}}</a>
+    }
+    <p style="grid-column: 20/20;" class="text-sm text-right mr-2">{{ getDuration(song.duration) }}</p>
+  </div>
+</div>

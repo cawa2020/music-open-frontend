@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { Track } from '../interfaces/app.interface';
 
 type Method = 'POST' | 'GET'
 
@@ -11,11 +12,23 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
+  getPlaylist(id: number) {
+    return this._request('GET', 'playlist/' + id)
+  }
+
+  getAtrist(id: number) {
+    return this._request('GET', 'artist/' + id)
+  }
+
+  getArtistTop(id: number): Observable<{ data: Track[] }> {
+    return this._requestAPI('GET', `artist/${id}/top?limit=50`)
+  }
+
   getAlbum(id: number) {
     return this._request('GET', 'album/' + id)
   }
 
-  search(word: string): Observable<any> {
+  getBySearch(word: string): Observable<any> {
     const path = 'search?q=' + word
     return this._request('GET', path)
   }
@@ -31,22 +44,13 @@ export class ApiService {
 
     const url = 'https://deezerdevs-deezer.p.rapidapi.com/' + path
 
+    7
     return this.http.request(method, url, options)
   }
 
-  // const url = '/search?q=%D0%BA%D0%B8%D1%88%D0%BB%D0%B0%D0%BA%20%D1%85%D0%BE%D0%BB%D0%BE%D0%B4%D0%BD%D0%BE';
-  //   const options = {
-  //     method: 'GET',
-  //     headers: {
-  //       'X-RapidAPI-Key': 'b08fdc8c61msh2548eee4724e202p134b42jsn6bb48b026b0e',
-  //     }
-  //   };
+  private _requestAPI(method: Method, path: string, body?: any): Observable<any> {
+    const url = "https://api.deezer.com/" + path
 
-  //   try {
-  //     const response = await fetch(url, options);
-  //     const result = await response.json();
-  //     console.log(result);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
+    return this.http.request(method, url)
+  }
 }

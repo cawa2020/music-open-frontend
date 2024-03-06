@@ -40,11 +40,11 @@ export class ThemeService {
   }
 
   private changeProperties(properties: ColorCSS | ModeCSS) {
-    const asd = properties
-    Object.keys(asd).forEach((property) => {
+    const prop = properties
+    Object.keys(prop).forEach((property) => {
       document.documentElement.style.setProperty(
         property,
-        asd[(property as keyof unknown)]
+        prop[(property as keyof unknown)]
       );
     });
   }

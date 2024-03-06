@@ -1,23 +1,30 @@
-<header>
+<header class="sticky z-[2] top-[var(--side-margin)]">
   <section
-    class="flex gap-4 items-center"
-    [style]="'grid-column:' + gridTemplate[0][0] + ' / ' + gridTemplate[0][1]"
+    class="flex gap-2 items-center justify-between"
   >
-    <a [routerLink]="['/']" class="h-6">
-      <mat-icon class="!h-6 !w-6 !text-[24px] text-[var(--main-color)]">
-        library_music
-      </mat-icon>
+    <a
+      class="w-full justify-center outlined-button flex items-center gap-2"
+      [routerLink]="['/']"
+    >
+      <mat-icon>home</mat-icon>
+      дом
     </a>
-    <input class="w-full" type="text" placeholder="поиск" />
+    <a
+      class="w-full justify-center outlined-button flex items-center gap-2"
+      [routerLink]="['/search']"
+    >
+      <mat-icon> search </mat-icon>
+      поиск
+    </a>
+
+    <!-- <a class="h-6">
+    </a>
+    <input class="w-full" type="text" placeholder="поиск" /> -->
   </section>
-  <section
-    [style]="'grid-column:' + gridTemplate[1][0] + ' / ' + gridTemplate[1][1]"
-  >
+  <section class="w-full">
     <app-player />
   </section>
-  <section
-    [style]="'grid-column:' + gridTemplate[2][0] + ' / ' + gridTemplate[2][1]"
-  >
+  <section>
     <app-widget />
   </section>
 </header>

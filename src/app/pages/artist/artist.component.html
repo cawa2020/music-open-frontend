@@ -1,0 +1,39 @@
+<main>
+<section>
+  <app-playlists></app-playlists>
+</section>
+<section class="w-full overflow-auto">
+  @if(!artist) {
+  загрузка...
+  } @else {
+    <div class="relative mb-4 w-full p-6">
+      <div
+        class="absolute bg-center bg-cover rounded-lg blur-sm brightness-[.4] left-0 right-0 top-0 bottom-0 z-[0]"
+        [style.backgroundImage]="'url(' + artist.picture_xl + ')'"
+      ></div>
+      <div class="flex gap-2 items-end relative z-[1]">
+        <img
+        class="w-40 h-40 rounded-full shadow-lg"
+        [src]="artist.picture_big"
+        alt="cover"
+        />
+        <div class="flex flex-col gap-2 justify-end p-4">
+          <h2 class="text-5xl text-extrabold text-white">{{ artist.name }}</h2>
+          @if (artist.nb_fan) {
+            <h2 class="text-md text-white">Количество фанатов: {{ artist.nb_fan }}</h2>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (artistSongs) {
+  <h4 class="text-xl text-bold mb-2">Популярные треки</h4>
+  <div>
+    @for(song of artistSongs.tracks.data; track $index) {
+    <app-song  [playlist]="artistSongs" [song]="song" [index]="$index"></app-song>
+    }
+  </div>
+  }
+</section>
+</main>

@@ -34,21 +34,19 @@ export interface ModeCSS {
   "--silder-color": string
 }
 
-export interface Playlist {
+export interface Album {
   id: number
   title: string
-  upc: string
-  link: string
-  share: string
-  cover: string
-  cover_small: string
-  cover_medium: string
-  cover_big: string
-  cover_xl: string
-  md5_image: string
-  genre_id: number
-  genres: { data: Genres[] }
-  label: string
+  link?: string
+  share?: string
+  cover?: string
+  cover_small?: string
+  cover_medium?: string
+  cover_big?: string
+  cover_xl?: string
+  md5_image?: string
+  genre_id?: number
+  genres?: { data: Genres[] }
   nb_tracks: number
   duration: number
   fans: number
@@ -60,7 +58,7 @@ export interface Playlist {
   explicit_content_lyrics: number
   explicit_content_cover: number
   contributors: Contributor[]
-  artist: Artist
+  artist?: Artist
   type: string
   tracks: { data: Track[] }
 }
@@ -89,6 +87,7 @@ export interface Contributor {
 }
 
 export interface Artist {
+  nb_fan?: number
   id: number
   name: string
   picture: string
@@ -114,27 +113,14 @@ export interface Track {
   explicit_content_cover: number
   preview: string
   md5_image: string
-  artist: Artist2
+  artist: ArtistBrief
   album: Album
   type: string
 }
 
-export interface Artist2 {
+export interface ArtistBrief {
   id: number
   name: string
-  tracklist: string
-  type: string
-}
-
-export interface Album {
-  id: number
-  title: string
-  cover: string
-  cover_small: string
-  cover_medium: string
-  cover_big: string
-  cover_xl: string
-  md5_image: string
   tracklist: string
   type: string
 }

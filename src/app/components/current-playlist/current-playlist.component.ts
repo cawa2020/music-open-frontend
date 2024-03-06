@@ -1,35 +1,36 @@
-import { AfterContentChecked, AfterContentInit, Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Song, Track } from '../../interfaces/app.interface';
+import { Album } from '../../interfaces/app.interface';
 import { PlayerService } from '../../services/player.service';
 import { RouterLink } from '@angular/router';
-import { GridTemplateService } from '../../services/grid-template.service';
 import { FormatterService } from '../../services/formatter.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { SongComponent } from "../song/song.component";
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-current-playlist',
   standalone: true,
-  imports: [MatIconModule, RouterLink, DragDropModule],
   templateUrl: './current-playlist.component.html',
-  styleUrl: './current-playlist.component.css'
+  styleUrl: './current-playlist.component.css',
+  imports: [MatIconModule, RouterLink, DragDropModule, SongComponent]
 })
-export class CurrentPlaylistComponent implements OnInit {
-  public playlist!: Track[]
-  public isShort: boolean = false
+export class CurrentPlaylistComponent {
+  @Input() id!: number
+  @Input() type!: string
+  public playlist!: Album
+  public loading: boolean = false
 
-  constructor(private player: PlayerService, private grid: GridTemplateService, private formatter: FormatterService) { }
+  constructor(private api: ApiService, private player: PlayerService, private formatter: FormatterService) { }
 
-  async ngOnInit() {
-    this.player.getPlaylist().subscribe((item) => {
-      this.playlist = item?.tracks.data ?? []
-    })
-    setTimeout(() => {
-      if (localStorage.getItem('isShort') === 'true') {
-        this.toggleShort()
-      }
-    }, 0)
+  ngOnChanges() {
+    this.loading = true
+    if (this.type === 'album') {
+      this.api.getAlbum(this.id).subscribe(res => { this.playlist = res; this.loading = false })
+    } else {
+      this.api.getPlaylist(this.id).subscribe(res => { this.playlist = res; this.loading = false })
+    }
   }
 
   isSongPause(): boolean {
@@ -61,18 +62,7 @@ export class CurrentPlaylistComponent implements OnInit {
     return this.player?.getCurrentSong()?.id === songId
   }
 
-  toggleShort() {
-    if (this.isShort) {
-      this.grid.setMainGrid([[1, 4], [4, 16], [16, 19]])
-    } else {
-      this.grid.setMainGrid([[1, 4], [4, 18], [18, 19]])
-    }
-
-    this.isShort = !this.isShort
-    localStorage.setItem('isShort', String(this.isShort))
-  }
-
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.playlist, event.previousIndex, event.currentIndex)
+  onDrop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.playlist.tracks.data, event.previousIndex, event.currentIndex)
   }
 }
