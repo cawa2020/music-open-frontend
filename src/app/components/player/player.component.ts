@@ -4,7 +4,7 @@ import { SliderComponent } from "../slider/slider.component";
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormatterService } from '../../services/formatter.service';
 import { Album, Track } from '../../interfaces/app.interface';
 import { ApiService } from '../../services/api.service';
@@ -30,8 +30,20 @@ export class PlayerComponent {
       this.player.skipSong('next', true)
     }
 
-    fetch('https://api.deezer.com/album/302127').then(res => console.log(res))
+    const headers = new Headers({
+      'Authorization': 'Basic fri2sWFXvxb3HBn7Qt74IBgGOl4Mzq63oYpJSToNFrlKj5dFaI',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Headers': 'Authorization, Origin, X-Requested-With, Accept, X-PINGOTHER, Content-Type',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
+    })
+
+    // fetch('https://api.deezer.com/artist/27/top?access_token=fri2sWFXvxb3HBn7Qt74IBgGOl4Mzq63oYpJSToNFrlKj5dFaI', { method: 'GET', headers: headers }).then(console.log)
+    // fetch('https://cors-anywhere.herokuapp.com/https://api.deezer.com/artist/27/top').then(console.log)
   }
+
+  // fri2sWFXvxb3HBn7Qt74IBgGOl4Mzq63oYpJSToNFrlKj5dFaI
 
   getTime(): number {
     return this.player.getAudio().duration

@@ -33,6 +33,21 @@ export class CurrentPlaylistComponent {
     }
   }
 
+  getGenres(): string {
+    return this.playlist.genres?.data.map(el => el.name).join(', ') ?? ''
+  }
+
+  getTrackWord(): string {
+    const num = this.playlist.nb_tracks
+    if (num == 1) {
+      return 'трек'
+    } else if (num >= 2 && num <= 4) {
+      return 'трека'
+    } else {
+      return 'треков'
+    }
+  }
+
   isSongPause(): boolean {
     return this.player.getAudio().paused
   }

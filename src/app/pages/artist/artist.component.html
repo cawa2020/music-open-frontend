@@ -2,11 +2,11 @@
 <section>
   <app-playlists></app-playlists>
 </section>
-<section class="w-full overflow-auto">
+<section class="w-full overflow-auto flex flex-col gap-8" >
   @if(!artist) {
   загрузка...
   } @else {
-    <div class="relative mb-4 w-full p-6">
+    <div id="RED" class="relative mb-4 w-full p-6">
       <div
         class="absolute bg-center bg-cover rounded-lg blur-sm brightness-[.4] left-0 right-0 top-0 bottom-0 z-[0]"
         [style.backgroundImage]="'url(' + artist.picture_xl + ')'"
@@ -27,13 +27,69 @@
     </div>
   }
 
-  @if (artistSongs) {
-  <h4 class="text-xl text-bold mb-2">Популярные треки</h4>
+  @if (songs) {
   <div>
-    @for(song of artistSongs.tracks.data; track $index) {
-    <app-song  [playlist]="artistSongs" [song]="song" [index]="$index"></app-song>
-    }
+    <h4 class="text-2xl text-bold mb-2">Популярные треки</h4>
+    <div>
+      @for(song of songs.tracks.data; track $index) {
+      <app-song [playlist]="getPlaylist()" [song]="song"></app-song>
+      }
+    </div>
   </div>
   }
+
+  @if (albums) {
+    <div>
+      <div class="flex w-full justify-between">
+        <h4 class="text-2xl text-bold mb-2">Альбомы</h4>
+        <button>Показать все</button>
+      </div>
+      <div class="grid grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
+        @for(album of albums.slice(0,10); track $index) {
+          <div [routerLink]="['/album/' + album.id]" class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
+            <img class="rounded w-full aspect-square" [src]="album.cover_big" alt="">
+            <div>
+              <p class="one-stroke-text">{{album.title}}</p>
+              <p class="text-[var(--text-color-secondary)]">{{album.release_date | date: 'd/MM/yy'}}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+    }
+
+  @if (related?.length) {
+    <div>
+      <div class="flex w-full justify-between">
+        <h4 class="text-2xl text-bold mb-2">Схоже с творчеством</h4>
+        <button>Показать все</button>
+      </div>
+      <div class="grid grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
+        @for(artist of related.slice(0,10); track $index) {
+          <div [routerLink]="['/artist/' + artist.id]" class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
+            <img class="rounded-full w-full aspect-square" [src]="artist.picture_big" alt="">
+            <p class="one-stroke-text">{{artist.name}}</p>
+          </div>
+        }
+      </div>
+    </div>
+    }
+
+    @if (playlists?.length) {
+      <div>
+        <div class="flex w-full justify-between">
+          <h4 class="text-2xl text-bold mb-2">Плейлисты с артистом</h4>
+          <button>Показать все</button>
+        </div>
+        <div class="grid grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
+          @for(playlist of playlists.slice(0,10); track $index) {
+            <div [routerLink]="['/playlist/' + playlist.id]" class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
+              <img class="rounded w-full aspect-square" [src]="playlist.picture_medium" alt="">
+              <p class="one-stroke-text">{{playlist.title}}</p>
+            </div>
+          }
+        </div>
+      </div>
+      }
 </section>
 </main>

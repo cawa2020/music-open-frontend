@@ -42,6 +42,7 @@ mat-icon.mat-icon {
 * {
   font-family: "Jost";
   color: var(--text-color);
+  scroll-behavior: smooth;
 }
 
 :root {

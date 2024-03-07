@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Album, Track } from '../../interfaces/app.interface';
 import { PlayerService } from '../../services/player.service';
 import { FormatterService } from '../../services/formatter.service';
@@ -12,15 +12,19 @@ import { RouterLink } from '@angular/router';
   templateUrl: './song.component.html',
   styleUrl: './song.component.css'
 })
-export class SongComponent {
+export class SongComponent implements OnChanges{
   @Input() song!: Track
   @Input() playlist!: Album
-  @Input() index!: number
   @Input() hideImg?: boolean
   @Input() hideAlbum?: boolean
   @Input() hideArtist?: boolean
+  public index!: number
 
   constructor(private player: PlayerService, private formatter: FormatterService) { }
+
+  ngOnChanges() {
+    this.index = this.playlist.tracks.data.findIndex(el => el.id === this.song.id)
+  }
 
   isSongPause(): boolean {
     return this.player.getAudio().paused

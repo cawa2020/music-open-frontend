@@ -63,6 +63,26 @@ export interface Album {
   tracks: { data: Track[] }
 }
 
+export interface AlbumBrief {
+  id: number
+  title: string
+  link: string
+  cover: string
+  cover_small: string
+  cover_medium: string
+  cover_big: string
+  cover_xl: string
+  md5_image: string
+  genre_id: number
+  fans: number
+  release_date: string
+  record_type: string
+  tracklist: string
+  explicit_lyrics: boolean
+  type: string
+}
+
+
 export interface Genres {
   id: number
   name: string
@@ -119,6 +139,32 @@ export interface Track {
 }
 
 export interface ArtistBrief {
+  id: number
+  name: string
+  tracklist: string
+  type: string
+}
+
+export interface Playlist {
+  id: number
+  title: string
+  public: boolean
+  link: string
+  picture: string
+  picture_small: string
+  picture_medium: string
+  picture_big: string
+  picture_xl: string
+  checksum: string
+  tracklist: string
+  creation_date: string
+  md5_image: string
+  picture_type: string
+  user: User
+  type: string
+}
+
+export interface User {
   id: number
   name: string
   tracklist: string

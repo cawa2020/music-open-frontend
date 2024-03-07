@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Track } from '../interfaces/app.interface';
+import { Album, AlbumBrief, Artist, Playlist, Track } from '../interfaces/app.interface';
 
 type Method = 'POST' | 'GET'
 
@@ -21,7 +21,19 @@ export class ApiService {
   }
 
   getArtistTop(id: number): Observable<{ data: Track[] }> {
-    return this._requestAPI('GET', `artist/${id}/top?limit=50`)
+    return this._requestAPI('GET', `artist/${id}/top?limit=10`)
+  }
+
+  getArtistAlbums(id: number): Observable<{ data: AlbumBrief[] }> {
+    return this._requestAPI('GET', `artist/${id}/albums`)
+  }
+
+  getArtistRelated(id: number): Observable<{ data: Artist[] }> {
+    return this._requestAPI('GET', `artist/${id}/related`)
+  }
+
+  getPlaylistsWithArtist(id: number): Observable<{ data: Playlist[] }> {
+    return this._requestAPI('GET', `artist/${id}/playlists`)
   }
 
   getAlbum(id: number) {
@@ -31,6 +43,10 @@ export class ApiService {
   getBySearch(word: string): Observable<any> {
     const path = 'search?q=' + word
     return this._request('GET', path)
+  }
+
+  aosidhnf() {
+    return this._request('GET', 'brawly/')
   }
 
   private _request(method: Method, path: string, body?: any): Observable<any> {
@@ -49,7 +65,7 @@ export class ApiService {
   }
 
   private _requestAPI(method: Method, path: string, body?: any): Observable<any> {
-    const url = "https://api.deezer.com/" + path
+    const url = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/" + path
 
     return this.http.request(method, url)
   }

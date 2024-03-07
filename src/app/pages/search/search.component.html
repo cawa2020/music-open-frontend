@@ -13,7 +13,7 @@
       />
       <div>
         @for (song of findedSongs; track $index) {
-        <app-song [playlist]="playlist" [song]="song" [index]="$index"></app-song>
+        <app-song [playlist]="playlist" [song]="song"></app-song>
         } @empty {
         <p class="text-[var(--text-color-secondary)]">Здесь пока пусто :(</p>
         }
