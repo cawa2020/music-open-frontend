@@ -1,36 +1,34 @@
-import { Component, ContentChild, OnInit, ViewChild } from '@angular/core';
+import { Component, ContentChild, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Album, AlbumBrief, Artist, ArtistBrief, Playlist, Track } from '../../interfaces/app.interface';
 import { ApiService } from '../../services/api.service';
 import { PlaylistsComponent } from "../../components/playlists/playlists.component";
 import { SongComponent } from "../../components/song/song.component";
 import { CommonModule, ViewportScroller } from '@angular/common';
+import { SkeletonComponent } from "../../components/skeleton/skeleton.component";
 
 @Component({
-  selector: 'app-artist',
-  standalone: true,
-  templateUrl: './artist.component.html',
-  styleUrl: './artist.component.css',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, PlaylistsComponent, SongComponent, CommonModule]
+    selector: 'app-artist',
+    standalone: true,
+    templateUrl: './artist.component.html',
+    styleUrl: './artist.component.css',
+    imports: [RouterOutlet, RouterLink, RouterLinkActive, PlaylistsComponent, SongComponent, CommonModule, SkeletonComponent]
 })
 export class ArtistComponent implements OnInit {
   public artist!: Artist
   public songs!: Album
   public albums!: AlbumBrief[]
+  public lastIndexAlbum: number = 8
   public related!: Artist[]
+  public lastIndexRelated: number = 8
   public playlists!: Playlist[]
+  public lastIndexPlaylists: number = 8
 
   constructor(private activateRoute: ActivatedRoute, private api: ApiService, private router: Router) { }
 
-  scrollTo() {
-    this.router.navigate([], { fragment: "RED" });
-  }
-
-  getPlaylist(): Album {
-    return JSON.parse(JSON.stringify(this.songs))
-  }
-
   ngOnInit(): void {
+    this.onResize({ target: { innerWidth: window.innerWidth } })
+
     this.activateRoute.params.subscribe(params => {
       const id = Number(params["id"])
       scrollTo()
@@ -75,5 +73,31 @@ export class ArtistComponent implements OnInit {
         })
       })
     });
+  }
+
+  getPlaylist(): Album {
+    return JSON.parse(JSON.stringify(this.songs))
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    const width = event.target.innerWidth
+    if (width > 1536) {
+      this.lastIndexAlbum = 8
+      this.lastIndexRelated = 8
+      this.lastIndexPlaylists = 8
+    } else if (width > 1280) {
+      this.lastIndexAlbum = 6
+      this.lastIndexRelated = 6
+      this.lastIndexPlaylists = 6
+    } else if (width > 1024) {
+      this.lastIndexAlbum = 5
+      this.lastIndexRelated = 5
+      this.lastIndexPlaylists = 5
+    } else {
+      this.lastIndexAlbum = 4
+      this.lastIndexRelated = 4
+      this.lastIndexPlaylists = 4
+    }
   }
 }

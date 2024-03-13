@@ -3,10 +3,27 @@
   <app-playlists></app-playlists>
 </section>
 <section class="w-full overflow-auto flex flex-col gap-8" >
-  @if(!artist) {
-  загрузка...
+  @if (!artist || !songs || !albums) {
+    <div>
+      <app-skeleton height="208px" shape="rounded"></app-skeleton>
+    </div>
+    <div>
+    <app-skeleton shape="rounded" width="200px" height="32px" styleClass="mb-2"></app-skeleton>
+    <div class="grid gap-1">
+      <app-skeleton shape="rounded" height="56px"></app-skeleton>
+      <app-skeleton shape="rounded" height="56px"></app-skeleton>
+      <app-skeleton shape="rounded" height="56px"></app-skeleton>
+      <app-skeleton shape="rounded" height="56px"></app-skeleton>
+      <app-skeleton shape="rounded" height="56px"></app-skeleton>
+      <app-skeleton shape="rounded" height="56px"></app-skeleton>
+      <app-skeleton shape="rounded" height="56px"></app-skeleton>
+      <app-skeleton shape="rounded" height="56px"></app-skeleton>
+      <app-skeleton shape="rounded" height="56px"></app-skeleton>
+      <app-skeleton shape="rounded" height="56px"></app-skeleton>
+    </div>
+    </div>
   } @else {
-    <div id="RED" class="relative mb-4 w-full p-6">
+    <div class="relative w-full p-6">
       <div
         class="absolute bg-center bg-cover rounded-lg blur-sm brightness-[.4] left-0 right-0 top-0 bottom-0 z-[0]"
         [style.backgroundImage]="'url(' + artist.picture_xl + ')'"
@@ -25,27 +42,23 @@
         </div>
       </div>
     </div>
-  }
 
-  @if (songs) {
   <div>
     <h4 class="text-2xl text-bold mb-2">Популярные треки</h4>
-    <div>
-      @for(song of songs.tracks.data; track $index) {
+    <div class="grid gap-1">
+      @for(song of songs.tracks.data.slice(0,5); track $index) {
       <app-song [playlist]="getPlaylist()" [song]="song"></app-song>
       }
     </div>
   </div>
-  }
 
-  @if (albums) {
     <div>
       <div class="flex w-full justify-between">
         <h4 class="text-2xl text-bold mb-2">Альбомы</h4>
         <button>Показать все</button>
       </div>
-      <div class="grid grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
-        @for(album of albums.slice(0,10); track $index) {
+      <div class="grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
+        @for(album of albums.slice(0,lastIndexAlbum); track $index) {
           <div [routerLink]="['/album/' + album.id]" class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
             <img class="rounded w-full aspect-square" [src]="album.cover_big" alt="">
             <div>
@@ -56,7 +69,6 @@
         }
       </div>
     </div>
-    }
 
   @if (related?.length) {
     <div>
@@ -64,8 +76,8 @@
         <h4 class="text-2xl text-bold mb-2">Схоже с творчеством</h4>
         <button>Показать все</button>
       </div>
-      <div class="grid grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
-        @for(artist of related.slice(0,10); track $index) {
+      <div class="grid grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
+        @for(artist of related.slice(0,lastIndexRelated); track $index) {
           <div [routerLink]="['/artist/' + artist.id]" class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
             <img class="rounded-full w-full aspect-square" [src]="artist.picture_big" alt="">
             <p class="one-stroke-text">{{artist.name}}</p>
@@ -73,23 +85,25 @@
         }
       </div>
     </div>
-    }
+  }
 
-    @if (playlists?.length) {
-      <div>
-        <div class="flex w-full justify-between">
-          <h4 class="text-2xl text-bold mb-2">Плейлисты с артистом</h4>
-          <button>Показать все</button>
-        </div>
-        <div class="grid grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
-          @for(playlist of playlists.slice(0,10); track $index) {
-            <div [routerLink]="['/playlist/' + playlist.id]" class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
-              <img class="rounded w-full aspect-square" [src]="playlist.picture_medium" alt="">
-              <p class="one-stroke-text">{{playlist.title}}</p>
-            </div>
-          }
-        </div>
+  @if (playlists?.length) {
+    <div>
+      <div class="flex w-full justify-between">
+        <h4 class="text-2xl text-bold mb-2">Плейлисты с артистом</h4>
+        <button>Показать все</button>
       </div>
-      }
+      <div class="grid grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
+        @for(playlist of playlists.slice(0,10); track $index) {
+          <div [routerLink]="['/playlist/' + playlist.id]" class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
+            <img class="rounded w-full aspect-square" [src]="playlist.picture_medium" alt="">
+            <p class="one-stroke-text">{{playlist.title}}</p>
+          </div>
+        }
+      </div>
+    </div>
+    }
+  }
+
 </section>
 </main>

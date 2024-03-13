@@ -1,30 +1,20 @@
-<header class="sticky z-[2] top-[var(--side-margin)]">
-  <section
-    class="flex gap-2 items-center justify-between"
-  >
+<header>
+  <div class="flex items-center gap-3">
     <a
-      class="w-full justify-center outlined-button flex items-center gap-2"
+      class="justify-center bg-[var(--bg-color-main)] border border-[var(--border-color)] rounded-full w-12 h-12 flex items-center"
       [routerLink]="['/']"
     >
       <mat-icon>home</mat-icon>
-      дом
     </a>
     <a
-      class="w-full justify-center outlined-button flex items-center gap-2"
+      class="justify-center bg-[var(--bg-color-main)] border border-[var(--border-color)] rounded-full w-12 h-12 flex items-center"
       [routerLink]="['/search']"
     >
       <mat-icon> search </mat-icon>
-      поиск
     </a>
-
-    <!-- <a class="h-6">
-    </a>
-    <input class="w-full" type="text" placeholder="поиск" /> -->
-  </section>
-  <section class="w-full">
+  </div>
+  <section class="w-full fixed md:static bottom-[var(--side-margin)]">
     <app-player />
   </section>
-  <section>
-    <app-widget />
-  </section>
+  <app-widget />
 </header>

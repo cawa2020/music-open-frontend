@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class WidgetComponent {
   public color: string = localStorage.getItem('mainColor') ?? '#3b82f6'
+  public isMenuOpen: boolean = false
 
   constructor(public theme: ThemeService) { }
 
@@ -23,6 +24,10 @@ export class WidgetComponent {
     }
 
     this.changeColor(this.color)
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen
   }
 
   toggleMode() {

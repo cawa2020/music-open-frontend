@@ -21,7 +21,7 @@ export class ApiService {
   }
 
   getArtistTop(id: number): Observable<{ data: Track[] }> {
-    return this._requestAPI('GET', `artist/${id}/top?limit=10`)
+    return this._requestAPI('GET', `artist/${id}/top?limit=20`)
   }
 
   getArtistAlbums(id: number): Observable<{ data: AlbumBrief[] }> {
@@ -65,7 +65,10 @@ export class ApiService {
   }
 
   private _requestAPI(method: Method, path: string, body?: any): Observable<any> {
-    const url = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/" + path
+    const url = `https://thingproxy.freeboard.io/fetch/${encodeURIComponent('https://api.deezer.com/' + path)}`
+    // const url = `https://corsproxy.io/?${encodeURIComponent('https://api.deezer.com/')}` + path
+    // const url = "https://cors-proxy.fringe.zone//https://api.deezer.com/" + path
+    // const url = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/" + path
 
     return this.http.request(method, url)
   }
