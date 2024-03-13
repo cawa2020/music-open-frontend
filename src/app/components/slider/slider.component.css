@@ -1,12 +1,10 @@
 :host {
   & .slider {
     width: 100%;
-    min-width: 200px;
     height: 4px;
     position: relative;
     background-color: var(--slider-color);
     border-radius: 9999px;
-
   }
 
   & .slider-input {
