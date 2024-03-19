@@ -115,6 +115,11 @@ mat-icon.mat-icon {
   height: calc(100% - 300px);
 } */
 
+button:disabled {
+  opacity: .8;
+  cursor: not-allowed;
+}
+
 .outlined-button,
 .button {
   padding: 0 12px;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PlayerService } from '../../services/player.service';
 import { SliderComponent } from "../slider/slider.component";
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -9,6 +9,7 @@ import { FormatterService } from '../../services/formatter.service';
 import { Album, Track } from '../../interfaces/app.interface';
 import { ApiService } from '../../services/api.service';
 import { ZenComponent } from "../zen/zen.component";
+import { of, take } from 'rxjs';
 
 @Component({
   selector: 'app-player',
@@ -18,11 +19,11 @@ import { ZenComponent } from "../zen/zen.component";
   providers: [HttpClientModule],
   imports: [SliderComponent, RouterLink, RouterLinkActive, MatIconModule, FormsModule, HttpClientModule, ZenComponent]
 })
-export class PlayerComponent {
+export class PlayerComponent implements OnInit {
   public zenMode: boolean = false
+  public isShuffled: boolean = false
   public pastVolume!: number
   public volume: number = Number(localStorage.getItem('volume'))
-  public isShuffled: boolean = false
 
   constructor(private player: PlayerService, private formatter: FormatterService, private api: ApiService) { }
 
@@ -107,6 +108,7 @@ export class PlayerComponent {
   }
 
   toggleTrack() {
+    if (!this.player.getAudio().src.length) return
     if (this.player.getAudio().ended) {
       this.player.setTime(0)
     }
@@ -119,10 +121,12 @@ export class PlayerComponent {
   }
 
   nextSong() {
+    if (!this.player.getAudio().src.length) return
     this.player.skipSong('next')
   }
 
   prevSong() {
+    if (!this.player.getAudio().src.length) return
     this.player.skipSong('prev')
   }
 
