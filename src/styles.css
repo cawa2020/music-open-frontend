@@ -33,14 +33,32 @@
 
   --border-radius: 8px;
   --transition-time: 0.3s;
-  --side-margin: 12px;
-  --main-height: 80vh;
+  --side-margin: 8px;
+}
+
+html {
+  height: 100%
 }
 
 body {
-  /* overflow: hidden; */
   background-color: var(--bg-color-secondary);
   padding: var(--side-margin);
+  width: 100%;
+  height: 100%;
+}
+
+.content-container {
+  position: relative;
+  width: inherit;
+  height: inherit;
+  min-height: 100%;
+  display: grid;
+  gap: var(--side-margin);
+  grid-template-columns: auto 1fr;
+  grid-template-rows: calc(100vh - 36px - 80px) 80px;
+  grid-template-areas:
+    "left-sidebar main-view right-sidebar"
+    "now-playing-bar now-playing-bar now-playing-bar";
 }
 
 hr {
@@ -51,25 +69,12 @@ a:hover {
   text-decoration: underline;
 }
 
-header,
-main,
-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-
-  & section {
-    padding: 12px;
-    border-radius: calc(4px + var(--border-radius));
-    background-color: var(--bg-color-main);
-    border: 1px solid var(--border-color);
-  }
-}
-
-main {
-  margin: var(--side-margin) 0;
-  height: var(--main-height);
+section,
+.section {
+  padding: 12px;
+  border-radius: calc(4px + var(--border-radius));
+  background-color: var(--bg-color-main);
+  border: 1px solid var(--border-color);
 }
 
 header .player {
@@ -104,6 +109,11 @@ mat-icon.mat-icon {
   width: 20px;
   height: 20px;
 }
+
+/* .main-section {
+  @apply w-full overflow-auto;
+  height: calc(100% - 300px);
+} */
 
 .outlined-button,
 .button {
@@ -197,7 +207,7 @@ input[type="range"]::-webkit-slider-thumb {
   gap: 2px;
 
   & div {
-    background-color: var(--text-color);
+    background-color: var(--main-color);
     width: 2px;
     height: 100%;
     transition: var(--transition-time);

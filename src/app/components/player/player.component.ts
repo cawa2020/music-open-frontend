@@ -8,16 +8,18 @@ import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { FormatterService } from '../../services/formatter.service';
 import { Album, Track } from '../../interfaces/app.interface';
 import { ApiService } from '../../services/api.service';
+import { ZenComponent } from "../zen/zen.component";
 
 @Component({
   selector: 'app-player',
   standalone: true,
   templateUrl: './player.component.html',
   styleUrl: './player.component.css',
-  imports: [SliderComponent, RouterLink, RouterLinkActive, MatIconModule, FormsModule, HttpClientModule],
-  providers: [HttpClientModule]
+  providers: [HttpClientModule],
+  imports: [SliderComponent, RouterLink, RouterLinkActive, MatIconModule, FormsModule, HttpClientModule, ZenComponent]
 })
 export class PlayerComponent {
+  public zenMode: boolean = false
   public pastVolume!: number
   public volume: number = Number(localStorage.getItem('volume'))
   public isShuffled: boolean = false
@@ -29,21 +31,7 @@ export class PlayerComponent {
     this.player.getAudio().onended = () => {
       this.player.skipSong('next', true)
     }
-
-    const headers = new Headers({
-      'Authorization': 'Basic fri2sWFXvxb3HBn7Qt74IBgGOl4Mzq63oYpJSToNFrlKj5dFaI',
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': 'true',
-      'Access-Control-Allow-Headers': 'Authorization, Origin, X-Requested-With, Accept, X-PINGOTHER, Content-Type',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE'
-    })
-
-    // fetch('https://api.deezer.com/artist/27/top?access_token=fri2sWFXvxb3HBn7Qt74IBgGOl4Mzq63oYpJSToNFrlKj5dFaI', { method: 'GET', headers: headers }).then(console.log)
-    // fetch('https://cors-anywhere.herokuapp.com/https://api.deezer.com/artist/27/top').then(console.log)
   }
-
-  // fri2sWFXvxb3HBn7Qt74IBgGOl4Mzq63oYpJSToNFrlKj5dFaI
 
   getTime(): number {
     return this.player.getAudio().duration
@@ -77,25 +65,26 @@ export class PlayerComponent {
     }
   }
 
-  shuffleSongs(playlist: Album): Album {
-    const array = playlist.tracks.data
-    for (let i = array.length - 1; i > 0; i--) {
+  shuffleSongs(queue: Track[]): Track[] {
+    const arr = JSON.parse(JSON.stringify(queue))
+
+    for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-    playlist.tracks.data = array
-    return playlist
+
+    return arr
   }
 
   toggleShuffle() {
     this.isShuffled = !this.isShuffled
     if (this.isShuffled) {
-      const queue: Album | null = this.player.getPlaylist().getValue()
+      const queue: Track[] | null = this.player.getQueue()
       if (!queue) return
-      this.player.setUnshPlaylist({ ...queue })
-      this.player.setPlaylist(this.shuffleSongs(queue))
+      this.player.setUnshQueue(JSON.parse(JSON.stringify(queue)))
+      this.player.setQueue(this.shuffleSongs(queue))
     } else {
-      this.player.setPlaylist(this.player.getUnshPlaylist())
+      this.player.setQueue(this.player.getUnshQueue())
     }
   }
 
@@ -105,6 +94,16 @@ export class PlayerComponent {
       case 'playlist': this.player.setRepeat('song'); break
       case 'song': this.player.setRepeat('none'); break
     }
+  }
+
+  toggleZenMode(newValue?: boolean) {
+    if (this.zenMode) {
+      document.exitFullscreen();
+    } else {
+      document.documentElement.requestFullscreen();
+    }
+
+    this.zenMode = newValue != undefined ? newValue : !this.zenMode
   }
 
   toggleTrack() {

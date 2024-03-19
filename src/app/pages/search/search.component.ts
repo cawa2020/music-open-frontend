@@ -21,7 +21,6 @@ export class SearchComponent {
   public search: string = ''
   public searchSubject = new Subject<string>()
   public findedSongs!: Track[]
-  public playlist!: Album
 
   constructor(private api: ApiService, private formatter: FormatterService, private player: PlayerService, private router: Router, private route: ActivatedRoute) { }
 
@@ -33,7 +32,7 @@ export class SearchComponent {
     });
 
 
-    this.searchSubject.pipe(debounceTime(1000)).subscribe((searchValue) => {
+    this.searchSubject.pipe(debounceTime(300)).subscribe((searchValue) => {
       this.getBySearch(searchValue)
       this.router.navigate([], {
         queryParams: {
@@ -53,36 +52,6 @@ export class SearchComponent {
   getBySearch(search: string) {
     this.api.getBySearch(search).subscribe((res: { data: Track[] }) => {
       this.findedSongs = res.data
-      this.playlist = {
-        id: 0,
-        nb_tracks: this.findedSongs.length,
-        duration: this.findedSongs.reduce((a, b) => a + b.duration, 0),
-        fans: 0,
-        release_date: '',
-        record_type: '',
-        available: false,
-        tracklist: '',
-        explicit_lyrics: false,
-        explicit_content_lyrics: 0,
-        explicit_content_cover: 0,
-        contributors: [],
-        type: '',
-        tracks: {
-          data: res.data
-        },
-        artist: {
-          id: 0,
-          name: 'Разные авторы',
-          picture: 'string',
-          picture_small: 'string',
-          picture_medium: 'string',
-          picture_big: 'string',
-          picture_xl: 'string',
-          tracklist: 'string',
-          type: 'string',
-        },
-        title: `Поиск по запросу "${search}"`
-      }
     })
   }
 

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Album } from '../../interfaces/app.interface';
+import { Album, Track } from '../../interfaces/app.interface';
 import { PlayerService } from '../../services/player.service';
 import { RouterLink } from '@angular/router';
 import { FormatterService } from '../../services/formatter.service';
@@ -18,7 +18,7 @@ import { ApiService } from '../../services/api.service';
 })
 export class CurrentPlaylistComponent {
   @Input() id!: number
-  @Input() type!: string
+  @Input() type!: 'album'
   public playlist!: Album
   public loading: boolean = false
 
@@ -53,10 +53,9 @@ export class CurrentPlaylistComponent {
   }
 
   setTrack(index: number) {
-    const playlist = this.player.getPlaylist().getValue()
-    if (!playlist) return
-    const song = playlist.tracks.data[index]
-    console.log(song.id)
+    const queue = this.player.getQueue()
+    if (!queue) return
+    const song = queue[index]
     if (song.id === this.player.getCurrentSong()?.id) {
       if (this.player.getAudio().paused) {
         this.player.continueSong()
@@ -67,6 +66,10 @@ export class CurrentPlaylistComponent {
       this.player.setCurrentSong(song)
       this.player.continueSong()
     }
+  }
+
+  getQueue(): Track[] {
+    return this.playlist.tracks.data
   }
 
   getDuration(duration: number): string {

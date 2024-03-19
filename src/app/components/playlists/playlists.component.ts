@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Album } from '../../interfaces/app.interface';
 import { FormatterService } from '../../services/formatter.service';
 import { NavigationStart, Router, RouterLink } from '@angular/router';
-import { PlayerService } from '../../services/player.service';
 import { MatIconModule } from '@angular/material/icon';
 import { filter } from 'rxjs';
 
@@ -16,26 +15,23 @@ import { filter } from 'rxjs';
 })
 
 export class PlaylistsComponent implements OnInit {
+  @Output() toggleShortEmitter: EventEmitter<boolean> = new EventEmitter()
+  @Input() isShort!: boolean
   public playlists: Album[] = []
-  public isShort: boolean = localStorage.getItem('isShort') === 'true'
   private albumsId: number[] = [450224025]
   public currentPlaylistId!: number
 
-  constructor(private api: ApiService, private formatter: FormatterService, private player: PlayerService, private router: Router) { }
+  constructor(private api: ApiService, private formatter: FormatterService, private router: Router) { }
 
   ngOnInit(): void {
-    const id = window.location.href.split('/').slice(-1)
-    this.currentPlaylistId = Number(id)
+    this.currentPlaylistId = Number(window.location.href.split('/').slice(-1))
 
     this.albumsId.map(id => {
-      this.api.getAlbum(id).subscribe(res => {
-        this.playlists.push(res)
-      })
+      this.api.getAlbum(id).subscribe(res => { this.playlists.push(res) })
     })
 
     this.router.events.pipe(filter((event: any) => event instanceof NavigationStart)).subscribe(el => {
-      const id = el.url.split('/').slice(-1)
-      this.currentPlaylistId = Number(id)
+      this.currentPlaylistId = Number(el.url.split('/').slice(-1))
     })
   }
 
@@ -49,7 +45,6 @@ export class PlaylistsComponent implements OnInit {
   }
 
   toggleShort() {
-    this.isShort = !this.isShort
-    localStorage.setItem('isShort', String(this.isShort))
+    this.toggleShortEmitter.emit(!this.isShort)
   }
 }

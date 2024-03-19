@@ -1,15 +1,5 @@
 <div class="slider">
-  <div
-    class="loader"
-    [style.width]="(disableChanging ? editableTimeWhenDisable : time) + '%'"
-  ></div>
-  <input
-    step="0.1"
-    class="slider-input"
-    type="range"
-    [ngModel]="time"
-    (ngModelChange)="handleValueChange($event)"
-    (mousedown)="disableValueChange()"
-    (mouseup)="changeSongTime()"
-  />
+  <div class="loader" [style.width]="loaderWidth + '%'"></div>
+  <input class="slider-input" type="range" [ngModel]="time" (ngModelChange)="handleValueChange($event)"
+    (mousedown)="disableValueChange()" (mouseup)="changeSongTime()" />
 </div>

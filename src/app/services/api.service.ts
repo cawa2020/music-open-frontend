@@ -21,7 +21,7 @@ export class ApiService {
   }
 
   getArtistTop(id: number): Observable<{ data: Track[] }> {
-    return this._requestAPI('GET', `artist/${id}/top?limit=20`)
+    return this._requestAPI('GET', `artist/${id}/top?limit=10`)
   }
 
   getArtistAlbums(id: number): Observable<{ data: AlbumBrief[] }> {

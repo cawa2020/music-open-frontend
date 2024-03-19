@@ -1,8 +1,8 @@
 <div class="flex items-center justify-between gap-4 w-full">
-  <div class="flex gap-2">
+  <div class="flex gap-2 w-full">
     <img class="rounded h-14 w-14" [src]="getSong()?.album?.cover_small ?? '../../assets/placeholder.jpg'"
       alt="song cover" />
-    <div class="flex flex-col justify-center w-40 truncate">
+    <div class="flex flex-col justify-center truncate max-w-52">
       <h4 class="truncate">
         {{ getSong()?.title }}
       </h4>
@@ -42,13 +42,16 @@
       <span class="text-xs text-center min-w-8">
         {{ getFormattedTime() }}
       </span>
-      <app-slider class="w-full max-w-[400px] min-w-[280px]" [duration]="getTime()" />
+      <app-slider class="w-full max-w-[600px] min-w-[280px]" [duration]="getTime()" />
       <span class="text-xs text-center min-w-8">
         {{getDurationTime()}}
       </span>
     </div>
   </div>
-  <div class="flex items-center justify-end">
+  <div class="flex items-center justify-end w-full">
+    <button class="icon-button" (click)="toggleZenMode()">
+      <mat-icon fontIcon="terrain"></mat-icon>
+    </button>
     <button class="icon-button">
       <mat-icon fontIcon="add"></mat-icon>
     </button>
@@ -67,3 +70,6 @@
     </div>
   </div>
 </div>
+@if (zenMode) {
+  <app-zen (emitZenMode)="toggleZenMode($event)"></app-zen>
+}

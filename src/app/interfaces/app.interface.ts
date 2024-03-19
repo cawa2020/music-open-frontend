@@ -42,8 +42,8 @@ export interface Album {
   cover?: string
   cover_small?: string
   cover_medium?: string
-  cover_big?: string
-  cover_xl?: string
+  cover_big: string
+  cover_xl: string
   md5_image?: string
   genre_id?: number
   genres?: { data: Genres[] }
@@ -107,7 +107,8 @@ export interface Contributor {
 }
 
 export interface Artist {
-  nb_fan?: number
+  nb_fan: number
+  nb_album: number
   id: number
   name: string
   picture: string
