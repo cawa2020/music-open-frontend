@@ -1,13 +1,22 @@
 <div (click)="setTrack(index)"
-  class="rounded-lg cursor-pointer relative flex items-center gap-2 p-2 hover:bg-[var(--bg-color-secondary)]" cdkDrag>
+  class="rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-[var(--bg-color-secondary)]" cdkDrag>
   <div class="w-10 h-10 flex justify-center items-center text-[var(--text-color)]">
-    @if (isCurrentSong() && !isSongPause()) {
-    <div class="equalizer relative z-10">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    @if (isCurrentSong()) {
+      @if (isSongPaused()) {
+        <div class="equalizer-paused">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      } @else {
+        <div class="equalizer">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      }
     } @else {
     <p [class.text-[var(--main-color)]]="isCurrentSong()">{{ index + 1 }}</p>
     }
@@ -31,6 +40,6 @@
     <a style="grid-column: 13/19;" class="text-[var(--text-color-secondary)] truncate w-72"
       [routerLink]="['/album/' + song.album.id]">{{song.album.title}}</a>
     }
-    <p style="grid-column: 20/20;" class="text-sm text-right mr-2">{{ getDuration(song.duration) }}</p>
+    <p style="grid-column: 20/20;" class="text-sm text-right mr-2 font-light">{{ getDuration(song.duration) }}</p>
   </div>
 </div>

@@ -98,6 +98,8 @@ export class PlayerComponent implements OnInit {
   }
 
   toggleZenMode(newValue?: boolean) {
+    if (!this.player.getAudio().src.length) return
+
     if (this.zenMode) {
       document.exitFullscreen();
     } else {

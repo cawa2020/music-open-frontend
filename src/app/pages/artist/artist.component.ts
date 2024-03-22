@@ -38,9 +38,9 @@ export class ArtistComponent implements OnInit {
       this.playlists$ = of(null)
 
       this.artist$ = this.api.getAtrist(id).pipe(shareReplay(1))
-      this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistTop(artist.id))).subscribe(res => this.songs = res.data)
-      this.albums$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistAlbums(artist.id).pipe(map(res => this.sortByDate(res.data)))))
-      this.related$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistRelated(artist.id).pipe(map(res => res.data))))
+      this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistTop(artist.id, 5))).subscribe(res => this.songs = res.data)
+      this.albums$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistAlbums(artist.id, 7).pipe(map(res => this.sortByDate(res.data)))))
+      this.related$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistRelated(artist.id, 7).pipe(map(res => res.data))))
       this.playlists$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getPlaylistsWithArtist(artist.id).pipe(map(res => res.data))))
     });
   }
@@ -64,13 +64,13 @@ export class ArtistComponent implements OnInit {
     const width = event.target.innerWidth
     let newIndex
     if (width > 1600) {
-      newIndex = 9
-    } else if (width > 1400) {
       newIndex = 7
-    } else if (width > 1200) {
+    } else if (width > 1400) {
       newIndex = 6
-    } else if (width > 1000) {
+    } else if (width > 1200) {
       newIndex = 5
+    } else if (width > 1000) {
+      newIndex = 4
     } else {
       newIndex = 4
     }

@@ -20,16 +20,20 @@ export class ApiService {
     return this._request('GET', 'artist/' + id)
   }
 
-  getArtistTop(id: number): Observable<{ data: Track[] }> {
-    return this._requestAPI('GET', `artist/${id}/top?limit=10`)
+  getArtistTop(id: number, limit?: number): Observable<{ data: Track[] }> {
+    return this._requestAPI('GET', `artist/${id}/top?limit=` + limit)
   }
 
-  getArtistAlbums(id: number): Observable<{ data: AlbumBrief[] }> {
-    return this._requestAPI('GET', `artist/${id}/albums`)
+  getArtistAlbums(id: number, limit?: number): Observable<{ data: AlbumBrief[] }> {
+    let url = `artist/${id}/albums`
+    if (limit) { url += '?limit=' + limit }
+    return this._requestAPI('GET', url)
   }
 
-  getArtistRelated(id: number): Observable<{ data: Artist[] }> {
-    return this._requestAPI('GET', `artist/${id}/related`)
+  getArtistRelated(id: number, limit?: number): Observable<{ data: Artist[] }> {
+    let url = `artist/${id}/related`
+    if (limit) { url += '?limit=' + limit }
+    return this._requestAPI('GET', url)
   }
 
   getPlaylistsWithArtist(id: number): Observable<{ data: Playlist[] }> {
@@ -43,10 +47,6 @@ export class ApiService {
   getBySearch(word: string): Observable<any> {
     const path = 'search?q=' + word
     return this._request('GET', path)
-  }
-
-  aosidhnf() {
-    return this._request('GET', 'brawly/')
   }
 
   private _request(method: Method, path: string, body?: any): Observable<any> {
@@ -65,8 +65,8 @@ export class ApiService {
   }
 
   private _requestAPI(method: Method, path: string, body?: any): Observable<any> {
-    const url = `https://thingproxy.freeboard.io/fetch/${encodeURIComponent('https://api.deezer.com/' + path)}`
-    // const url = `https://corsproxy.io/?${encodeURIComponent('https://api.deezer.com/')}` + path
+    // const url = `https://thingproxy.freeboard.io/fetch/${encodeURIComponent('https://api.deezer.com/' + path)}`
+    const url = `https://corsproxy.io/?${encodeURIComponent('https://api.deezer.com/')}` + path
     // const url = "https://cors-proxy.fringe.zone//https://api.deezer.com/" + path
     // const url = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/" + path
 

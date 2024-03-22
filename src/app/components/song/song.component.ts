@@ -26,7 +26,7 @@ export class SongComponent implements OnChanges{
     this.index = this.queue.findIndex(el => el.id === this.song.id)
   }
 
-  isSongPause(): boolean {
+  isSongPaused(): boolean {
     return this.player.getAudio().paused
   }
 
