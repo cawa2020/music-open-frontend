@@ -58,7 +58,7 @@ export interface Album {
   explicit_content_lyrics: number
   explicit_content_cover: number
   contributors: Contributor[]
-  artist?: Artist
+  artist: Artist
   type: string
   tracks: { data: Track[] }
 }
@@ -137,7 +137,30 @@ export interface Track {
   artist: ArtistBrief
   album: Album
   type: string
+  contributors?: Artist[]
 }
+
+export interface TrackBrief {
+  id: number
+  readable: boolean
+  title: string
+  title_short: string
+  title_version: string
+  isrc: string
+  link: string
+  duration: number
+  track_position: number
+  disk_number: number
+  rank: number
+  explicit_lyrics: boolean
+  explicit_content_lyrics: number
+  explicit_content_cover: number
+  preview: string
+  md5_image: string
+  artist: ArtistBrief
+  type: string
+}
+
 
 export interface ArtistBrief {
   id: number

@@ -11,7 +11,7 @@ import { filter } from 'rxjs';
   standalone: true,
   imports: [RouterLink, MatIconModule],
   templateUrl: './playlists.component.html',
-  styleUrl: './playlists.component.css'
+  styleUrls: ['./playlists.component.css', '../nav/nav.component.css']
 })
 
 export class PlaylistsComponent implements OnInit {

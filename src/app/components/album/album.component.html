@@ -1,0 +1,12 @@
+<div class="album">
+  <div class="relative">
+    <img class="album__img" [routerLink]="['/album', album.id]" [src]="album.cover_big" alt="cover">
+    <button (click)="playAlbum()" class="icon-button play-button">
+      <mat-icon fontIcon="play_arrow"></mat-icon>
+    </button>
+  </div>
+  <a [routerLink]="['/album', album.id]">
+    <span class="one-stroke-text">{{album.title}}</span>
+    <p class="text-[var(--text-color-secondary)] text-sm">{{album.release_date | date: 'yyyy'}}</p>
+  </a>
+</div>

@@ -1,21 +1,23 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { Album, AlbumBrief, Artist, ArtistBrief, Playlist, Track } from '../../interfaces/app.interface';
+import { AlbumBrief, Artist, Playlist, Track } from '../../interfaces/app.interface';
 import { ApiService } from '../../services/api.service';
 import { PlaylistsComponent } from "../../components/playlists/playlists.component";
 import { SongComponent } from "../../components/song/song.component";
 import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from "../../components/skeleton/skeleton.component";
-import { BehaviorSubject, Observable, map, of, shareReplay, switchMap } from 'rxjs';
+import { Observable, map, of, shareReplay, switchMap } from 'rxjs';
+import { AlbumComponent } from "../../components/album/album.component";
 
 @Component({
   selector: 'app-artist',
   standalone: true,
   templateUrl: './artist.component.html',
   styleUrl: './artist.component.css',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, PlaylistsComponent, SongComponent, CommonModule, SkeletonComponent]
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, PlaylistsComponent, SongComponent, CommonModule, SkeletonComponent, AlbumComponent]
 })
 export class ArtistComponent implements OnInit {
+  public id!: number
   public artist$!: Observable<Artist>
   public albums$!: Observable<AlbumBrief[] | null>
   public related$!: Observable<Artist[] | null>
@@ -33,11 +35,12 @@ export class ArtistComponent implements OnInit {
 
     this.activateRoute.params.subscribe(params => {
       const id = Number(params["id"])
+      this.id = id
       this.albums$ = of(null)
       this.related$ = of(null)
       this.playlists$ = of(null)
 
-      this.artist$ = this.api.getAtrist(id).pipe(shareReplay(1))
+      this.artist$ = this.api.getArtist(id).pipe(shareReplay(1))
       this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistTop(artist.id, 5))).subscribe(res => this.songs = res.data)
       this.albums$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistAlbums(artist.id, 7).pipe(map(res => this.sortByDate(res.data)))))
       this.related$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistRelated(artist.id, 7).pipe(map(res => res.data))))

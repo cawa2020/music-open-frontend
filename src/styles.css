@@ -65,10 +65,6 @@ hr {
   border-color: var(--border-color);
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 section,
 .section {
   padding: 12px;
@@ -110,10 +106,33 @@ mat-icon.mat-icon {
   height: 20px;
 }
 
-/* .main-section {
-  @apply w-full overflow-auto;
-  height: calc(100% - 300px);
-} */
+h1 {
+  @apply text-6xl;
+}
+
+h2 {
+  @apply text-5xl font-extrabold;
+}
+
+h3 {
+  @apply text-4xl font-medium;
+}
+
+h4 {
+  @apply text-3xl font-medium;
+}
+
+h5 {
+  @apply text-xl font-medium;
+}
+
+h6 {
+  @apply text-lg font-medium;
+}
+
+a:hover {
+  text-decoration: underline;
+}
 
 button:disabled {
   opacity: .8;

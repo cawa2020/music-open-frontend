@@ -23,6 +23,7 @@ export class SongComponent implements OnChanges{
   constructor(private player: PlayerService, private formatter: FormatterService) { }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log(this.song)
     this.index = this.queue.findIndex(el => el.id === this.song.id)
   }
 

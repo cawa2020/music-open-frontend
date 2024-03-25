@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Album, AlbumBrief, Artist, Playlist, Track } from '../interfaces/app.interface';
+import { Album, AlbumBrief, Artist, Playlist, Track, TrackBrief } from '../interfaces/app.interface';
 
 type Method = 'POST' | 'GET'
 
@@ -16,7 +16,7 @@ export class ApiService {
     return this._request('GET', 'playlist/' + id)
   }
 
-  getAtrist(id: number) {
+  getArtist(id: number): Observable<Artist> {
     return this._request('GET', 'artist/' + id)
   }
 
@@ -24,9 +24,10 @@ export class ApiService {
     return this._requestAPI('GET', `artist/${id}/top?limit=` + limit)
   }
 
-  getArtistAlbums(id: number, limit?: number): Observable<{ data: AlbumBrief[] }> {
+  getArtistAlbums(id: number, limit?: number, index?: number): Observable<{ data: AlbumBrief[] }> {
     let url = `artist/${id}/albums`
     if (limit) { url += '?limit=' + limit }
+    if (index) { url += '?index=' + index }
     return this._requestAPI('GET', url)
   }
 
@@ -42,6 +43,10 @@ export class ApiService {
 
   getAlbum(id: number) {
     return this._request('GET', 'album/' + id)
+  }
+
+  getAlbumTracks(id: number): Observable<{ data: TrackBrief[] }> {
+    return this._requestAPI('GET', 'album/' + id + '/tracks')
   }
 
   getBySearch(word: string): Observable<any> {
@@ -65,8 +70,8 @@ export class ApiService {
   }
 
   private _requestAPI(method: Method, path: string, body?: any): Observable<any> {
-    // const url = `https://thingproxy.freeboard.io/fetch/${encodeURIComponent('https://api.deezer.com/' + path)}`
-    const url = `https://corsproxy.io/?${encodeURIComponent('https://api.deezer.com/')}` + path
+    // const url = `https://thingproxy.freeboard.io/fetch/https://api.deezer.com/` + path
+    const url = `https://corsproxy.io/?https://api.deezer.com/` + path
     // const url = "https://cors-proxy.fringe.zone//https://api.deezer.com/" + path
     // const url = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/" + path
 

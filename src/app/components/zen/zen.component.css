@@ -1,3 +1,7 @@
-.zen {
-  @apply absolute top-[-8px] bottom-[-8px] left-[-8px] right-[-8px] z-[998] blur-sm bg-center bg-cover  brightness-[.4]
+.zen-bg {
+  @apply absolute top-[-8px] bottom-[-8px] left-[-8px] right-[-8px] z-[998] blur-sm bg-center bg-cover brightness-[.4] transition-all
+}
+
+.zen-content {
+  @apply w-full absolute top-0 bottom-0 left-0 right-0 z-[999] flex flex-col justify-center items-center gap-12 text-center
 }

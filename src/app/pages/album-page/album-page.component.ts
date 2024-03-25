@@ -4,13 +4,13 @@ import { PlaylistsComponent } from "../../components/playlists/playlists.compone
 import { CurrentPlaylistComponent } from "../../components/current-playlist/current-playlist.component";
 
 @Component({
-  selector: 'app-album',
+  selector: 'app-album-page',
   standalone: true,
-  templateUrl: './album.component.html',
-  styleUrl: './album.component.css',
+  templateUrl: './album-page.component.html',
+  styleUrl: './album-page.component.css',
   imports: [PlaylistsComponent, CurrentPlaylistComponent]
 })
-export class AlbumComponent {
+export class AlbumPageComponent {
   public id!: number
 
   constructor(private route: ActivatedRoute) { }

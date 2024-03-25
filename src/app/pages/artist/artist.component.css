@@ -9,3 +9,19 @@
     @apply translate-x-1;
   }
 }
+
+.grid-container {
+  @apply grid grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7;
+}
+
+.artist-header {
+  @apply flex gap-4 items-center;
+
+  & .artist-header__img {
+    @apply max-w-56 w-1/4 min-w-32 aspect-square rounded-full shadow-2xl;
+  }
+
+  & .artist-header-__info {
+    @apply flex flex-col gap-2 justify-end;
+  }
+}

@@ -8,13 +8,14 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { SongComponent } from "../song/song.component";
 import { ApiService } from '../../services/api.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-current-playlist',
   standalone: true,
   templateUrl: './current-playlist.component.html',
   styleUrl: './current-playlist.component.css',
-  imports: [MatIconModule, RouterLink, DragDropModule, SongComponent]
+  imports: [MatIconModule, RouterLink, DragDropModule, SongComponent, CommonModule]
 })
 export class CurrentPlaylistComponent {
   @Input() id!: number

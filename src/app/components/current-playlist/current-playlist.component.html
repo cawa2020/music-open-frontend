@@ -4,24 +4,29 @@
   } @else {
   <div class="grid gap-4">
     <div class="relative w-full">
-      <!-- <div class="absolute bg-center bg-cover rounded-lg blur brightness-[.5] left-0 right-2 top-0 bottom-0 z-[0]"
-        [style.backgroundImage]="'url(' + playlist.cover_xl + ')'"></div> -->
-      <div class="flex gap-4 items-center relative z-[1]">
-        <img class="max-w-56 w-1/4 min-w-32 aspect-square rounded-lg shadow-2xl"
-          [src]="playlist.cover_big ?? '../../../assets/placeholder.jpg'" alt="cover" />
-        <div class="flex flex-col justify-end p-4">
+      <div class="playlist-header">
+        <img class="playlist-header__img" [src]="playlist.cover_big" alt="cover" />
+        <div class="playlist-header__info">
+          <h3>{{ playlist.title }}</h3>
+          <div class="flex gap-1">
+            @for (artist of playlist.contributors; track $index) {
+            <a [routerLink]="['/artist', artist.id]" class="text-2xl w-fit">{{ artist.name }}</a>
+              @if ($index !== playlist.contributors.length - 1) {
+              <span class="text-2xl w-fit">
+                ,&nbsp;
+              </span>
+              }
+            }
+          </div>
           <div class="flex gap-[6px]">
             <p>{{ getGenres() }} ·</p>
-            {{ playlist.nb_tracks }} {{getTrackWord()}} ,
-            {{ getDuration(playlist.duration) }}
+            {{ playlist.release_date | date: 'YYYY' }}
           </div>
-          <h2 class="text-4xl mb-1 font-medium">{{ playlist.title }}</h2>
-          <a [routerLink]="['/artist/' + playlist.artist?.id]" class="text-2xl w-fit">{{ playlist.artist?.name }}</a>
         </div>
       </div>
     </div>
     <div cdkDropList (cdkDropListDropped)="onDrop($event)" class="grid gap-1">
-      @for (song of playlist?.tracks?.data; track $index) {
+      @for (song of playlist.tracks.data; track $index) {
       <app-song [hideImg]="type === 'album'" [queue]="getQueue()" [hideAlbum]="type === 'album'" cdkDrag
         [song]="song"></app-song>
       }

@@ -1,14 +1,13 @@
-<div class="zen" [style.backgroundImage]="'url(' + getSong().album.cover_xl + ')'">
+<div class="zen-bg" [style.backgroundImage]="'url(' + getSong().album.cover_xl + ')'">
 </div>
-<div
-  class="w-full absolute top-0 bottom-0 left-0 right-0 z-[999] flex flex-col justify-center items-center gap-12 text-center">
+<div class="zen-content">
   <button (click)="closeZen()">
     <mat-icon class="!text-[32px] !w-fit !h-fit text-white">close</mat-icon>
   </button>
-  <img class="w-80 h-80 rounded" [src]="getSong().album.cover_big" alt="обложка">
+  <img class="w-96 aspect-square rounded transition-all" [src]="getSong().album.cover_big" alt="обложка">
   <div class="grid gap-2">
-    <h2 class="text-5xl text-extrabold text-white">{{getSong().title}}</h2>
-    <h4 class="text-3xl text-medium text-white">{{getSong().artist.name}}</h4>
+    <h2 class="text-white">{{getSong().title}}</h2>
+    <h4 class="text-white font-normal">{{getSong().artist.name}}</h4>
   </div>
   <div class="flex gap-2 items-center w-full justify-center">
     <span class="text-white text-sm text-center min-w-8">
@@ -37,14 +36,12 @@
       <button class="icon-button" (click)="nextSong()">
         <mat-icon fontIcon="skip_next" class="text-white"></mat-icon>
       </button>
-      <button class="icon-button" [class.active-button]="getRepeat() !== 'none'" (click)="toggleRepeat()">
-        @switch (getRepeat()) { @case ('playlist') {
-        <mat-icon fontIcon="repeat" class="text-white"></mat-icon>
-        } @case ('song') {
-        <mat-icon fontIcon="repeat_one" class="text-white"></mat-icon>
-        } @default {
-        <mat-icon fontIcon="repeat" class="text-white"></mat-icon>
-        } }
+      <button class="icon-button text-white" [class.active-button]="getRepeat() !== 'none'" (click)="toggleRepeat()">
+        @if (getRepeat() === 'song') {
+        <mat-icon fontIcon="repeat_one"></mat-icon>
+        } @else {
+        <mat-icon fontIcon="repeat"></mat-icon>
+        }
       </button>
     </div>
   </div>

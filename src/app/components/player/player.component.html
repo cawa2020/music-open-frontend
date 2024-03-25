@@ -1,16 +1,17 @@
-<div class="flex items-center justify-between gap-4 w-full">
+<div class="player">
   <div class="flex gap-2 w-full">
     <img class="rounded h-14 w-14" [src]="getSong()?.album?.cover_small ?? '../../assets/placeholder.jpg'"
       alt="song cover" />
-    <div class="flex flex-col justify-center truncate max-w-52">
-      <h4 class="truncate">
+    <div class="player__info">
+      <a [routerLink]="['/album', getSong()?.album?.id]" class="truncate ">
         {{ getSong()?.title }}
-      </h4>
-      <a [routerLink]="['/artist/123213']" class="leading-none truncate text-[var(--text-color-secondary)]">{{
-        getSong()?.artist?.name }}</a>
+      </a>
+      <a [routerLink]="['/artist', getSong()?.artist?.id]" class="player__info-artist ">
+        {{getSong()?.artist?.name }}
+      </a>
     </div>
   </div>
-  <div class="flex gap-2 w-full justify-center flex-col items-center">
+  <div class="player__controllers">
     <div class="flex items-center gap-2">
       <button class="icon-button" [class.active-button]="isShuffled" (click)="toggleShuffle()">
         <mat-icon fontIcon="shuffle"></mat-icon>
@@ -38,7 +39,7 @@
         } }
       </button>
     </div>
-    <div class="flex gap-2 items-center w-full justify-center">
+    <div class="player__time-container">
       <span class="text-xs text-center min-w-8">
         {{ getFormattedTime() }}
       </span>
@@ -71,5 +72,5 @@
   </div>
 </div>
 @if (zenMode) {
-  <app-zen (emitZenMode)="toggleZenMode($event)"></app-zen>
+<app-zen (emitZenMode)="toggleZenMode($event)"></app-zen>
 }

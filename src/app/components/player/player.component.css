@@ -1,0 +1,23 @@
+.player {
+  @apply flex items-center justify-between gap-4 w-full;
+
+  & .player__info {
+    @apply flex flex-col justify-center truncate max-w-52;
+  }
+
+  & .player__info-artist {
+    @apply leading-none truncate text-[var(--text-color-secondary)];
+  }
+
+  & .player__buttons {
+    @apply flex gap-2 w-full justify-center flex-col items-center;
+  }
+
+  & .player__controllers {
+    @apply flex gap-2 w-full justify-center flex-col items-center;
+  }
+
+  & .player__time-container {
+    @apply flex gap-2 items-center w-full justify-center;
+  }
+}

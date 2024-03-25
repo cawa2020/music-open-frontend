@@ -1,12 +1,12 @@
-<nav class="section flex flex-col gap-2 w-full">
-  <a class="px-[2px] flex items-center gap-2 opacity-80 w-full hover:opacity-100 hover:no-underline" [routerLink]="['/']">
-    <mat-icon class="icon-button !text-[30px] !w-fit !h-fit">home</mat-icon>
+<nav class="nav section">
+  <a class="link" [routerLink]="['/']">
+    <mat-icon class="icon">home</mat-icon>
     @if (!isShort) {
       <span class="text-lg font-medium">Главная</span>
     }
   </a>
-  <a class="px-[2px] flex items-center gap-2 opacity-80 w-full hover:opacity-100 hover:no-underline" [routerLink]="['/search']">
-    <mat-icon class="icon-button !text-[30px] !w-fit !h-fit"> search </mat-icon>
+  <a class="link" [routerLink]="['/search']">
+    <mat-icon class="icon"> search </mat-icon>
     @if (!isShort) {
       <span class="text-lg font-medium">Поиск</span>
     }

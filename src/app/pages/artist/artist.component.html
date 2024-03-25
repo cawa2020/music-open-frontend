@@ -22,11 +22,10 @@
   <div class="relative w-full">
     <!-- <div class="absolute bg-center bg-cover rounded-lg blur brightness-[.5] left-0 right-0 top-0 bottom-0 z-[0]"
       [style.backgroundImage]="'url(' + (artist$ | async)?.picture_xl + ')'"></div> -->
-    <div class="flex gap-2 items-center relative z-[1]">
-      <img class="max-w-56 w-1/4 min-w-32 aspect-square rounded-full shadow-2xl" [src]="(artist$ | async)?.picture_big"
-        alt="cover" />
-      <div class="flex flex-col gap-2 justify-end p-4">
-        <h2 class="text-4xl font-medium">{{ (artist$ | async)?.name }}</h2>
+    <div class="artist-header">
+      <img class="artist-header__img" [src]="(artist$ | async)?.picture_big" alt="cover" />
+      <div class="artist-header__info">
+        <h3>{{ (artist$ | async)?.name }}</h3>
         <p>
           {{ (artist$ | async)?.nb_fan }} Фанатов · {{ (artist$ | async)?.nb_album}} Альбомов
         </p>
@@ -36,7 +35,7 @@
 
   <div>
     <a routerLink="/" class="link">
-      <h4 class="text-xl font-medium leading-none">Топ треки</h4>
+      <h5 class="leading-none">Топ треки</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
         aria-hidden="true">
         <path
@@ -52,8 +51,8 @@
   </div>
 
   <div>
-    <a routerLink="/" class="link">
-      <h4 class="text-xl font-medium leading-none">Дискоргафия</h4>
+    <a [routerLink]="['discography']" class="link">
+      <h5 class="leading-none">Дискоргафия</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
         aria-hidden="true">
         <path
@@ -61,16 +60,9 @@
         </path>
       </svg>
     </a>
-    <div class="grid grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7">
+    <div class="grid-container">
       @for(album of (albums$ | async)?.slice(0,lastIndexAlbum); track $index) {
-      <div [routerLink]="['/album/' + album.id]"
-        class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
-        <img class="rounded w-full aspect-square" [src]="album.cover_big" alt="">
-        <div>
-          <p class="one-stroke-text">{{album.title}}</p>
-          <p class="text-[var(--text-color-secondary)] text-sm">{{album.release_date | date: 'd/MM/yy'}}</p>
-        </div>
-      </div>
+      <app-album [album]="album"></app-album>
       }
     </div>
   </div>
@@ -78,7 +70,7 @@
   @if ((related$ | async) != undefined) {
   <div>
     <a routerLink="/" class="link">
-      <h4 class="text-xl font-medium leading-none">Схоже с творчеством</h4>
+      <h5 class="leading-none">Схоже с творчеством</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
         aria-hidden="true">
         <path
@@ -86,9 +78,9 @@
         </path>
       </svg>
     </a>
-    <div class="grid grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7">
+    <div class="grid-container">
       @for(artist of (related$ | async)?.slice(0,lastIndexRelated); track $index) {
-      <div [routerLink]="['/artist/' + artist.id]"
+      <div [routerLink]="['/artist', artist.id]"
         class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
         <img class="rounded-full w-full aspect-square" [src]="artist.picture_big" alt="">
         <p class="one-stroke-text">{{artist.name}}</p>
@@ -105,7 +97,7 @@
   @if (playlists$) {
   <div>
     <a routerLink="/" class="link">
-      <h4 class="text-xl font-medium leading-none">Плейлисты</h4>
+      <h5 class="leading-none">Плейлисты</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
         aria-hidden="true">
         <path
@@ -113,9 +105,9 @@
         </path>
       </svg>
     </a>
-    <div class="grid grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7">
+    <div class="grid-container">
       @for(playlist of (playlists$ | async)?.slice(0,10); track $index) {
-      <div [routerLink]="['/playlist/' + playlist.id]"
+      <div [routerLink]="['/playlist', playlist.id]"
         class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
         <img class="rounded w-full aspect-square" [src]="playlist.picture_medium" alt="">
         <p class="one-stroke-text">{{playlist.title}}</p>

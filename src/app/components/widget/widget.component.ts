@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink, RoutesRecognized } from '@angular/router';
 import { SliderComponent } from '../slider/slider.component';
 import { MatIconModule } from '@angular/material/icon';
+import { filter, pairwise } from 'rxjs';
 
 @Component({
   selector: 'app-widget',
@@ -16,7 +17,7 @@ export class WidgetComponent {
   public color: string = localStorage.getItem('mainColor') ?? '#3b82f6'
   public isMenuOpen: boolean = false
 
-  constructor(public theme: ThemeService) { }
+  constructor(public theme: ThemeService, private router: Router) { }
 
   ngOnInit() {
     if (localStorage.getItem('themeMode') === 'dark') {
@@ -24,6 +25,13 @@ export class WidgetComponent {
     }
 
     this.changeColor(this.color)
+
+    // this.router.events
+    //   .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
+    //   .subscribe((events: RoutesRecognized[]) => {
+    //     console.log('previous url', events[0].urlAfterRedirects);
+    //     console.log('current url', events[1].urlAfterRedirects);
+    //   });
   }
 
   toggleMenu() {

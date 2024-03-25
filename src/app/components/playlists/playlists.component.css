@@ -1,3 +1,23 @@
 .hidden-scroll::-webkit-scrollbar {
   display: none;
 }
+
+.playlist {
+  @apply min-w-[74px] !px-1 h-full ;
+
+  & .playlist__header {
+    @apply px-[12px] flex items-center gap-2 cursor-pointer mb-2 opacity-80 hover:opacity-100;
+  }
+
+  & .playlist__main {
+    @apply grid gap-1 overflow-auto h-full hidden-scroll;
+
+    & .playlist__main-item {
+      @apply h-fit flex p-2 gap-2 hover:bg-[var(--bg-color-secondary)] cursor-pointer rounded-lg;
+    }
+
+    & .playlist__main-artist {
+      @apply leading-none text-[var(--text-color-secondary)] w-fit;
+    }
+  }
+}

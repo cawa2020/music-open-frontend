@@ -1,45 +1,60 @@
-<div (click)="setTrack(index)"
-  class="rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-[var(--bg-color-secondary)]" cdkDrag>
-  <div class="w-10 h-10 flex justify-center items-center text-[var(--text-color)]">
+<div (click)="setTrack(index)" class="song" cdkDrag>
+  <div class="song__start">
     @if (isCurrentSong()) {
-      @if (isSongPaused()) {
-        <div class="equalizer-paused">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      } @else {
-        <div class="equalizer">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      }
+    @if (isSongPaused()) {
+    <div class="equalizer-paused">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    } @else {
+    <div class="equalizer">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    }
     } @else {
     <p [class.text-[var(--main-color)]]="isCurrentSong()">{{ index + 1 }}</p>
     }
   </div>
-  <div class="grid justify-between w-full items-center gap-4" style="grid-template-columns: repeat(20,1fr);">
+  <div class="song__content">
     <div class="flex gap-2" style="grid-column: 1/13;">
       @if (!hideImg) {
       <img [src]="song.album.cover_medium" class="w-10 h-10 rounded" alt="song_cover" />
       }
       <div class="flex flex-col justify-center">
-        <h4 class="one-stroke-text" [class.text-[var(--main-color)]]="isCurrentSong()">
+        <span class="one-stroke-text" [class.text-[var(--main-color)]]="isCurrentSong()">
           {{ song.title }}
-        </h4>
+        </span>
         @if (!hideArtist) {
-        <a [routerLink]="['/artist/' + song.artist.id]"
-          class="one-stroke-text text-[var(--text-color-secondary)] leading-none w-fit">{{ song.artist.name }}</a>
+        <div class="flex items-start">
+          @if (song.contributors?.length) {
+            @for (artist of song.contributors; track $index) {
+            <a [routerLink]="['/artist', artist.id]" class="song__content-artist one-stroke-text">
+              {{ artist.name }}
+            </a>
+              @if ($index !== (song.contributors?.length ?? 1) - 1) {
+              <span class="song__content-artist">
+                ,&nbsp;
+              </span>
+              }
+            }
+          } @else {
+            <a [routerLink]="['/artist', song.artist.id]" class="song__content-artist one-stroke-text">
+              {{ song.artist.name }}
+            </a>
+          }
+        </div>
         }
       </div>
     </div>
     @if (!hideAlbum) {
-    <a style="grid-column: 13/19;" class="text-[var(--text-color-secondary)] truncate w-72"
-      [routerLink]="['/album/' + song.album.id]">{{song.album.title}}</a>
+    <a style="grid-column: 13/19;" class="text-[var(--text-color-secondary)] truncate w-fit"
+      [routerLink]="['/album/', song.album.id]">{{song.album.title}}</a>
     }
-    <p style="grid-column: 20/20;" class="text-sm text-right mr-2 font-light">{{ getDuration(song.duration) }}</p>
+    <p style="grid-column: 20/20;" class="text-sm text-right mr-2 font-normal">{{ getDuration(song.duration) }}</p>
   </div>
 </div>
