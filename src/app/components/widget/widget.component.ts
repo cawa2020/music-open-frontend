@@ -16,6 +16,8 @@ import { filter, pairwise } from 'rxjs';
 export class WidgetComponent {
   public color: string = localStorage.getItem('mainColor') ?? '#3b82f6'
   public isMenuOpen: boolean = false
+  public urls: string[] = []
+  public urlIndex: number = 0
 
   constructor(public theme: ThemeService, private router: Router) { }
 
@@ -25,12 +27,16 @@ export class WidgetComponent {
     }
 
     this.changeColor(this.color)
+    const startUrl = String(window.location).split('/').pop()
+    this.urls.push(startUrl!)
 
+    // ГОВНО НЕ РАБОЧЕЕ
     // this.router.events
     //   .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
     //   .subscribe((events: RoutesRecognized[]) => {
-    //     console.log('previous url', events[0].urlAfterRedirects);
-    //     console.log('current url', events[1].urlAfterRedirects);
+    //     const url = events[1].urlAfterRedirects
+    //     if (url === this.urls[this.urlIndex + 1]) return
+    //     this.urls.unshift(url)
     //   });
   }
 
@@ -46,5 +52,15 @@ export class WidgetComponent {
     this.color = newColor
     this.theme.changeMainColor(newColor)
     localStorage.setItem('mainColor', newColor)
+  }
+
+  move(direction: 'next' | 'prev') {
+    if (direction == 'next') {
+      this.urlIndex--
+      this.router.navigate([this.urls[this.urlIndex]])
+    } else {
+      this.urlIndex++
+      this.router.navigate([this.urls[this.urlIndex]])
+    }
   }
 }
