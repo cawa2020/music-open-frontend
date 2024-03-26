@@ -1,48 +1,19 @@
-<div class="zen-bg" [style.backgroundImage]="'url(' + getSong().album.cover_xl + ')'">
+<div class="zen-bg" [style.backgroundImage]="'url(' + song?.album?.cover_xl + ')'">
 </div>
 <div class="zen-content">
   <button (click)="closeZen()">
     <mat-icon class="!text-[32px] !w-fit !h-fit text-white">close</mat-icon>
   </button>
-  <img class="w-96 aspect-square rounded transition-all" [src]="getSong().album.cover_big" alt="обложка">
-  <div class="grid gap-2">
-    <h2 class="text-white">{{getSong().title}}</h2>
-    <h4 class="text-white font-normal">{{getSong().artist.name}}</h4>
+  <img class="w-96 aspect-square rounded transition-all" [src]="song?.album?.cover_big" alt="обложка">
+  <div class="w-96 grid gap-2">
+    <h3 class="text-white">{{song?.title}}</h3>
+    <h5 class="text-white font-normal">{{song?.artist?.name}}</h5>
   </div>
-  <div class="flex gap-2 items-center w-full justify-center">
-    <span class="text-white text-sm text-center min-w-8">
-      {{ getFormattedTime() }}
-    </span>
-    <app-slider class="max-w-96 w-full" [duration]="getTime()" />
-    <span class="text-white text-sm text-center min-w-8">
-      {{getDurationTime()}}
-    </span>
-  </div>
-  <div class="flex gap-2 w-full justify-center flex-col items-center">
-    <div class="flex items-center gap-6">
-      <button class="icon-button text-white" [class.active-button]="isShuffled" (click)="toggleShuffle()">
-        <mat-icon fontIcon="shuffle"></mat-icon>
-      </button>
-      <button class="icon-button" (click)="prevSong()">
-        <mat-icon fontIcon="skip_previous" class="text-white"></mat-icon>
-      </button>
-      <button class="icon-button button" (click)="toggleTrack()">
-        @if (isSongPaused()) {
-        <mat-icon fontIcon="play_arrow" class="text-white"></mat-icon>
-        } @else {
-        <mat-icon fontIcon="pause" class="text-white"></mat-icon>
-        }
-      </button>
-      <button class="icon-button" (click)="nextSong()">
-        <mat-icon fontIcon="skip_next" class="text-white"></mat-icon>
-      </button>
-      <button class="icon-button text-white" [class.active-button]="getRepeat() !== 'none'" (click)="toggleRepeat()">
-        @if (getRepeat() === 'song') {
-        <mat-icon fontIcon="repeat_one"></mat-icon>
-        } @else {
-        <mat-icon fontIcon="repeat"></mat-icon>
-        }
-      </button>
+  <div class="grid gap-6 place-items-center	">
+    <app-slider class="w-96" [duration]="duration" />
+    <app-controls color="white"></app-controls>
+    <div class="w-96">
+      <app-volume-slider widthClass="w-full"></app-volume-slider>
     </div>
   </div>
 </div>

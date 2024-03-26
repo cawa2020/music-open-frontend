@@ -1,0 +1,27 @@
+<div class="flex items-center gap-2">
+  <button class="icon-button" [class.active-button]="isShuffled" [style.color]="color" (click)="toggleShuffle()">
+    <mat-icon fontIcon="shuffle"></mat-icon>
+  </button>
+  <button class="icon-button" [style.color]="color" (click)="prevSong()">
+    <mat-icon fontIcon="skip_previous"></mat-icon>
+  </button>
+  <button class="icon-button button" (click)="toggleTrack()">
+    @if (isPlaying) {
+    <mat-icon fontIcon="pause"></mat-icon>
+    } @else {
+    <mat-icon fontIcon="play_arrow"></mat-icon>
+    }
+  </button>
+  <button class="icon-button" [style.color]="color" (click)="nextSong()">
+    <mat-icon fontIcon="skip_next"></mat-icon>
+  </button>
+  <button class="icon-button" [style.color]="color" [class.active-button]="repeat !== 'none'" (click)="toggleRepeat()">
+    @switch (repeat) { @case ('playlist') {
+    <mat-icon fontIcon="repeat"></mat-icon>
+    } @case ('song') {
+    <mat-icon fontIcon="repeat_one"></mat-icon>
+    } @default {
+    <mat-icon fontIcon="repeat"></mat-icon>
+    } }
+  </button>
+</div>

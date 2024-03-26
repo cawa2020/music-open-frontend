@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CurrentPlaylistComponent } from "../../components/current-playlist/current-playlist.component";
 import { PlaylistsComponent } from "../../components/playlists/playlists.component";
 import { ApiService } from '../../services/api.service';
 import { FormsModule } from '@angular/forms';
@@ -8,14 +7,14 @@ import { Subject, debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormatterService } from '../../services/formatter.service';
 import { SongComponent } from "../../components/song/song.component";
-import { PlayerService } from '../../services/player.service';
+import { PlayerService } from '../../services/audio.service';
 
 @Component({
   selector: 'app-search',
   standalone: true,
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
-  imports: [CurrentPlaylistComponent, PlaylistsComponent, FormsModule, RouterLink, SongComponent]
+  imports: [PlaylistsComponent, FormsModule, RouterLink, SongComponent]
 })
 export class SearchComponent {
   public search: string = ''

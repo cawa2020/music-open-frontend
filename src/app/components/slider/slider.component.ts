@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { PlayerService } from '../../services/player.service';
+import { PlayerService } from '../../services/audio.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({

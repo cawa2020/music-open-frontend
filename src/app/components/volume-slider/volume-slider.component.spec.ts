@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CurrentPlaylistComponent } from './current-playlist.component';
+import { VolumeSliderComponent } from './volume-slider.component';
 
-describe('CurrentPlaylistComponent', () => {
-  let component: CurrentPlaylistComponent;
-  let fixture: ComponentFixture<CurrentPlaylistComponent>;
+describe('VolumeSliderComponent', () => {
+  let component: VolumeSliderComponent;
+  let fixture: ComponentFixture<VolumeSliderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CurrentPlaylistComponent]
+      imports: [VolumeSliderComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CurrentPlaylistComponent);
+    fixture = TestBed.createComponent(VolumeSliderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

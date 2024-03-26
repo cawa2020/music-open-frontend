@@ -1,60 +1,59 @@
-import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { Album, Track } from '../../interfaces/app.interface';
-import { PlayerService } from '../../services/player.service';
+import { PlayerService } from '../../services/audio.service';
 import { FormatterService } from '../../services/formatter.service';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { SongService } from '../../services/song.service';
+import { Observable, filter, map } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-song',
   standalone: true,
-  imports: [MatIconModule, RouterLink],
+  imports: [MatIconModule, RouterLink, CommonModule],
   templateUrl: './song.component.html',
   styleUrl: './song.component.css'
 })
-export class SongComponent implements OnChanges{
+export class SongComponent implements OnInit {
   @Input() song!: Track
   @Input() queue!: Track[]
+  @Input() index!: number
   @Input() hideImg?: boolean
   @Input() hideAlbum?: boolean
   @Input() hideArtist?: boolean
-  public index!: number
+  public isPlaying$!: Observable<boolean>
 
-  constructor(private player: PlayerService, private formatter: FormatterService) { }
+  constructor(private player: PlayerService, private songData: SongService, private formatter: FormatterService) { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(this.song)
-    this.index = this.queue.findIndex(el => el.id === this.song.id)
+  ngOnInit(): void {
+    this.isPlaying$ = this.player.audioChanges.asObservable().pipe(filter(el => el.type === 'time'), map(el => el.data ))
   }
 
-  isSongPaused(): boolean {
-    return this.player.getAudio().paused
+  isCurrentSong() {
+    return this.song.id === this.songData.getSong()?.id
   }
 
-  setTrack(index: number) {
-    const currQueue = JSON.stringify(this.player.getQueue())
+  setTrack() {
+    const currQueue = JSON.stringify(this.songData.getQueue())
     const newQueue = JSON.stringify(this.queue)
     if (currQueue !== newQueue) {
-      this.player.setQueue(this.queue)
+      this.songData.setQueue(this.queue)
     }
-    const song = this.queue[index]
-    if (song.id === this.player.getCurrentSong()?.id) {
+    const song = this.queue[this.index]
+    if (song.id === this.songData.getSong()?.id) {
       if (this.player.getAudio().paused) {
         this.player.continueSong()
       } else {
         this.player.pauseSong()
       }
     } else {
-      this.player.setCurrentSong(song)
+      this.player.setSong(song)
       this.player.continueSong()
     }
   }
 
   getDuration(duration: number): string {
     return this.formatter.getTime(duration)
-  }
-
-  isCurrentSong(): boolean {
-    return this.player?.getCurrentSong()?.id === this.song.id
   }
 }

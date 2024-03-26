@@ -1,54 +1,29 @@
 <div class="player">
   <div class="flex gap-2 w-full">
-    <img class="rounded h-14 w-14" [src]="getSong()?.album?.cover_small ?? '../../assets/placeholder.jpg'"
+    <img class="rounded h-14 w-14" [src]="song?.album?.cover_small ?? '../../assets/placeholder.jpg'"
       alt="song cover" />
     <div class="player__info">
-      <a [routerLink]="['/album', getSong()?.album?.id]" class="truncate ">
-        {{ getSong()?.title }}
+      <a [routerLink]="['/album', song?.album?.id]" class="truncate ">
+        {{ song?.title }}
       </a>
-      <a [routerLink]="['/artist', getSong()?.artist?.id]" class="player__info-artist ">
-        {{getSong()?.artist?.name }}
+      <a [routerLink]="['/artist', song?.artist?.id]" class="player__info-artist ">
+        {{song?.artist?.name }}
       </a>
     </div>
   </div>
   <div class="player__controllers">
-    <div class="flex items-center gap-2">
-      <button class="icon-button" [class.active-button]="isShuffled" (click)="toggleShuffle()">
-        <mat-icon fontIcon="shuffle"></mat-icon>
-      </button>
-      <button class="icon-button" (click)="prevSong()">
-        <mat-icon fontIcon="skip_previous"></mat-icon>
-      </button>
-      <button class="icon-button button" (click)="toggleTrack()">
-        @if (isSongPaused()) {
-        <mat-icon fontIcon="play_arrow"></mat-icon>
-        } @else {
-        <mat-icon fontIcon="pause"></mat-icon>
-        }
-      </button>
-      <button class="icon-button" (click)="nextSong()">
-        <mat-icon fontIcon="skip_next"></mat-icon>
-      </button>
-      <button class="icon-button" [class.active-button]="getRepeat() !== 'none'" (click)="toggleRepeat()">
-        @switch (getRepeat()) { @case ('playlist') {
-        <mat-icon fontIcon="repeat"></mat-icon>
-        } @case ('song') {
-        <mat-icon fontIcon="repeat_one"></mat-icon>
-        } @default {
-        <mat-icon fontIcon="repeat"></mat-icon>
-        } }
-      </button>
-    </div>
+    <app-controls color="black"></app-controls>
     <div class="player__time-container">
       <span class="text-xs text-center min-w-8">
         {{ getFormattedTime() }}
       </span>
-      <app-slider class="w-full max-w-[600px] min-w-[280px]" [duration]="getTime()" />
+      <app-slider class="w-full max-w-[600px] min-w-[280px]" [duration]="duration" />
       <span class="text-xs text-center min-w-8">
-        {{getDurationTime()}}
+        {{formattedDuration}}
       </span>
     </div>
   </div>
+
   <div class="flex items-center justify-end w-full">
     <button class="icon-button" (click)="toggleZenMode()">
       <mat-icon fontIcon="terrain"></mat-icon>
@@ -56,19 +31,7 @@
     <button class="icon-button">
       <mat-icon fontIcon="add"></mat-icon>
     </button>
-    <div class="flex items-center">
-      <button class="icon-button" (click)="toggleVolume()">
-        @if (getSongVolume()) { @if (volume >= 50) {
-        <mat-icon fontIcon="volume_up"></mat-icon>
-        } @else {
-        <mat-icon fontIcon="volume_down"></mat-icon>
-
-        } } @else {
-        <mat-icon fontIcon="volume_off"></mat-icon>
-        }
-      </button>
-      <input class="w-20" step="1" type="range" [ngModel]="volume" (ngModelChange)="handleVolume($event)" />
-    </div>
+    <app-volume-slider widthClass="w-20"></app-volume-slider>
   </div>
 </div>
 @if (zenMode) {

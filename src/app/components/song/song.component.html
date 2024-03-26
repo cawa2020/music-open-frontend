@@ -1,15 +1,15 @@
-<div (click)="setTrack(index)" class="song" cdkDrag>
+<div (click)="setTrack()" class="song" cdkDrag>
   <div class="song__start">
     @if (isCurrentSong()) {
-    @if (isSongPaused()) {
-    <div class="equalizer-paused">
+    @if (isPlaying$ | async) {
+    <div class="equalizer">
       <div></div>
       <div></div>
       <div></div>
       <div></div>
     </div>
     } @else {
-    <div class="equalizer">
+    <div class="equalizer-paused">
       <div></div>
       <div></div>
       <div></div>
