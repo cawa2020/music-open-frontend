@@ -80,11 +80,7 @@
     </a>
     <div class="grid-container">
       @for(artist of (related$ | async)?.slice(0,lastIndexRelated); track $index) {
-      <div [routerLink]="['/artist', artist.id]"
-        class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
-        <img class="rounded-full w-full aspect-square" [src]="artist.picture_big" alt="">
-        <p class="one-stroke-text">{{artist.name}}</p>
-      </div>
+      <app-artist [artist]="artist"></app-artist>
       } @empty {
       <p class="text-[var(--text-color-secondary)]">Пусто :(</p>
       }

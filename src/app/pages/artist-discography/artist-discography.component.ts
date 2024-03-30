@@ -10,7 +10,7 @@ import { AlbumComponent } from "../../components/album/album.component";
     selector: 'app-artist-discography',
     standalone: true,
     templateUrl: './artist-discography.component.html',
-    styleUrls: ['./artist-discography.component.css', '../artist/artist.component.css'],
+    styleUrls: ['./artist-discography.component.css', '../artist-page/artist-page.component.css'],
     imports: [CommonModule, RouterLink, AlbumComponent]
 })
 export class ArtistDiscographyComponent implements OnInit {

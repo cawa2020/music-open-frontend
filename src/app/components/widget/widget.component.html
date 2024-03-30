@@ -5,7 +5,7 @@
   <button [disabled]="urlIndex === 0" (click)="move('next')" class="icon-button">
     <mat-icon fontIcon="navigate_next"></mat-icon>
   </button>
-  <button (click)="toggleMenu()" class="icon-button">
+  <button #excludedElement (click)="toggleMenu()" class="icon-button">
     <mat-icon fontIcon="person"></mat-icon>
   </button>
   @if (isMenuOpen) {

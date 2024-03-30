@@ -1,0 +1,12 @@
+.artist {
+    @apply cursor-pointer rounded-md p-3 flex flex-col gap-2 w-full;
+
+    &:hover .artist__img {
+        filter: brightness(0.7);
+    }
+}
+
+.artist__img {
+    @apply rounded-full w-full aspect-square shadow-xl;
+    transition: var(--transition-time);
+}

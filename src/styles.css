@@ -382,3 +382,8 @@ input[type="range"]::-webkit-slider-thumb {
     visibility: visible;
   }
 }
+
+.play-button {
+  @apply flex justify-center items-center absolute left-2 bottom-2 backdrop-blur-sm bg-white/40	rounded-full hover:bg-[var(--main-color)] text-white opacity-0 invisible;
+  transition: var(--transition-time);
+}

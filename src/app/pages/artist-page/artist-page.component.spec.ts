@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArtistComponent } from './artist.component';
+import { ArtistComponent } from './artist-page.component';
 
 describe('ArtistComponent', () => {
   let component: ArtistComponent;

@@ -8,15 +8,16 @@ import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from "../../components/skeleton/skeleton.component";
 import { Observable, map, of, shareReplay, switchMap } from 'rxjs';
 import { AlbumComponent } from "../../components/album/album.component";
+import { ArtistComponent } from '../../components/artist/artist.component';
 
 @Component({
-  selector: 'app-artist',
+  selector: 'app-artist-page',
   standalone: true,
-  templateUrl: './artist.component.html',
-  styleUrl: './artist.component.css',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, PlaylistsComponent, SongComponent, CommonModule, SkeletonComponent, AlbumComponent]
+  templateUrl: './artist-page.component.html',
+  styleUrl: './artist-page.component.css',
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, PlaylistsComponent, SongComponent, CommonModule, SkeletonComponent, AlbumComponent, ArtistComponent]
 })
-export class ArtistComponent implements OnInit {
+export class ArtistPageComponent implements OnInit {
   public id!: number
   public artist$!: Observable<Artist>
   public albums$!: Observable<AlbumBrief[] | null>

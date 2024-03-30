@@ -1,1 +1,4 @@
-<p>artist works!</p>
+<div class="artist" [routerLink]="['/artist', artist.id]">
+    <img class="artist__img" [src]="artist.picture_big" alt="">
+    <a class="one-stroke-text">{{artist.name}}</a>
+</div>
