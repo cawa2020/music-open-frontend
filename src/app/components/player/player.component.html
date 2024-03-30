@@ -1,5 +1,5 @@
 <div class="player">
-  <div class="flex gap-2 w-full">
+  <div class="flex gap-2 w-full items-center">
     <img class="rounded h-14 w-14" [src]="song?.album?.cover_small ?? '../../assets/placeholder.jpg'"
       alt="song cover" />
     <div class="player__info">
@@ -10,7 +10,11 @@
         {{song?.artist?.name }}
       </a>
     </div>
+    <button class="icon-button">
+      <mat-icon fontIcon="add"></mat-icon>
+    </button>
   </div>
+
   <div class="player__controllers">
     <app-controls color="black"></app-controls>
     <div class="player__time-container">
@@ -25,11 +29,11 @@
   </div>
 
   <div class="flex items-center justify-end w-full">
+    <button class="icon-button" [routerLink]="['/queue']">
+      <mat-icon fontIcon="menu"></mat-icon>
+    </button>
     <button class="icon-button" (click)="toggleZenMode()">
       <mat-icon fontIcon="terrain"></mat-icon>
-    </button>
-    <button class="icon-button">
-      <mat-icon fontIcon="add"></mat-icon>
     </button>
     <app-volume-slider widthClass="w-20"></app-volume-slider>
   </div>

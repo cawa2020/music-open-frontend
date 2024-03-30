@@ -1,5 +1,6 @@
 <div (click)="setTrack()" class="song" cdkDrag>
   <div class="song__start">
+    @if (!hideIndex) {
     @if (isCurrentSong()) {
     @if (isPlaying$ | async) {
     <div class="equalizer">
@@ -19,6 +20,7 @@
     } @else {
     <p [class.text-[var(--main-color)]]="isCurrentSong()">{{ index + 1 }}</p>
     }
+    }
   </div>
   <div class="song__content">
     <div class="flex gap-2" style="grid-column: 1/13;">
@@ -32,20 +34,20 @@
         @if (!hideArtist) {
         <div class="flex items-start">
           @if (song.contributors?.length) {
-            @for (artist of song.contributors; track $index) {
-            <a [routerLink]="['/artist', artist.id]" class="song__content-artist one-stroke-text">
-              {{ artist.name }}
-            </a>
-              @if ($index !== (song.contributors?.length ?? 1) - 1) {
-              <span class="song__content-artist">
-                ,&nbsp;
-              </span>
-              }
-            }
+          @for (artist of song.contributors; track $index) {
+          <a [routerLink]="['/artist', artist.id]" class="song__content-artist one-stroke-text">
+            {{ artist.name }}
+          </a>
+          @if ($index !== (song.contributors?.length ?? 1) - 1) {
+          <span class="song__content-artist">
+            ,&nbsp;
+          </span>
+          }
+          }
           } @else {
-            <a [routerLink]="['/artist', song.artist.id]" class="song__content-artist one-stroke-text">
-              {{ song.artist.name }}
-            </a>
+          <a [routerLink]="['/artist', song.artist.id]" class="song__content-artist one-stroke-text">
+            {{ song.artist.name }}
+          </a>
           }
         </div>
         }

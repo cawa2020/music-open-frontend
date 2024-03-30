@@ -1,9 +1,9 @@
 <div class="widget-container">
   <button [disabled]="urlIndex >= urls.length - 1" (click)="move('prev')" class="icon-button rotate-180">
-    <mat-icon fontIcon="navigate_next"></mat-icon>prev
+    <mat-icon fontIcon="navigate_next"></mat-icon>
   </button>
   <button [disabled]="urlIndex === 0" (click)="move('next')" class="icon-button">
-    <mat-icon fontIcon="navigate_next"></mat-icon>next
+    <mat-icon fontIcon="navigate_next"></mat-icon>
   </button>
   <button (click)="toggleMenu()" class="icon-button">
     <mat-icon fontIcon="person"></mat-icon>

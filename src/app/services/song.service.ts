@@ -11,7 +11,7 @@ export class SongService {
   private song: Track | null = null
   private songUrl: string | null = null
   private repeat: Repeat = 'none'
-  public readonly changes = new BehaviorSubject<'song' | 'repeat' | null>(null)
+  public readonly changes = new BehaviorSubject<'song' | 'repeat' | 'queue' | null>(null)
 
   getSong(): Track | null {
     return this.song
@@ -40,7 +40,9 @@ export class SongService {
   }
 
   setQueue(tracks: Track[]) {
+    this.changes.next('queue')
     this.queue = tracks
+    console.log(this.queue)
     localStorage.setItem('lastPlaylistId', JSON.stringify(tracks))
   }
 

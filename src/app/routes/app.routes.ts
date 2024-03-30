@@ -6,6 +6,7 @@ import { PlaylistComponent } from '../pages/playlist/playlist.component';
 import { SearchComponent } from '../pages/search/search.component';
 import { ArtistDiscographyComponent } from '../pages/artist-discography/artist-discography.component';
 import { AlbumPageComponent } from '../pages/album-page/album-page.component';
+import { QueueComponent } from '../pages/queue/queue.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,9 @@ export const routes: Routes = [
   },
   {
     path: 'playlist/:id', component: PlaylistComponent
+  },
+  {
+    path: 'queue', component: QueueComponent
   },
   {
     path: '**', component: NotFoundComponent

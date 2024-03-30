@@ -22,6 +22,7 @@ export class SongComponent implements OnInit {
   @Input() hideImg?: boolean
   @Input() hideAlbum?: boolean
   @Input() hideArtist?: boolean
+  @Input() hideIndex?: boolean
   public isPlaying$!: Observable<boolean>
 
   constructor(private player: PlayerService, private songData: SongService, private formatter: FormatterService) { }

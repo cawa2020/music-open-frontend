@@ -70,8 +70,8 @@ export class ApiService {
   }
 
   private _requestAPI(method: Method, path: string, body?: any): Observable<any> {
-    // const url = `https://thingproxy.freeboard.io/fetch/https://api.deezer.com/` + path
-    const url = `https://corsproxy.io/?https://api.deezer.com/` + path
+    const url = `https://thingproxy.freeboard.io/fetch/https://api.deezer.com/` + path
+    // const url = `https://corsproxy.io/?https://api.deezer.com/` + path
     // const url = "https://cors-proxy.fringe.zone//https://api.deezer.com/" + path
     // const url = "https://cors-anywhere.herokuapp.com/https://api.deezer.com/" + path
 
