@@ -10,11 +10,11 @@ import { filter } from 'rxjs';
 import { VolumeSliderComponent } from "../volume-slider/volume-slider.component";
 
 @Component({
-    selector: 'app-zen',
-    standalone: true,
-    templateUrl: './zen.component.html',
-    styleUrl: './zen.component.css',
-    imports: [MatIconModule, SliderComponent, ControlsComponent, VolumeSliderComponent]
+  selector: 'app-zen',
+  standalone: true,
+  templateUrl: './zen.component.html',
+  styleUrl: './zen.component.css',
+  imports: [MatIconModule, SliderComponent, ControlsComponent, VolumeSliderComponent]
 })
 export class ZenComponent implements OnInit {
   @Output() emitZenMode = new EventEmitter<boolean>()
@@ -24,11 +24,10 @@ export class ZenComponent implements OnInit {
   constructor(private player: PlayerService, private songData: SongService, private formatter: FormatterService) { }
 
   ngOnInit(): void {
+    this.updateSong()
+
     this.songData.changes.pipe(filter(el => el === 'song')).subscribe(el => {
-      const currentSong = this.songData.getSong()
-      console.log(currentSong)
-      if (!currentSong) return
-      this.song = currentSong
+      this.updateSong()
     })
 
     this.player.getAudio().onloadedmetadata = () => {
@@ -38,5 +37,11 @@ export class ZenComponent implements OnInit {
 
   closeZen() {
     this.emitZenMode.emit(false)
+  }
+
+  updateSong() {
+    const currentSong = this.songData.getSong()
+    if (!currentSong) return
+    this.song = currentSong
   }
 }

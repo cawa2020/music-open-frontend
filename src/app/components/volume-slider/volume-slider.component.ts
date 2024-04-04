@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class VolumeSliderComponent {
   @Input() widthClass?: string
+  @Input() color?: string
   public pastVolume!: number
   public volume: number = Number(localStorage.getItem('volume'))
 

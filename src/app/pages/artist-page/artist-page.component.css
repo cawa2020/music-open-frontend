@@ -18,7 +18,7 @@
   @apply flex gap-4 items-center;
 
   & .artist-header__img {
-    @apply max-w-56 w-1/4 min-w-32 aspect-square rounded-full shadow-2xl;
+    @apply max-w-64 w-1/4 min-w-48 aspect-square rounded-full shadow-2xl;
   }
 
   & .artist-header-__info {

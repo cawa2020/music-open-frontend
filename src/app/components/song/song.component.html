@@ -54,7 +54,7 @@
       </div>
     </div>
     @if (!hideAlbum) {
-    <a style="grid-column: 13/19;" class="text-[var(--text-color-secondary)] truncate w-fit"
+    <a style="grid-column: 13/19;" class="text-[var(--text-color-secondary)] truncate w-fit max-w-full"
       [routerLink]="['/album/', song.album.id]">{{song.album.title}}</a>
     }
     <p style="grid-column: 20/20;" class="text-sm text-right mr-2 font-normal">{{ getDuration(song.duration) }}</p>

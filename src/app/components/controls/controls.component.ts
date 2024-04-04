@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Repeat, Track } from '../../interfaces/app.interface';
 import { PlayerService } from '../../services/audio.service';
-import { FormatterService } from '../../services/formatter.service';
 import { SongService } from '../../services/song.service';
 import { MatIconModule } from '@angular/material/icon';
 import { SliderComponent } from '../slider/slider.component';
@@ -14,21 +13,33 @@ import { filter } from 'rxjs';
   templateUrl: './controls.component.html',
   styleUrls: ['../player/player.component.css', './controls.component.css']
 })
-export class ControlsComponent {
+export class ControlsComponent implements OnInit, OnChanges {
   @Input() color!: string
-  public isShuffled: boolean = false
+  public iconClasses: string = 'icon-button'
+  public isShuffled!: boolean
   public isPlaying: boolean = false
   public repeat: Repeat = 'none'
 
-  constructor(private player: PlayerService, private songData: SongService, private formatter: FormatterService) { }
+  constructor(private player: PlayerService, private songData: SongService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.iconClasses += ' text-[' + this.color + ']'
+  }
 
   ngOnInit() {
+    this.repeat = this.songData.getRepeat()
+    this.isShuffled = this.songData.getShuffle()
+
     this.player.audioChanges.pipe(filter(el => el.type === 'time')).subscribe(el => {
       this.isPlaying = el.data
     })
 
     this.songData.changes.pipe(filter(el => el === 'repeat')).subscribe(el => {
       this.repeat = this.songData.getRepeat()
+    })
+
+    this.songData.changes.pipe(filter(el => el === 'shuffle')).subscribe(el => {
+      this.isShuffled = this.songData.getShuffle()
     })
   }
 
@@ -44,7 +55,7 @@ export class ControlsComponent {
   }
 
   toggleShuffle() {
-    this.isShuffled = !this.isShuffled
+    this.songData.setShuffle(!this.isShuffled)
     if (this.isShuffled) {
       const queue: Track[] = this.songData.getQueue()
       if (!queue) return

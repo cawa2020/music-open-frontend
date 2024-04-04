@@ -20,8 +20,11 @@ export class ApiService {
     return this._request('GET', 'artist/' + id)
   }
 
-  getArtistTop(id: number, limit?: number): Observable<{ data: Track[] }> {
-    return this._requestAPI('GET', `artist/${id}/top?limit=` + limit)
+  getArtistTop(id: number, limit?: number, index?: number): Observable<{ data: Track[], total: number }> {
+    let url = `artist/${id}/top?`
+    if (limit) url += 'limit=' + limit
+    if (index) url += '&index=' + index
+    return this._requestAPI('GET', url)
   }
 
   getArtistAlbums(id: number, limit?: number, index?: number): Observable<{ data: AlbumBrief[] }> {

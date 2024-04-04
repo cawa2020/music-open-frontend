@@ -9,11 +9,11 @@
     <h3 class="text-white">{{song?.title}}</h3>
     <h5 class="text-white font-normal">{{song?.artist?.name}}</h5>
   </div>
-  <div class="grid gap-6 place-items-center	">
-    <app-slider class="w-96" [duration]="duration" />
+  <div class="grid gap-6 place-items-center">
+    <app-slider class="w-96" />
     <app-controls color="white"></app-controls>
     <div class="w-96">
-      <app-volume-slider widthClass="w-full"></app-volume-slider>
+      <app-volume-slider widthClass="w-full" color="white"></app-volume-slider>
     </div>
   </div>
 </div>

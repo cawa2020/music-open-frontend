@@ -1,40 +1,21 @@
 <section class="w-full overflow-auto h-full flex flex-col gap-12">
-  @if (!artist$) {
-  <div>
-    <app-skeleton height="208px" shape="rounded"></app-skeleton>
-  </div>
-  <div>
-    <app-skeleton shape="rounded" width="200px" height="32px" styleClass="mb-2"></app-skeleton>
-    <div class="grid gap-1">
-      <app-skeleton shape="rounded" height="56px"></app-skeleton>
-      <app-skeleton shape="rounded" height="56px"></app-skeleton>
-      <app-skeleton shape="rounded" height="56px"></app-skeleton>
-      <app-skeleton shape="rounded" height="56px"></app-skeleton>
-      <app-skeleton shape="rounded" height="56px"></app-skeleton>
-      <app-skeleton shape="rounded" height="56px"></app-skeleton>
-      <app-skeleton shape="rounded" height="56px"></app-skeleton>
-      <app-skeleton shape="rounded" height="56px"></app-skeleton>
-      <app-skeleton shape="rounded" height="56px"></app-skeleton>
-      <app-skeleton shape="rounded" height="56px"></app-skeleton>
-    </div>
+  @if (loading > 0) {
+  <div class="flex justify-center items-center w-full h-full">
+    <app-loader />
   </div>
   } @else {
-  <div class="relative w-full">
-    <!-- <div class="absolute bg-center bg-cover rounded-lg blur brightness-[.5] left-0 right-0 top-0 bottom-0 z-[0]"
-      [style.backgroundImage]="'url(' + (artist$ | async)?.picture_xl + ')'"></div> -->
-    <div class="artist-header">
-      <img class="artist-header__img" [src]="(artist$ | async)?.picture_big" alt="cover" />
-      <div class="artist-header__info">
-        <h3>{{ (artist$ | async)?.name }}</h3>
-        <p>
-          {{ (artist$ | async)?.nb_fan }} Фанатов · {{ (artist$ | async)?.nb_album}} Альбомов
-        </p>
-      </div>
+  <div class="artist-header">
+    <img class="artist-header__img" [src]="(artist$ | async)?.picture_big" alt="cover" />
+    <div class="artist-header__info">
+      <h3>{{ (artist$ | async)?.name }}</h3>
+      <p>
+        {{ (artist$ | async)?.nb_fan }} Фанатов · {{ (artist$ | async)?.nb_album}} Альбомов
+      </p>
     </div>
   </div>
-
+  <app-play-button [queue]="songs!" />
   <div>
-    <a routerLink="/" class="link">
+    <a [routerLink]="['top']" class="link">
       <h5 class="leading-none">Топ треки</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
         aria-hidden="true">
@@ -61,7 +42,7 @@
       </svg>
     </a>
     <div class="grid-container">
-      @for(album of (albums$ | async)?.slice(0,lastIndexAlbum); track $index) {
+      @for(album of (albums$ | async)?.slice(0,lastIndex); track $index) {
       <app-album [album]="album"></app-album>
       }
     </div>
@@ -79,7 +60,7 @@
       </svg>
     </a>
     <div class="grid-container">
-      @for(artist of (related$ | async)?.slice(0,lastIndexRelated); track $index) {
+      @for(artist of (related$ | async)?.slice(0,lastIndex); track $index) {
       <app-artist [artist]="artist"></app-artist>
       } @empty {
       <p class="text-[var(--text-color-secondary)]">Пусто :(</p>

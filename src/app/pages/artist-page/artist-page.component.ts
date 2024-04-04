@@ -9,13 +9,15 @@ import { SkeletonComponent } from "../../components/skeleton/skeleton.component"
 import { Observable, map, of, shareReplay, switchMap } from 'rxjs';
 import { AlbumComponent } from "../../components/album/album.component";
 import { ArtistComponent } from '../../components/artist/artist.component';
+import { LoaderComponent } from "../../components/loader/loader.component";
+import { PlayButtonComponent } from "../../components/play-button/play-button.component";
 
 @Component({
-  selector: 'app-artist-page',
-  standalone: true,
-  templateUrl: './artist-page.component.html',
-  styleUrl: './artist-page.component.css',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, PlaylistsComponent, SongComponent, CommonModule, SkeletonComponent, AlbumComponent, ArtistComponent]
+    selector: 'app-artist-page',
+    standalone: true,
+    templateUrl: './artist-page.component.html',
+    styleUrl: './artist-page.component.css',
+    imports: [RouterOutlet, RouterLink, RouterLinkActive, PlaylistsComponent, SongComponent, CommonModule, SkeletonComponent, AlbumComponent, ArtistComponent, LoaderComponent, PlayButtonComponent]
 })
 export class ArtistPageComponent implements OnInit {
   public id!: number
@@ -24,10 +26,9 @@ export class ArtistPageComponent implements OnInit {
   public related$!: Observable<Artist[] | null>
   public playlists$!: Observable<Playlist[] | null>
   public songs: Track[] | undefined
+  public loading!: number
 
-  public lastIndexAlbum: number = 8
-  public lastIndexRelated: number = 8
-  public lastIndexPlaylists: number = 8
+  public lastIndex: number = 8
 
   constructor(private activateRoute: ActivatedRoute, private api: ApiService, private router: Router) { }
 
@@ -35,6 +36,7 @@ export class ArtistPageComponent implements OnInit {
     this.onResize({ target: { innerWidth: window.innerWidth } })
 
     this.activateRoute.params.subscribe(params => {
+      this.loading = 4
       const id = Number(params["id"])
       this.id = id
       this.albums$ = of(null)
@@ -42,10 +44,14 @@ export class ArtistPageComponent implements OnInit {
       this.playlists$ = of(null)
 
       this.artist$ = this.api.getArtist(id).pipe(shareReplay(1))
-      this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistTop(artist.id, 5))).subscribe(res => this.songs = res.data)
-      this.albums$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistAlbums(artist.id, 7).pipe(map(res => this.sortByDate(res.data)))))
-      this.related$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistRelated(artist.id, 7).pipe(map(res => res.data))))
-      this.playlists$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getPlaylistsWithArtist(artist.id).pipe(map(res => res.data))))
+      this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistTop(artist.id, 5))).subscribe(res => { this.loading--; this.songs = res.data })
+      this.albums$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistAlbums(artist.id, 7).pipe(map(res => { this.loading--; return this.sortByDate(res.data) }))))
+      this.related$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistRelated(artist.id, 7).pipe(map(res => { this.loading--; return res.data }))))
+      this.playlists$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getPlaylistsWithArtist(artist.id).pipe(map(res => { this.loading--; return res.data }))))
+
+      this.albums$.subscribe()
+      this.related$.subscribe()
+      this.playlists$.subscribe()
     });
   }
 
@@ -66,21 +72,16 @@ export class ArtistPageComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     const width = event.target.innerWidth
-    let newIndex
     if (width > 1600) {
-      newIndex = 7
+      this.lastIndex = 7
     } else if (width > 1400) {
-      newIndex = 6
+      this.lastIndex = 6
     } else if (width > 1200) {
-      newIndex = 5
+      this.lastIndex = 5
     } else if (width > 1000) {
-      newIndex = 4
+      this.lastIndex = 4
     } else {
-      newIndex = 4
+      this.lastIndex = 4
     }
-
-    this.lastIndexAlbum = newIndex
-    this.lastIndexRelated = newIndex
-    this.lastIndexPlaylists = newIndex
   }
 }

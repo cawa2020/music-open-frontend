@@ -1,5 +1,5 @@
 <div class="slider">
-  <div class="loader" [style.width]="loaderWidth + '%'"></div>
+  <div class="loader" [style.width]="getWidth() + '%'"></div>
   <input class="slider-input" type="range" [ngModel]="time" (ngModelChange)="handleValueChange($event)"
     (mousedown)="disableValueChange()" (mouseup)="changeSongTime()" />
 </div>

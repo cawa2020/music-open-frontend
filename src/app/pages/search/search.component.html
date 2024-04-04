@@ -1,11 +1,19 @@
 <section class="h-full overflow-auto">
   <input class="w-60" type="text" placeholder="Что послушаем сегодня?" [(ngModel)]="search"
     (ngModelChange)="handleSearch($event)" />
+  @if (loading) {
+  <div class="flex justify-center items-center w-full h-full">
+    <app-loader></app-loader>
+  </div>
+  } @else {
   @if (findedSongs) {
-    @for (song of findedSongs; track $index) {
-    <app-song [index]="$index" [queue]="findedSongs" [song]="song"></app-song>
-    } @empty {
-    <p class="text-[var(--text-color-secondary)]">Здесь пока пусто :(</p>
-    }
+  @for (song of findedSongs; track $index) {
+  <app-song [index]="$index" [queue]="findedSongs" [song]="song"></app-song>
+  } @empty {
+  <div class="flex justify-center items-center w-full h-full">
+    <h5 class="text-xl text-[var(--text-color)]">К сожалению по запросу "{{search}}" ничего не найдено :(</h5>
+  </div>
+  }
+  }
   }
 </section>

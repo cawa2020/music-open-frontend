@@ -1,38 +1,37 @@
 <section class="h-full overflow-auto">
-  <div>
-    @if (!playlist) {
-    <div class="text-[var(--text-color-secondary)] text-center">СКЕЛЕТОН!</div>
-    } @else {
-    <div class="grid gap-4">
-      <div class="relative w-full">
-        <div class="playlist-header">
-          <img class="playlist-header__img" [src]="playlist.cover_big" alt="cover" />
-          <div class="playlist-header__info">
-            <h3>{{ playlist.title }}</h3>
-            <div class="flex gap-1">
-              @for (artist of playlist.contributors; track $index) {
-              <a [routerLink]="['/artist', artist.id]" class="text-2xl w-fit">{{ artist.name }}</a>
-              @if ($index !== playlist.contributors.length - 1) {
-              <span class="text-2xl w-fit">
-                ,&nbsp;
-              </span>
-              }
-              }
-            </div>
-            <div class="flex gap-[6px]">
-              <p>{{ genres }} ·</p>
-              {{ playlist.release_date | date: 'YYYY' }}
-            </div>
-          </div>
+  @if (!playlist) {
+  <div class="flex justify-center items-center w-full h-full">
+    <app-loader />
+  </div>
+  } @else {
+  <div class="grid gap-4">
+    <div class="playlist-header">
+      <img class="playlist-header__img" [src]="playlist.cover_big" alt="cover" />
+      <div class="playlist-header__info">
+        <h3>{{ playlist.title }}</h3>
+        <div class="flex gap-1">
+          @for (artist of playlist.contributors; track $index) {
+          <a [routerLink]="['/artist', artist.id]" class="text-2xl w-fit">{{ artist.name }}</a>
+          @if ($index !== playlist.contributors.length - 1) {
+          <span class="text-2xl w-fit">
+            ,&nbsp;
+          </span>
+          }
+          }
+        </div>
+        <div class="flex gap-[6px]">
+          <p>{{ genres }} ·</p>
+          {{ playlist.release_date | date: 'YYYY' }}
         </div>
       </div>
-      <div class="grid gap-1">
-        @for (song of playlist.tracks.data; track $index) {
-        <app-song [index]="$index" [hideImg]="true" [queue]="playlist.tracks.data" [hideAlbum]="true" [song]="song"></app-song>
-        }
-      </div>
     </div>
-    }
+    <app-play-button [queue]="playlist.tracks.data" />
+    <div class="grid gap-1">
+      @for (song of playlist.tracks.data; track $index) {
+      <app-song [index]="$index" [hideImg]="true" [queue]="playlist.tracks.data" [hideAlbum]="true"
+        [song]="song"></app-song>
+      }
+    </div>
   </div>
-  <canvas class="hidden" id="canvas"></canvas>
+  }
 </section>

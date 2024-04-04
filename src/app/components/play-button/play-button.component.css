@@ -1,0 +1,7 @@
+.button {
+  @apply w-14 h-14 rounded-full p-0 flex justify-center items-center;
+
+  & mat-icon {
+    @apply text-[32px] w-8 h-8 text-[var(--bg-color-secondary)];
+  }
+}

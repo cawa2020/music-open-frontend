@@ -16,12 +16,12 @@
   </div>
 
   <div class="player__controllers">
-    <app-controls color="black"></app-controls>
+    <app-controls color="var(--text-color)"></app-controls>
     <div class="player__time-container">
       <span class="text-xs text-center min-w-8">
         {{ getFormattedTime() }}
       </span>
-      <app-slider class="w-full max-w-[600px] min-w-[280px]" [duration]="duration" />
+      <app-slider class="w-full max-w-[600px] min-w-[280px]" />
       <span class="text-xs text-center min-w-8">
         {{formattedDuration}}
       </span>

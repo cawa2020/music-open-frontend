@@ -43,14 +43,14 @@ export class WidgetComponent {
 
   @HostListener('document:click', ['$event'])
   handleDocumentClick(event: MouseEvent) {
-    console.log(event.target)
+    // console.log(event.target)
     // if (this.excludedElement && !this.excludedElement.nativeElement.contains(event.target as Node)) {
     //   this.toggleMenu()
     // }
   }
 
   toggleMenu() {
-    console.log('!!!')
+    // console.log('!!!')
     this.isMenuOpen = !this.isMenuOpen
   }
 

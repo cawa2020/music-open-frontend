@@ -7,6 +7,7 @@ import { SearchComponent } from '../pages/search/search.component';
 import { ArtistDiscographyComponent } from '../pages/artist-discography/artist-discography.component';
 import { AlbumPageComponent } from '../pages/album-page/album-page.component';
 import { QueueComponent } from '../pages/queue/queue.component';
+import { ArtistTopComponent } from '../pages/artist-top/artist-top.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,9 @@ export const routes: Routes = [
   },
   {
     path: 'artist/:id/discography', component: ArtistDiscographyComponent
+  },
+  {
+    path: 'artist/:id/top', component: ArtistTopComponent
   },
   {
     path: 'album/:id', component: AlbumPageComponent

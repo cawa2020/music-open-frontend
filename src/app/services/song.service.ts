@@ -9,9 +9,9 @@ export class SongService {
   private queue!: Track[]
   private unshuffledQueue!: Track[]
   private song: Track | null = null
-  private songUrl: string | null = null
   private repeat: Repeat = 'none'
-  public readonly changes = new BehaviorSubject<'song' | 'repeat' | 'queue' | null>(null)
+  private isShuffled: boolean = false
+  public readonly changes = new BehaviorSubject<'song' | 'repeat' | 'queue' | 'shuffle' | null>(null)
 
   getSong(): Track | null {
     return this.song
@@ -39,10 +39,18 @@ export class SongService {
     this.unshuffledQueue = newQueue
   }
 
+  getShuffle(): boolean {
+    return this.isShuffled
+  }
+
+  setShuffle(value: boolean) {
+    this.isShuffled = value
+    this.changes.next('shuffle')
+  }
+
   setQueue(tracks: Track[]) {
     this.changes.next('queue')
     this.queue = tracks
-    console.log(this.queue)
     localStorage.setItem('lastPlaylistId', JSON.stringify(tracks))
   }
 

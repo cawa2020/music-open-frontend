@@ -1,5 +1,5 @@
 <div class="flex items-center">
-  <button class="icon-button" (click)="toggleVolume()">
+  <button class="icon-button" [style.color]="color" (click)="toggleVolume()">
     @if (volume >= 50) {
     <mat-icon fontIcon="volume_up"></mat-icon>
     } @else if (volume < 50) { <mat-icon fontIcon="volume_down"></mat-icon>

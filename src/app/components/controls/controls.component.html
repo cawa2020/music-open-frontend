@@ -1,8 +1,8 @@
 <div class="flex items-center gap-2">
-  <button class="icon-button" [class.active-button]="isShuffled" [style.color]="color" (click)="toggleShuffle()">
+  <button [class]="iconClasses" [class.active-button]="isShuffled" (click)="toggleShuffle()">
     <mat-icon fontIcon="shuffle"></mat-icon>
   </button>
-  <button class="icon-button" [style.color]="color" (click)="prevSong()">
+  <button [class]="iconClasses" (click)="prevSong()">
     <mat-icon fontIcon="skip_previous"></mat-icon>
   </button>
   <button class="icon-button button" (click)="toggleTrack()">
@@ -12,10 +12,10 @@
     <mat-icon fontIcon="play_arrow"></mat-icon>
     }
   </button>
-  <button class="icon-button" [style.color]="color" (click)="nextSong()">
+  <button [class]="iconClasses" (click)="nextSong()">
     <mat-icon fontIcon="skip_next"></mat-icon>
   </button>
-  <button class="icon-button" [style.color]="color" [class.active-button]="repeat !== 'none'" (click)="toggleRepeat()">
+  <button [class]="iconClasses" [class.active-button]="repeat !== 'none'" (click)="toggleRepeat()">
     @switch (repeat) { @case ('playlist') {
     <mat-icon fontIcon="repeat"></mat-icon>
     } @case ('song') {

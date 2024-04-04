@@ -10,30 +10,36 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './slider.component.css'
 })
 export class SliderComponent implements OnInit {
-  @Input() duration!: number
-  public time!: number
+  public duration: number = 0
+  public time: number = 0
   public editableTimeWhenDisable: number = 0
   public disableChanging: boolean = false
-  public loaderWidth: number = 0
 
   constructor(private player: PlayerService) { }
 
   ngOnInit() {
     const audio = this.player.getAudio()
 
-    audio.oncanplaythrough = () => {
+    if (!isNaN(this.player.getAudio().duration)) {
+      this.duration = this.player.getAudio().duration
+    }
+
+    this.player.getAudio().addEventListener('canplaythrough', () => {
+      this.duration = this.player.getAudio().duration
       if (this.time === undefined) {
         this.time = 0
       } else {
         this.time = audio.currentTime / this.duration * 100
       }
-    }
+    });
 
-    audio.ontimeupdate = (() => {
-      this.time = (audio.currentTime / this.duration * 100)
-      this.loaderWidth = +(this.disableChanging ? this.editableTimeWhenDisable : this.time).toFixed(2)
-      localStorage.setItem('currentTime', audio.currentTime.toString())
-    })
+    this.player.getAudio().addEventListener('timeupdate', () => {
+      this.time = audio.currentTime / this.duration * 100
+    });
+  }
+
+  getWidth() {
+    return +(this.disableChanging ? this.editableTimeWhenDisable : this.time).toFixed(2)
   }
 
   handleValueChange(event: any) {
