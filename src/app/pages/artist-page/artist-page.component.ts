@@ -28,7 +28,7 @@ export class ArtistPageComponent implements OnInit {
   public songs: Track[] | undefined
   public loading!: number
 
-  public lastIndex: number = 8
+  public lastIndex: number = 7
 
   constructor(private activateRoute: ActivatedRoute, private api: ApiService, private router: Router) { }
 

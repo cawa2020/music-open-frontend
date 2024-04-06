@@ -24,6 +24,7 @@ export class SongComponent implements OnInit {
   @Input() hideArtist?: boolean
   @Input() hideIndex?: boolean
   public isPlaying$!: Observable<boolean>
+  public isFavorite: boolean = false
 
   constructor(private player: PlayerService, private songData: SongService, private formatter: FormatterService) { }
 
@@ -32,15 +33,18 @@ export class SongComponent implements OnInit {
   }
 
   isCurrentSong() {
-    return this.song.id === this.songData.getSong()?.id
+    if (this.song.id === this.songData.getSong()?.id) {
+      return this.isSameQueue()
+    } else {
+      return false
+    }
   }
 
   setTrack() {
-    const currQueue = JSON.stringify(this.songData.getQueue())
-    const newQueue = JSON.stringify(this.queue)
-    if (currQueue !== newQueue) {
+    if (!this.isSameQueue()) {
       this.songData.setQueue(this.queue)
     }
+
     const song = this.queue[this.index]
     if (song.id === this.songData.getSong()?.id) {
       if (this.player.getAudio().paused) {
@@ -56,5 +60,15 @@ export class SongComponent implements OnInit {
 
   getDuration(duration: number): string {
     return this.formatter.getTime(duration)
+  }
+
+  toggleFavorite() {
+    this.isFavorite = !this.isFavorite
+  }
+
+  private isSameQueue(): boolean {
+    const currQueue = JSON.stringify(this.songData.getQueue())
+    const songQueue = JSON.stringify(this.queue)
+    return currQueue === songQueue
   }
 }

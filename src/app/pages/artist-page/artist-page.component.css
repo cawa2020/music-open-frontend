@@ -1,5 +1,5 @@
 .link {
-  @apply flex gap-1 mb-2 items-center hover:no-underline w-fit translate-x-0;
+  @apply flex gap-1 mb-3 items-center hover:no-underline w-fit translate-x-0;
 
   & .arrow {
     transition: transform calc(var(--transition-time) / 2) ease-in-out;
@@ -11,17 +11,30 @@
 }
 
 .grid-container {
-  @apply grid grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7;
+  @apply grid gap-6 grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7;
 }
 
 .artist-header {
-  @apply flex gap-4 items-center;
+  @apply flex gap-4 h-[350px] w-full items-center justify-center relative shadow-inner;
 
-  & .artist-header__img {
-    @apply max-w-64 w-1/4 min-w-48 aspect-square rounded-full shadow-2xl;
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: linear-gradient(transparent 0, var(--bg-color-secondary));
+    opacity: .8;
   }
+}
 
-  & .artist-header-__info {
-    @apply flex flex-col gap-2 justify-end;
-  }
+.artist-header__img {
+  @apply w-44 aspect-square rounded-full shadow-md relative z-[2];
+}
+
+.artist-header__text {
+  @apply flex gap-3 items-center absolute p-6 w-full bottom-0 z-[2];
 }

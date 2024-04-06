@@ -20,6 +20,7 @@ export class SongService {
   setSong(value: Track) {
     this.song = value
     this.changes.next('song')
+    console.log(this.song)
   }
 
   getRepeat(): Repeat {

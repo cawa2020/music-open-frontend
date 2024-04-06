@@ -8,13 +8,14 @@ import { SongService } from '../../services/song.service';
 import { ControlsComponent } from '../controls/controls.component';
 import { filter } from 'rxjs';
 import { VolumeSliderComponent } from "../volume-slider/volume-slider.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-zen',
   standalone: true,
   templateUrl: './zen.component.html',
   styleUrl: './zen.component.css',
-  imports: [MatIconModule, SliderComponent, ControlsComponent, VolumeSliderComponent]
+  imports: [MatIconModule, SliderComponent, ControlsComponent, VolumeSliderComponent, RouterLink]
 })
 export class ZenComponent implements OnInit {
   @Output() emitZenMode = new EventEmitter<boolean>()

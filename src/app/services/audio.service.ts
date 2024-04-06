@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Album, Repeat, Song, Track } from '../interfaces/app.interface';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { SongService } from './song.service';
+import { volumeMultiplier } from '../app.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class PlayerService {
   }
 
   setVolume(value: number) {
-    this.audio.volume = value * 0.5
+    this.audio.volume = value * volumeMultiplier
   }
 
   setTime(time: number) {

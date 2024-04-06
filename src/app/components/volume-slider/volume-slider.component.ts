@@ -3,6 +3,7 @@ import { PlayerService } from '../../services/audio.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { volumeMultiplier } from '../../app.constants';
 
 @Component({
   selector: 'app-volume-slider',
@@ -34,7 +35,7 @@ export class VolumeSliderComponent {
 
   toggleVolume() {
     if (this.player.getAudio().volume > 0) {
-      this.pastVolume = this.player.getAudio().volume
+      this.pastVolume = this.player.getAudio().volume / volumeMultiplier
       this.volume = 0
       this.player.setVolume(0)
     } else {

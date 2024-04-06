@@ -9,6 +9,7 @@ export const light: ModeCSS = {
   "--text-color-secondary": "#818c99",
   "--icon-color": "#5f6368",
   "--border-color": "#d1d5db",
+  "--bg-slider-color": "#ddd",
   "--bg-input-color": "white",
   "--silder-color": "#ddd"
 }
@@ -22,6 +23,7 @@ export const dark: ModeCSS = {
   "--text-color-secondary": "#818c99",
   "--icon-color": "#b0b7c0",
   "--border-color": "#222",
+  "--bg-slider-color": "#616161",
   "--bg-input-color": "#222",
   "--silder-color": "hsla(0,0%,100%,.3)"
 }

@@ -1,5 +1,5 @@
 .player {
-  @apply flex items-center justify-between gap-4 w-full;
+  @apply flex items-center justify-between gap-4 w-full p-3;
 }
 
 .player__info {

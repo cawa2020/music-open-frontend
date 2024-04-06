@@ -1,13 +1,27 @@
-:host {
-  & .slider {
-    @apply w-full h-1 relative bg-[var(--slider-color)] rounded-full;
+.slider {
+  @apply w-full h-1 relative bg-[var(--bg-slider-color)] rounded-full;
+}
+
+.slider-container {
+  @apply h-3 flex items-center;
+
+  &:hover .loader {
+    @apply bg-[var(--main-color)]
   }
 
-  & .slider-input {
-    @apply z-50 opacity-0 w-[inherit] h-[inherit] absolute left-0 top-0 cursor-pointer;
+  &:hover .loader-circle {
+    @apply visible
   }
+}
 
-  & .loader {
-    @apply rounded-full h-1 absolute top-0 left-0 z-[2] bg-[var(--main-color)];
-  }
+.slider-input {
+  @apply z-50 opacity-0 w-[inherit] h-3 absolute left-0 -top-1 cursor-pointer;
+}
+
+.loader {
+  @apply rounded-full h-1 absolute top-0 left-0 z-[2] bg-[var(--text-color)];
+}
+
+.loader-circle {
+  @apply w-3 h-3 bg-[var(--text-color)] absolute -top-1 rounded-full -ml-1 z-[51] invisible;
 }

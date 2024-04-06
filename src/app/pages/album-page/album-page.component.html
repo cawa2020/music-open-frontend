@@ -1,4 +1,4 @@
-<section class="h-full overflow-auto">
+<section class="h-full overflow-auto p-6">
   @if (!playlist) {
   <div class="flex justify-center items-center w-full h-full">
     <app-loader />
@@ -23,9 +23,9 @@
           <p>{{ genres }} ·</p>
           {{ playlist.release_date | date: 'YYYY' }}
         </div>
+        <app-play-button class="playlist-header__info-button" [queue]="playlist.tracks.data" />
       </div>
     </div>
-    <app-play-button [queue]="playlist.tracks.data" />
     <div class="grid gap-1">
       @for (song of playlist.tracks.data; track $index) {
       <app-song [index]="$index" [hideImg]="true" [queue]="playlist.tracks.data" [hideAlbum]="true"

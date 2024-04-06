@@ -18,7 +18,7 @@ export class PlaylistsComponent implements OnInit {
   @Output() toggleShortEmitter: EventEmitter<boolean> = new EventEmitter()
   @Input() isShort!: boolean
   public playlists: Album[] = []
-  private albumsId: number[] = [450224025]
+  private albumsId: number[] = [562376871, 175718342, 536741192]
   public currentPlaylistId!: number
 
   constructor(private api: ApiService, private formatter: FormatterService, private router: Router) { }

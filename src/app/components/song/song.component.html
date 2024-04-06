@@ -1,5 +1,5 @@
-<div (click)="setTrack()" class="song" cdkDrag>
-  <div class="song__start">
+<div class="song">
+  <div class="song__start" (click)="setTrack()">
     @if (!hideIndex) {
     @if (isCurrentSong()) {
     @if (isPlaying$ | async) {
@@ -23,7 +23,7 @@
     }
   </div>
   <div class="song__content">
-    <div class="flex gap-2" style="grid-column: 1/13;">
+    <div class="flex gap-3" style="grid-column: 1/10;">
       @if (!hideImg) {
       <img [src]="song.album.cover_medium" class="w-10 h-10 rounded" alt="song_cover" />
       }
@@ -54,9 +54,23 @@
       </div>
     </div>
     @if (!hideAlbum) {
-    <a style="grid-column: 13/19;" class="text-[var(--text-color-secondary)] truncate w-fit max-w-full"
+    <a style="grid-column: 10/19;" class="text-[var(--text-color-secondary)] truncate w-fit max-w-full"
       [routerLink]="['/album/', song.album.id]">{{song.album.title}}</a>
     }
-    <p style="grid-column: 20/20;" class="text-sm text-right mr-2 font-normal">{{ getDuration(song.duration) }}</p>
+    <div class="favorite-button w-full flex justify-end" style="grid-column: 19/20;">
+      <button (click)="toggleFavorite()" class="icon-button" [class.text-[var(--main-color)]]="isFavorite">
+        @if (isFavorite) {
+        <mat-icon fontIcon="favorite"></mat-icon>
+        } @else {
+        <mat-icon fontIcon="favorite_border"></mat-icon>
+        }
+      </button>
+    </div>
+    <div style="grid-column: 20/20;" class="flex">
+      <p class="flex items-center text-sm text-right mr-2 font-normal">{{ getDuration(song.duration) }}</p>
+      <button class="icon-button more-button">
+        <mat-icon fontIcon="more_horiz"></mat-icon>
+      </button>
+    </div>
   </div>
 </div>

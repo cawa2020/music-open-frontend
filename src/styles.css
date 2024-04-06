@@ -25,7 +25,7 @@
   --icon-color: #5f6368;
   --border-color: #d1d5db;
   --bg-input-color: white;
-  --slider-color: #ddd;
+  --bg-slider-color: #ddd;
 
   --main-color: #3b82f6;
   --hover-color: #2563eb;
@@ -67,7 +67,7 @@ hr {
 
 section,
 .section {
-  padding: 12px;
+  /* padding: 12px; */
   border-radius: calc(4px + var(--border-radius));
   background-color: var(--bg-color-main);
   border: 1px solid var(--border-color);

@@ -1,12 +1,9 @@
-<section class="h-full overflow-auto">
-  <h5>Текущая очередь</h5>
+<section class="h-full overflow-auto p-6">
+  <h5 class="mb-4">Текущая очередь</h5>
   <div cdkDropList (cdkDropListDropped)="onDrop($event)">
     @for (song of queue; track $index) {
-    <div class="song-container" cdkDrag>
-      <button class="icon-button">
-        <mat-icon>remove</mat-icon>
-      </button>
-      <app-song class="song" [song]="song" [index]="$index" [queue]="queue"></app-song>
+    <div cdkDrag>
+      <app-song [song]="song" [index]="$index" [queue]="queue"></app-song>
     </div>
     } @empty {
     <p class="text-[var(--text-color-secondary)]">Пусто :(</p>

@@ -1,5 +1,5 @@
 .album {
-  @apply cursor-pointer rounded-md p-2 flex flex-col gap-2 w-full h-fit;
+  @apply cursor-pointer rounded-md flex flex-col gap-2 w-full h-fit;
 
   &:hover .album__img {
     filter: brightness(0.5);

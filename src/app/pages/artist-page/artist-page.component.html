@@ -1,20 +1,17 @@
-<section class="w-full overflow-auto h-full flex flex-col gap-12">
+<section class="w-full overflow-auto h-full">
   @if (loading > 0) {
   <div class="flex justify-center items-center w-full h-full">
     <app-loader />
   </div>
   } @else {
   <div class="artist-header">
-    <img class="artist-header__img" [src]="(artist$ | async)?.picture_big" alt="cover" />
-    <div class="artist-header__info">
+    <img class="artist-header__img" [src]="(artist$ | async)?.picture_medium" alt="cover" />
+    <div class="artist-header__text">
+      <app-play-button class="artist-header__info-button" [queue]="songs!" />
       <h3>{{ (artist$ | async)?.name }}</h3>
-      <p>
-        {{ (artist$ | async)?.nb_fan }} Фанатов · {{ (artist$ | async)?.nb_album}} Альбомов
-      </p>
     </div>
   </div>
-  <app-play-button [queue]="songs!" />
-  <div>
+  <div class="m-6">
     <a [routerLink]="['top']" class="link">
       <h5 class="leading-none">Топ треки</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
@@ -31,7 +28,7 @@
     </div>
   </div>
 
-  <div>
+  <div class="m-6 my-12">
     <a [routerLink]="['discography']" class="link">
       <h5 class="leading-none">Дискоргафия</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
@@ -49,7 +46,7 @@
   </div>
 
   @if ((related$ | async) != undefined) {
-  <div>
+  <div class="m-6 my-12">
     <a routerLink="/" class="link">
       <h5 class="leading-none">Схоже с творчеством</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
@@ -72,7 +69,7 @@
   }
 
   @if (playlists$) {
-  <div>
+  <div class="m-6">
     <a routerLink="/" class="link">
       <h5 class="leading-none">Плейлисты</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"

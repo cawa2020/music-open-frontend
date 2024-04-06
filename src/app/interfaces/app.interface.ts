@@ -30,6 +30,7 @@ export interface ModeCSS {
   "--text-color-secondary": string,
   "--icon-color": string,
   "--border-color": string,
+  "--bg-slider-color": string,
   "--bg-input-color": string,
   "--silder-color": string
 }

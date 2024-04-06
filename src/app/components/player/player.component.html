@@ -6,9 +6,20 @@
       <a [routerLink]="['/album', song?.album?.id]" class="truncate ">
         {{ song?.title }}
       </a>
-      <a [routerLink]="['/artist', song?.artist?.id]" class="player__info-artist ">
-        {{song?.artist?.name }}
-      </a>
+      <div class="flex">
+        @if (song?.contributors?.length) {
+        @for (artist of song?.contributors; track $index) {
+        <a [routerLink]="['/artist', artist.id]" class="player__info-artist">
+          {{ artist.name }}
+        </a>
+        @if ($index !== (song?.contributors?.length ?? 1) - 1) {<span class="player__info-artist">,&nbsp;</span>}
+        }
+        } @else {
+        <a [routerLink]="['/artist', song?.artist?.id]" class="player__info-artist">
+          {{ song?.artist?.name }}
+        </a>
+        }
+      </div>
     </div>
     <button class="icon-button">
       <mat-icon fontIcon="add"></mat-icon>

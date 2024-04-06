@@ -1,16 +1,29 @@
+.favorite-button,
+.more-button {
+  visibility: hidden;
+}
+
 .song {
   @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-[var(--bg-color-secondary)];
 
-  & .song__start {
-    @apply w-10 h-10 flex justify-center items-center text-[var(--text-color)];
+  &:hover .favorite-button {
+    visibility: visible
   }
 
-  & .song__content {
-    @apply grid justify-between w-full items-center gap-4;
-    grid-template-columns: repeat(20, 1fr);
+  &:hover .more-button {
+    visibility: visible
   }
+}
 
-  & .song__content-artist {
-    @apply text-[var(--text-color-secondary)] leading-none w-fit;
-  }
+.song__start {
+  @apply w-10 h-10 flex justify-center items-center text-[var(--text-color)];
+}
+
+.song__content {
+  @apply grid justify-between w-full items-center gap-4;
+  grid-template-columns: repeat(20, 1fr);
+}
+
+.song__content-artist {
+  @apply text-[var(--text-color-secondary)] leading-none w-fit;
 }

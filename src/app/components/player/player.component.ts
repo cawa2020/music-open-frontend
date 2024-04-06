@@ -51,12 +51,6 @@ export class PlayerComponent implements OnInit {
   toggleZenMode(newValue?: boolean) {
     if (!this.player.getAudio().src.length) return
 
-    if (this.zenMode) {
-      document.exitFullscreen();
-    } else {
-      document.documentElement.requestFullscreen();
-    }
-
     this.zenMode = newValue != undefined ? newValue : !this.zenMode
   }
 }
