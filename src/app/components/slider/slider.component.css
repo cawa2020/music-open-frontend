@@ -1,5 +1,5 @@
 .slider {
-  @apply w-full h-1 relative bg-[var(--bg-slider-color)] rounded-full;
+  @apply w-full h-1 relative bg-[var(--bg-slider-color)] rounded-full select-none;
 }
 
 .slider-container {

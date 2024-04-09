@@ -7,16 +7,32 @@
   @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-[var(--bg-color-secondary)];
 
   &:hover .favorite-button {
-    visibility: visible
+    @apply visible
   }
 
   &:hover .more-button {
-    visibility: visible
+    @apply visible
+  }
+
+  &:hover .equalizer {
+    @apply hidden
+  }
+
+  &:hover .song__start-index {
+    @apply hidden
+  }
+
+  &:hover .song__start-icon {
+    @apply block
   }
 }
 
 .song__start {
   @apply w-10 h-10 flex justify-center items-center text-[var(--text-color)];
+}
+
+.song__start-icon {
+  @apply hidden text-[var(--main-color)]
 }
 
 .song__content {

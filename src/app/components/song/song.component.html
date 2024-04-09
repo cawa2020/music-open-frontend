@@ -1,31 +1,22 @@
 <div class="song">
   <div class="song__start" (click)="setTrack()">
-    @if (!hideIndex) {
-    @if (isCurrentSong()) {
-    @if (isPlaying$ | async) {
+    @if (isCurrentSong() && (isPlaying$ | async)) {
     <div class="equalizer">
       <div></div>
       <div></div>
       <div></div>
       <div></div>
     </div>
+    <mat-icon class="song__start-icon">pause</mat-icon>
     } @else {
-    <div class="equalizer-paused">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    }
-    } @else {
-    <p [class.text-[var(--main-color)]]="isCurrentSong()">{{ index + 1 }}</p>
-    }
+    <p [class.text-[var(--main-color)]]="isCurrentSong()" class="song__start-index">{{ index + 1 }}</p>
+    <mat-icon class="song__start-icon">play_arrow</mat-icon>
     }
   </div>
   <div class="song__content">
     <div class="flex gap-3" style="grid-column: 1/10;">
       @if (!hideImg) {
-      <img [src]="song.album.cover_medium" class="w-10 h-10 rounded" alt="song_cover" />
+      <img [src]="song.album.cover_medium" loading="lazy" class="w-10 h-10 rounded" alt="song_cover" />
       }
       <div class="flex flex-col justify-center">
         <span class="one-stroke-text" [class.text-[var(--main-color)]]="isCurrentSong()">

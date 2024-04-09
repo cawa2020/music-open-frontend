@@ -13,18 +13,13 @@ import { filter } from 'rxjs';
   templateUrl: './controls.component.html',
   styleUrls: ['../player/player.component.css', './controls.component.css']
 })
-export class ControlsComponent implements OnInit, OnChanges {
-  @Input() color!: string
-  public iconClasses: string = 'icon-button'
-  public isShuffled!: boolean
+export class ControlsComponent implements OnInit {
+  @Input() color: string = '#fff'
+  public isShuffled: boolean = false
   public isPlaying: boolean = false
   public repeat: Repeat = 'none'
 
   constructor(private player: PlayerService, private songData: SongService) { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.iconClasses += ' text-[' + this.color + ']'
-  }
 
   ngOnInit() {
     this.repeat = this.songData.getRepeat()

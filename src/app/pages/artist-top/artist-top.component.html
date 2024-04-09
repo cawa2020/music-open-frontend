@@ -1,11 +1,19 @@
-<section class="h-full overflow-auto p-6">
+<section (scroll)="loadMoreItems($event)" class="h-full overflow-auto p-6">
   <h5 class="mb-4 leading-none">Топ треки</h5>
-  @for (song of songs; track $index) {
+  <div >
+    @for (song of songs; track $index) {
     <app-song [song]="song" [index]="$index" [queue]="songs"></app-song>
+    }
+  </div>
+
+  @if (isLoading) {
+    <div class="flex justify-center my-4">
+      <app-loader></app-loader>
+    </div>
   }
-  @if (!isLoadedAll) {
+  <!-- @if (!isLoadedAll) {
     <button class="hover:underline text-[var(--main-color)]" (click)="loadMore()">
       load more
     </button>
-  }
+  } -->
 </section>
