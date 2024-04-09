@@ -6,8 +6,8 @@
     }
   </div>
 
-  @if (isLoading) {
-    <div class="flex justify-center my-4">
+  @if (isLoading || !isLoadedAll) {
+    <div class="flex justify-center mt-4">
       <app-loader></app-loader>
     </div>
   }
