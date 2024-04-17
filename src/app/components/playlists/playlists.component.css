@@ -3,7 +3,7 @@
 }
 
 .playlist {
-  @apply min-w-[74px] !px-1 h-full p-3;
+  @apply hidden lg:block min-w-[74px] !px-1 h-full p-3;
 }
 
 .playlist__header {

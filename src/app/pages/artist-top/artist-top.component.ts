@@ -5,7 +5,6 @@ import { ApiService } from '../../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SongComponent } from "../../components/song/song.component";
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LoaderComponent } from "../../components/loader/loader.component";
 
 @Component({
@@ -13,7 +12,7 @@ import { LoaderComponent } from "../../components/loader/loader.component";
     standalone: true,
     templateUrl: './artist-top.component.html',
     styleUrls: ['./artist-top.component.css'],
-    imports: [CommonModule, SongComponent, InfiniteScrollModule, LoaderComponent]
+    imports: [CommonModule, SongComponent, LoaderComponent]
 })
 export class ArtistTopComponent {
   public songs!: Track[]

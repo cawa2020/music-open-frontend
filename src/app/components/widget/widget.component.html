@@ -1,8 +1,8 @@
 <div class="widget-container">
-  <button [disabled]="urlIndex >= urls.length - 1" (click)="move('prev')" class="icon-button rotate-180">
+  <button (click)="move('prev')" class="icon-button rotate-180">
     <mat-icon fontIcon="navigate_next"></mat-icon>
   </button>
-  <button [disabled]="urlIndex === 0" (click)="move('next')" class="icon-button">
+  <button [disabled]="index === 0" (click)="move('next')" class="icon-button">
     <mat-icon fontIcon="navigate_next"></mat-icon>
   </button>
   <button #excludedElement (click)="toggleMenu()" class="icon-button">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { PlayerService } from '../../services/audio.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,8 +11,9 @@ import { ZenComponent } from "../zen/zen.component";
 import { SongService } from '../../services/song.service';
 import { ControlsComponent } from '../controls/controls.component';
 import { filter } from 'rxjs';
-import { SliderComponent } from '../slider/slider.component';
-import { VolumeSliderComponent } from "../volume-slider/volume-slider.component";
+import { volumeMultiplier } from '../../app.constants';
+import { SliderTimeComponent } from '../slider-time/slider-time.component';
+import { VolumeEditorComponent } from "../volume-editor/volume-editor.component";
 
 @Component({
     selector: 'app-player',
@@ -20,19 +21,24 @@ import { VolumeSliderComponent } from "../volume-slider/volume-slider.component"
     templateUrl: './player.component.html',
     styleUrl: './player.component.css',
     providers: [HttpClientModule],
-    imports: [RouterLink, RouterLinkActive, MatIconModule, FormsModule, HttpClientModule, ZenComponent, ControlsComponent, SliderComponent, VolumeSliderComponent]
+    imports: [RouterLink, RouterLinkActive, MatIconModule, FormsModule, HttpClientModule, ZenComponent, ControlsComponent, SliderTimeComponent, VolumeEditorComponent]
 })
 export class PlayerComponent implements OnInit {
   public zenMode: boolean = false
   public song: Track | undefined = undefined
-  public duration!: number
   public formattedDuration: string = '- - : - -'
 
-  constructor(private player: PlayerService, private songData: SongService, private formatter: FormatterService, private api: ApiService) { }
+  public duration: number = 0
+  public editableTimeWhenDisable: number = 0
+  public disableChanging: boolean = false
+
+  constructor(private player: PlayerService, private songData: SongService, private formatter: FormatterService) { }
 
   ngOnInit() {
-    this.player.getAudio().onloadedmetadata = () => {
-      this.duration = Number(this.player.getAudio().duration.toFixed(1))
+    const audio = this.player.getAudio()
+
+    audio.onloadedmetadata = () => {
+      this.duration = Number(audio.duration.toFixed(1))
       this.formattedDuration = this.formatter.getTime(this.duration)
     }
 
@@ -50,7 +56,10 @@ export class PlayerComponent implements OnInit {
 
   toggleZenMode(newValue?: boolean) {
     if (!this.player.getAudio().src.length) return
-
     this.zenMode = newValue != undefined ? newValue : !this.zenMode
+  }
+
+  isLastElement(index: number): boolean {
+    return index === (this.song?.contributors?.length ?? 1) - 1
   }
 }

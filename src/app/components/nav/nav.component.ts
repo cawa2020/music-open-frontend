@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { WidgetComponent } from "../widget/widget.component";
 import { RouterLink } from '@angular/router';
 import { PlayerComponent } from '../player/player.component';
@@ -13,6 +13,4 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class NavComponent {
   @Input() isShort!: boolean
-
-  constructor() { }
 }

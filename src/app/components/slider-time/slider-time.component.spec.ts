@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VolumeSliderComponent } from './volume-slider.component';
+import { SliderTimeComponent } from './slider-time.component';
 
-describe('VolumeSliderComponent', () => {
-  let component: VolumeSliderComponent;
-  let fixture: ComponentFixture<VolumeSliderComponent>;
+describe('SliderTimeComponent', () => {
+  let component: SliderTimeComponent;
+  let fixture: ComponentFixture<SliderTimeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VolumeSliderComponent]
+      imports: [SliderTimeComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(VolumeSliderComponent);
+    fixture = TestBed.createComponent(SliderTimeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

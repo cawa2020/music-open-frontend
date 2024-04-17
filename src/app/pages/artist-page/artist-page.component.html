@@ -23,7 +23,7 @@
     </a>
     <div class="grid gap-1">
       @for(song of songs?.slice(0,5); track $index) {
-      <app-song [index]="$index" [queue]="getQueue()" [song]="song"></app-song>
+      <app-song [index]="$index" [hideArtist]="true" [queue]="getQueue()" [song]="song"></app-song>
       }
     </div>
   </div>

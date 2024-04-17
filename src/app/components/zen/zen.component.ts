@@ -3,22 +3,22 @@ import { PlayerService } from '../../services/audio.service';
 import { Track } from '../../interfaces/app.interface';
 import { MatIconModule } from '@angular/material/icon';
 import { FormatterService } from '../../services/formatter.service';
-import { SliderComponent } from "../slider/slider.component";
 import { SongService } from '../../services/song.service';
 import { ControlsComponent } from '../controls/controls.component';
 import { filter } from 'rxjs';
-import { VolumeSliderComponent } from "../volume-slider/volume-slider.component";
 import { RouterLink } from '@angular/router';
+import { SliderTimeComponent } from "../slider-time/slider-time.component";
+import { VolumeEditorComponent } from "../volume-editor/volume-editor.component";
 
 @Component({
-  selector: 'app-zen',
-  standalone: true,
-  templateUrl: './zen.component.html',
-  styleUrl: './zen.component.css',
-  imports: [MatIconModule, SliderComponent, ControlsComponent, VolumeSliderComponent, RouterLink]
+    selector: 'app-zen',
+    standalone: true,
+    templateUrl: './zen.component.html',
+    styleUrl: './zen.component.css',
+    imports: [MatIconModule, ControlsComponent, RouterLink, SliderTimeComponent, VolumeEditorComponent]
 })
 export class ZenComponent implements OnInit {
-  @Output() emitZenMode = new EventEmitter<boolean>()
+  @Output() toggleZenMode = new EventEmitter<boolean>()
   public song: Track | null = null
   public duration!: number
 
@@ -37,7 +37,7 @@ export class ZenComponent implements OnInit {
   }
 
   closeZen() {
-    this.emitZenMode.emit(false)
+    this.toggleZenMode.emit(false)
   }
 
   updateSong() {

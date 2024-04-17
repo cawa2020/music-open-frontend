@@ -2,14 +2,15 @@ import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RoutesRecognized } from '@angular/router';
-import { SliderComponent } from '../slider/slider.component';
 import { MatIconModule } from '@angular/material/icon';
 import { filter, pairwise } from 'rxjs';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-widget',
   standalone: true,
-  imports: [RouterLink, SliderComponent, FormsModule, MatIconModule],
+  imports: [RouterLink, FormsModule, MatIconModule],
   templateUrl: './widget.component.html',
   styleUrl: './widget.component.css',
   providers: [Document]
@@ -18,27 +19,14 @@ export class WidgetComponent {
   @ViewChild('excludedElement') excludedElement: ElementRef | undefined;
   public color: string = localStorage.getItem('mainColor') ?? '#3b82f6'
   public isMenuOpen: boolean = false
-  public urls: string[] = []
-  public urlIndex: number = 0
+  public index: number = 0
 
-  constructor(public theme: ThemeService, private router: Router, private document: Document) { }
+  constructor(public theme: ThemeService, private router: Router, private location: Location) { }
 
   ngOnInit() {
-    if (localStorage.getItem('themeMode') === 'dark') {
-      this.theme.toggleMode()
-    }
+    const isThemeDark = localStorage.getItem('themeMode') === 'dark'
+    if (isThemeDark) { this.theme.toggleMode() }
     this.changeColor(this.color)
-    const startUrl = String(window.location).split('/').pop()
-    this.urls.push(startUrl!)
-
-    // ГОВНО НЕ РАБОЧЕЕ
-    // this.router.events
-    //   .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
-    //   .subscribe((events: RoutesRecognized[]) => {
-    //     const url = events[1].urlAfterRedirects
-    //     if (url === this.urls[this.urlIndex + 1]) return
-    //     this.urls.unshift(url)
-    //   });
   }
 
   @HostListener('document:click', ['$event'])
@@ -50,7 +38,6 @@ export class WidgetComponent {
   }
 
   toggleMenu() {
-    // console.log('!!!')
     this.isMenuOpen = !this.isMenuOpen
   }
 
@@ -66,11 +53,11 @@ export class WidgetComponent {
 
   move(direction: 'next' | 'prev') {
     if (direction == 'next') {
-      this.urlIndex--
-      this.router.navigate([this.urls[this.urlIndex]])
+      this.location.forward()
+      this.index++
     } else {
-      this.urlIndex++
-      this.router.navigate([this.urls[this.urlIndex]])
+      this.location.back()
+      this.index--
     }
   }
 }

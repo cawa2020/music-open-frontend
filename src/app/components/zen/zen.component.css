@@ -1,5 +1,5 @@
 .zen-bg {
-  @apply absolute top-[-8px] bottom-[-8px] left-[-8px] right-[-8px] z-[998] blur bg-center bg-cover brightness-[.4] transition-all
+  @apply absolute top-[-8px] bottom-[-8px] left-[-8px] right-[-8px] z-[998] bg-center bg-cover brightness-[.2] transition-all
 }
 
 .zen-content {

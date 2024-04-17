@@ -38,7 +38,7 @@ export class PlayerService {
     localStorage.setItem('currentTime', time.toString())
   }
 
-  continueSong() {
+  playSong() {
     this.audioChanges.next({ type: 'time', data: true })
     this.audio.play();
   }
@@ -57,7 +57,7 @@ export class PlayerService {
     }
     if (!queue) return
     this.setSong(queue[index])
-    this.continueSong()
+    this.playSong()
   }
 
   private getIndexOfNextSong(direction: 'prev' | 'next', isEndedByItself?: boolean): number | null {

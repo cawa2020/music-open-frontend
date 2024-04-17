@@ -23,5 +23,5 @@
 }
 
 .loader-circle {
-  @apply w-3 h-3 bg-[var(--text-color)] absolute -top-1 rounded-full -ml-1 z-[51] invisible;
+  @apply w-3 h-3 bg-[var(--text-color)] absolute -top-1 rounded-full -ml-1 z-[49] invisible;
 }

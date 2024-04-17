@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavComponent } from './components/nav/nav.component';
@@ -17,7 +17,7 @@ export class AppComponent {
   public isContained: boolean = localStorage.getItem('isContained') === 'true'
 
   toggleContained(value: boolean) {
-    this.isContained = value
+    this.isContained = !this.isContained
     localStorage.setItem('isContained', String(value))
   }
 }

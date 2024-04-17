@@ -1,15 +1,15 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Repeat, Track } from '../../interfaces/app.interface';
 import { PlayerService } from '../../services/audio.service';
 import { SongService } from '../../services/song.service';
 import { MatIconModule } from '@angular/material/icon';
-import { SliderComponent } from '../slider/slider.component';
 import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-controls',
   standalone: true,
-  imports: [MatIconModule, SliderComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatIconModule],
   templateUrl: './controls.component.html',
   styleUrls: ['../player/player.component.css', './controls.component.css']
 })
@@ -19,7 +19,7 @@ export class ControlsComponent implements OnInit {
   public isPlaying: boolean = false
   public repeat: Repeat = 'none'
 
-  constructor(private player: PlayerService, private songData: SongService) { }
+  constructor(private player: PlayerService, private songData: SongService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.repeat = this.songData.getRepeat()
@@ -27,6 +27,7 @@ export class ControlsComponent implements OnInit {
 
     this.player.audioChanges.pipe(filter(el => el.type === 'time')).subscribe(el => {
       this.isPlaying = el.data
+      this.cdr.markForCheck()
     })
 
     this.songData.changes.pipe(filter(el => el === 'repeat')).subscribe(el => {
@@ -76,7 +77,7 @@ export class ControlsComponent implements OnInit {
     }
 
     if (this.player.getAudio().paused) {
-      this.player.continueSong()
+      this.player.playSong()
     } else {
       this.player.pauseSong()
     }

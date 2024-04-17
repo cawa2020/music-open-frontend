@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SliderComponent } from './slider.component';
+import { VolumeEditorComponent } from './volume-editor.component';
 
-describe('SliderComponent', () => {
-  let component: SliderComponent;
-  let fixture: ComponentFixture<SliderComponent>;
+describe('VolumeEditorComponent', () => {
+  let component: VolumeEditorComponent;
+  let fixture: ComponentFixture<VolumeEditorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SliderComponent]
+      imports: [VolumeEditorComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SliderComponent);
+    fixture = TestBed.createComponent(VolumeEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

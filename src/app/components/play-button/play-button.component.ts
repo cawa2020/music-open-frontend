@@ -22,6 +22,7 @@ export class PlayButtonComponent {
     this.audio.audioChanges.pipe(filter(el => el.type === 'time')).subscribe(value => this.isPlaying = value.data)
   }
 
+  // PLAYBUTTON
   play() {
     const currQueue = JSON.stringify(this.songData.getQueue())
     const newQueue = JSON.stringify(this.queue)
@@ -29,12 +30,12 @@ export class PlayButtonComponent {
       if (this.isPlaying) {
         this.audio.pauseSong()
       } else {
-        this.audio.continueSong()
+        this.audio.playSong()
       }
     } else {
       this.songData.setQueue(this.queue)
       this.audio.setSong(this.queue[0])
-      this.audio.continueSong()
+      this.audio.playSong()
     }
 
   }

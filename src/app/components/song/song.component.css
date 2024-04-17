@@ -36,8 +36,7 @@
 }
 
 .song__content {
-  @apply grid justify-between w-full items-center gap-4;
-  grid-template-columns: repeat(20, 1fr);
+  @apply flex justify-between w-full items-center gap-2;
 }
 
 .song__content-artist {

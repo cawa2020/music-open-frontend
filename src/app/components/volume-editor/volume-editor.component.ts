@@ -1,30 +1,29 @@
 import { Component, Input } from '@angular/core';
-import { PlayerService } from '../../services/audio.service';
-import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule } from '@angular/forms';
+import { PlayerService } from '../../services/audio.service';
 import { volumeMultiplier } from '../../app.constants';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-volume-slider',
-  standalone: true,
-  imports: [MatIconModule, FormsModule],
-  templateUrl: './volume-slider.component.html',
-  styleUrl: './volume-slider.component.css'
+    selector: 'app-volume-editor',
+    standalone: true,
+    templateUrl: './volume-editor.component.html',
+    styleUrls: ['./volume-editor.component.css', '../slider-time/slider-time.component.css'],
+    imports: [MatIconModule, FormsModule]
 })
-export class VolumeSliderComponent {
-  @Input() widthClass?: string
-  @Input() color?: string
-  public pastVolume!: number
+export class VolumeEditorComponent {
+  @Input() sliderWidth: string = '100%'
+  public pastVolume: number = 0
   public volume: number = Number(localStorage.getItem('volume'))
 
   constructor(private player: PlayerService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.player.setVolume(this.volume / 100)
   }
 
   handleVolume(value: number) {
+    this.volume = value
     this.player.setVolume(value / 100)
     var volumeTimeOut
     clearTimeout(volumeTimeOut)
@@ -42,5 +41,13 @@ export class VolumeSliderComponent {
       this.player.setVolume(this.pastVolume)
       this.volume = this.pastVolume * 100
     }
+  }
+
+  getVolumeIcon(): string {
+    return this.volume >= 50 ? 'volume_up' : this.volume > 0 ? 'volume_down' : 'volume_off'
+  }
+
+  getCurrentPercentage() {
+    return this.volume + '%'
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Album, AlbumBrief, Track } from '../../interfaces/app.interface';
 import { CommonModule } from '@angular/common';
@@ -21,18 +21,16 @@ export class AlbumComponent {
 
   constructor(private player: PlayerService, private api: ApiService, private songData: SongService) { }
 
+  // PLAYBUTTON
   playAlbum() {
     this.api.getAlbumTracks(this.album.id).pipe(map(res => res.data), take(1)).subscribe(tracks => {
       const queue: any[] = tracks.map((el) => {
-        return {
-          ...el,
-          album: this.album
-        }
+        return { ...el, album: this.album }
       })
 
       this.songData.setQueue(queue)
       this.player.setSong(queue[0])
-      this.player.continueSong()
+      this.player.playSong()
     })
   }
 }

@@ -1,7 +1,7 @@
-<div class="player">
+<section class="player">
   <div class="flex gap-2 w-full items-center">
-    <img class="rounded h-14 w-14" [src]="song?.album?.cover_small ?? '../../assets/placeholder.jpg'"
-      alt="song cover" />
+    <img class="rounded h-14 w-14 hover:brightness-50" (click)="toggleZenMode()"
+      [src]="song?.album?.cover_small ?? '../../assets/placeholder.jpg'" alt="song cover" />
     <div class="player__info">
       <a [routerLink]="['/album', song?.album?.id]" class="truncate ">
         {{ song?.title }}
@@ -12,9 +12,8 @@
         <a [routerLink]="['/artist', artist.id]" class="player__info-artist">
           {{ artist.name }}
         </a>
-        @if ($index !== (song?.contributors?.length ?? 1) - 1) {<span class="player__info-artist">,&nbsp;</span>}
-        }
-        } @else {
+        @if (!isLastElement($index)) {<span class="player__info-artist">,&nbsp;</span>}
+        }} @else {
         <a [routerLink]="['/artist', song?.artist?.id]" class="player__info-artist">
           {{ song?.artist?.name }}
         </a>
@@ -32,7 +31,7 @@
       <span class="text-xs text-center min-w-8">
         {{ getFormattedTime() }}
       </span>
-      <app-slider class="w-full max-w-[600px] min-w-[280px]" />
+      <app-slider-time class="w-full max-w-[600px] min-w-[220px]" />
       <span class="text-xs text-center min-w-8">
         {{formattedDuration}}
       </span>
@@ -43,12 +42,9 @@
     <button class="icon-button" [routerLink]="['/queue']">
       <mat-icon fontIcon="menu"></mat-icon>
     </button>
-    <button class="icon-button" (click)="toggleZenMode()">
-      <mat-icon fontIcon="terrain"></mat-icon>
-    </button>
-    <app-volume-slider widthClass="w-20"></app-volume-slider>
+    <app-volume-editor sliderWidth="80px" />
   </div>
-</div>
+</section>
 @if (zenMode) {
-<app-zen (emitZenMode)="toggleZenMode($event)"></app-zen>
+<app-zen (toggleZenMode)="toggleZenMode($event)"></app-zen>
 }
