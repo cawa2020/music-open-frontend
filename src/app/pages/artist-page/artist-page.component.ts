@@ -11,7 +11,7 @@ import { AlbumComponent } from "../../components/album/album.component";
 import { ArtistComponent } from '../../components/artist/artist.component';
 import { LoaderComponent } from "../../components/loader/loader.component";
 import { PlayButtonComponent } from "../../components/play-button/play-button.component";
-
+// https://angular.dev/guide/pipes/transform-data
 @Component({
     selector: 'app-artist-page',
     standalone: true,
