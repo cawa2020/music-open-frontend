@@ -20,13 +20,12 @@ import { PlayButtonComponent } from "../../components/play-button/play-button.co
     imports: [RouterOutlet, RouterLink, RouterLinkActive, PlaylistsComponent, SongComponent, CommonModule, SkeletonComponent, AlbumComponent, ArtistComponent, LoaderComponent, PlayButtonComponent]
 })
 export class ArtistPageComponent implements OnInit {
-  public id!: number
   public artist$!: Observable<Artist>
   public albums$!: Observable<AlbumBrief[] | null>
   public related$!: Observable<Artist[] | null>
   public playlists$!: Observable<Playlist[] | null>
   public songs: Track[] | undefined
-  public loading!: number
+  public requests!: number
 
   public lastIndex: number = 7
 
@@ -36,18 +35,17 @@ export class ArtistPageComponent implements OnInit {
     this.onResize({ target: { innerWidth: window.innerWidth } })
 
     this.activateRoute.params.subscribe(params => {
-      this.loading = 4
+      this.requests = 4
       const id = Number(params["id"])
-      this.id = id
       this.albums$ = of(null)
       this.related$ = of(null)
       this.playlists$ = of(null)
 
       this.artist$ = this.api.getArtist(id).pipe(shareReplay(1))
-      this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistTop(artist.id, 5))).subscribe(res => { this.loading--; this.songs = res.data })
-      this.albums$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistAlbums(artist.id, 7).pipe(map(res => { this.loading--; return this.sortByDate(res.data) }))))
-      this.related$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistRelated(artist.id, 7).pipe(map(res => { this.loading--; return res.data }))))
-      this.playlists$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getPlaylistsWithArtist(artist.id).pipe(map(res => { this.loading--; return res.data }))))
+      this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistTop(artist.id, 5))).subscribe(res => { this.requests--; this.songs = res.data })
+      this.albums$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistAlbums(artist.id, 7).pipe(map(res => { this.requests--; return this.sortByDate(res.data) }))))
+      this.related$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getArtistRelated(artist.id, 7).pipe(map(res => { this.requests--; return res.data }))))
+      this.playlists$ = this.artist$.pipe(switchMap((artist: Artist) => this.api.getPlaylistsWithArtist(artist.id).pipe(map(res => { this.requests--; return res.data }))))
 
       this.albums$.subscribe()
       this.related$.subscribe()

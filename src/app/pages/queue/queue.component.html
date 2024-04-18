@@ -3,7 +3,7 @@
   <div cdkDropList (cdkDropListDropped)="onDrop($event)">
     @for (song of queue; track $index) {
     <div cdkDrag>
-      <app-song [song]="song" [index]="$index" [queue]="queue"></app-song>
+      <app-song [song]="song" [hideIndex]="true" [index]="$index" [queue]="queue"></app-song>
     </div>
     } @empty {
     <p class="text-[var(--text-color-secondary)]">Пусто :(</p>

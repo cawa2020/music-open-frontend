@@ -32,12 +32,10 @@ export class SongComponent implements OnInit {
 
   ngOnInit(): void {
     this.isPlaying$ = this.player.audioChanges.asObservable().pipe(filter(el => el.type === 'time'), map(el => el.data))
-    this.isCurrentSong$ = this.songData.changes.asObservable().pipe(filter(el => el === 'song'), map(el => this.isCurrentSong()))
-  }
-
-  isCurrentSong() {
-    const isSameSong = this.song.id === this.songData.getSong()?.id
-    return isSameSong && this.isSameQueue()
+    this.isCurrentSong$ = this.songData.changes.asObservable().pipe(filter(el => el === 'song' || el === 'queue'), map(el => {
+      console.log(this.index, this.song.title, this.isCurrentSong())
+      return this.isCurrentSong()
+    }))
   }
 
   // PLAYBUTTON
@@ -75,6 +73,11 @@ export class SongComponent implements OnInit {
 
   isLastSong(index: number): boolean {
     return index !== (this.song.contributors?.length ?? 1) - 1
+  }
+
+  private isCurrentSong() {
+    const isSameSong = this.song.id === this.songData.getSong()?.id
+    return isSameSong && this.isSameQueue()
   }
 
   private isSameQueue(): boolean {

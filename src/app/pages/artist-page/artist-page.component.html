@@ -1,5 +1,5 @@
 <section class="w-full overflow-auto h-full">
-  @if (loading > 0) {
+  @if (requests > 0) {
   <div class="flex justify-center items-center w-full h-full">
     <app-loader />
   </div>
@@ -41,11 +41,12 @@
     <div class="grid-container">
       @for(album of (albums$ | async)?.slice(0,lastIndex); track $index) {
       <app-album [album]="album"></app-album>
+      } @empty {
+      <p class="text-[var(--text-color-secondary)]">Пусто :(</p>
       }
     </div>
   </div>
 
-  @if ((related$ | async) != undefined) {
   <div class="m-6 my-12">
     <a routerLink="/" class="link">
       <h5 class="leading-none">Схоже с творчеством</h5>
@@ -64,11 +65,7 @@
       }
     </div>
   </div>
-  } @else {
-  склетон
-  }
 
-  @if (playlists$) {
   <div class="m-6">
     <a routerLink="/" class="link">
       <h5 class="leading-none">Плейлисты</h5>
@@ -86,10 +83,12 @@
         <img class="rounded w-full aspect-square" [src]="playlist.picture_medium" alt="">
         <p class="one-stroke-text">{{playlist.title}}</p>
       </div>
+      }@empty {
+      <p class="text-[var(--text-color-secondary)]">Пусто :(</p>
       }
     </div>
   </div>
-  }
+
   }
 
 </section>

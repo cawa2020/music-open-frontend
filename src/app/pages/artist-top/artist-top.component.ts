@@ -8,19 +8,17 @@ import { SongComponent } from "../../components/song/song.component";
 import { LoaderComponent } from "../../components/loader/loader.component";
 
 @Component({
-    selector: 'app-artist-top',
-    standalone: true,
-    templateUrl: './artist-top.component.html',
-    styleUrls: ['./artist-top.component.css'],
-    imports: [CommonModule, SongComponent, LoaderComponent]
+  selector: 'app-artist-top',
+  standalone: true,
+  templateUrl: './artist-top.component.html',
+  styleUrls: ['./artist-top.component.css'],
+  imports: [CommonModule, SongComponent, LoaderComponent]
 })
 export class ArtistTopComponent {
   public songs!: Track[]
-  public currentMaxIndex: number = 15
   public isLoadedAll: boolean = false
   public isLoading: boolean = false
   public id!: number
-  public subject = new Subject<any>()
 
   constructor(private api: ApiService, private activateRoute: ActivatedRoute) { }
 
@@ -33,22 +31,19 @@ export class ArtistTopComponent {
         this.isLoadedAll = res.total === this.songs.length
       })
     });
-
-    this.subject.pipe(debounceTime(300)).subscribe(() => {
-      this.isLoading = true
-      this.currentMaxIndex += 15
-      const numberOfTracks = 15
-      this.api.getArtistTop(this.id, numberOfTracks, this.currentMaxIndex).pipe(take(1)).subscribe((res) => {
-        this.songs = this.songs.concat(res.data)
-        this.isLoadedAll = res.total === this.songs.length
-        this.isLoading = false
-      })
-    })
   }
 
   loadMoreItems(event: any) {
-    const isScrolledToBottom = event.target.offsetHeight + event.target.scrollTop < event.target.scrollHeight - 400
+    const offset = 600
+    const isScrolledToBottom = event.target.offsetHeight + event.target.scrollTop < event.target.scrollHeight - offset
     if (isScrolledToBottom || this.isLoadedAll || this.isLoading) return
-    this.subject.next(0)
+    const lastIndex = this.songs.length
+    const limit = 15
+    this.isLoading = true
+    this.api.getArtistTop(this.id, limit, lastIndex + 15).pipe(take(1)).subscribe((res) => {
+      this.songs = this.songs.concat(res.data)
+      this.isLoadedAll = res.total === this.songs.length
+      this.isLoading = false
+    })
   }
 }

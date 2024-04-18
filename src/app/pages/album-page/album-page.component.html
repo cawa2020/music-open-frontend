@@ -1,5 +1,5 @@
 <section class="h-full overflow-auto p-6">
-  @if (!playlist) {
+  @if (loading) {
   <div class="flex justify-center items-center w-full h-full">
     <app-loader />
   </div>
@@ -9,14 +9,10 @@
       <img class="playlist-header__img" [src]="playlist.cover_big" alt="cover" />
       <div class="playlist-header__info">
         <h3>{{ playlist.title }}</h3>
-        <div class="flex gap-1">
+        <div class="flex">
           @for (artist of playlist.contributors; track $index) {
           <a [routerLink]="['/artist', artist.id]" class="text-2xl w-fit">{{ artist.name }}</a>
-          @if ($index !== playlist.contributors.length - 1) {
-          <span class="text-2xl w-fit">
-            ,&nbsp;
-          </span>
-          }
+          @if (!isLastPlaylist($index)) {<span class="text-2xl w-fit">,&nbsp;</span>}
           }
         </div>
         <div class="flex gap-[6px]">
@@ -35,4 +31,3 @@
   </div>
   }
 </section>
-<app-skeleton shape="circle" width="200px" height="200px"></app-skeleton>

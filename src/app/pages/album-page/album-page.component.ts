@@ -37,4 +37,8 @@ export class AlbumPageComponent implements OnInit {
       })
     });
   }
+
+  isLastPlaylist(index: number): boolean {
+    return index === this.playlist.contributors.length - 1
+  }
 }

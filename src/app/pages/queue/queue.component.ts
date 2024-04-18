@@ -3,7 +3,7 @@ import { Track } from '../../interfaces/app.interface';
 import { SongService } from '../../services/song.service';
 import { filter } from 'rxjs';
 import { SongComponent } from "../../components/song/song.component";
-import { moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';
 @Component({
@@ -25,7 +25,15 @@ export class QueueComponent {
     })
   }
 
-  onDrop(event: any) {
+  onDrop(event: CdkDragDrop<Track[]>) {
     moveItemInArray(this.queue, event.previousIndex, event.currentIndex);
+    // Я пиписька
+    setTimeout(() => {
+      this.songData.setQueue(this.queue)
+    }, 0)
+  }
+
+  getIndex(songId: number) {
+    return this.queue.findIndex(song => song.id === songId)
   }
 }
