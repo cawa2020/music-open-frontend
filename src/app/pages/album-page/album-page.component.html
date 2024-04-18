@@ -8,7 +8,7 @@
     <div class="playlist-header">
       <img class="playlist-header__img" [src]="playlist.cover_big" alt="cover" />
       <div class="playlist-header__info">
-        <h3>{{ playlist.title }}</h3>
+        <h3 class="text-balance">{{ playlist.title }}</h3>
         <div class="flex">
           @for (artist of playlist.contributors; track $index) {
           <a [routerLink]="['/artist', artist.id]" class="text-2xl w-fit">{{ artist.name }}</a>
@@ -19,7 +19,7 @@
           <p>{{ genres }} ·</p>
           {{ playlist.release_date | date: 'YYYY' }}
         </div>
-        <app-play-button class="playlist-header__info-button" [queue]="playlist.tracks.data" />
+        <app-play-button class="playlist-header__info-button" [isPlaying]="isPlaying" [queue]="playlist.tracks.data" />
       </div>
     </div>
     <div class="grid gap-1">

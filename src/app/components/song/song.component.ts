@@ -1,20 +1,20 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
-import { Album, Track } from '../../interfaces/app.interface';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Track } from '../../interfaces/app.interface';
 import { PlayerService } from '../../services/audio.service';
-import { FormatterService } from '../../services/formatter.service';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { SongService } from '../../services/song.service';
 import { Observable, filter, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { TimePipe } from "../../pipes/time.pipe";
 
 @Component({
   selector: 'app-song',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, RouterLink, CommonModule],
   templateUrl: './song.component.html',
-  styleUrl: './song.component.css'
+  styleUrl: './song.component.css',
+  imports: [MatIconModule, RouterLink, CommonModule, TimePipe]
 })
 export class SongComponent implements OnInit {
   @Input({ required: true }) song!: Track
@@ -28,19 +28,16 @@ export class SongComponent implements OnInit {
   public isCurrentSong$!: Observable<boolean>
   public isFavorite: boolean = false
 
-  constructor(private player: PlayerService, private songData: SongService, private formatter: FormatterService) { }
+  constructor(private player: PlayerService, private songData: SongService) { }
 
   ngOnInit(): void {
     this.isPlaying$ = this.player.audioChanges.asObservable().pipe(filter(el => el.type === 'time'), map(el => el.data))
-    this.isCurrentSong$ = this.songData.changes.asObservable().pipe(filter(el => el === 'song' || el === 'queue'), map(el => {
-      console.log(this.index, this.song.title, this.isCurrentSong())
-      return this.isCurrentSong()
-    }))
+    this.isCurrentSong$ = this.songData.changes.asObservable().pipe(filter(el => el === 'song' || el === 'queue'), map(el => this.isCurrentSong()))
   }
 
   // PLAYBUTTON
   setTrack() {
-    if (!this.isSameQueue()) {
+    if (!this.songData.compareQueues(this.queue)) {
       this.songData.setQueue(this.queue)
     }
 
@@ -59,10 +56,6 @@ export class SongComponent implements OnInit {
     }
   }
 
-  getDuration(duration: number): string {
-    return this.formatter.getTime(duration)
-  }
-
   toggleFavorite() {
     this.isFavorite = !this.isFavorite
   }
@@ -77,13 +70,6 @@ export class SongComponent implements OnInit {
 
   private isCurrentSong() {
     const isSameSong = this.song.id === this.songData.getSong()?.id
-    return isSameSong && this.isSameQueue()
+    return isSameSong && this.songData.compareQueues(this.queue)
   }
-
-  private isSameQueue(): boolean {
-    const currQueue = JSON.stringify(this.songData.getQueue())
-    const songQueue = JSON.stringify(this.queue)
-    return currQueue === songQueue
-  }
-
 }

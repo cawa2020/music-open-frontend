@@ -4,15 +4,13 @@
     <app-loader />
   </div>
   } @else {
-  @if (artist$ | async; as artist) {
   <div class="artist-header">
-    <img class="artist-header__img" [src]="artist.picture_medium" alt="cover" />
+    <img class="artist-header__img" [src]="(artist$ | async)?.picture_medium" alt="cover" />
     <div class="artist-header__text">
-      <app-play-button class="artist-header__info-button" [queue]="songs!" />
-      <h3>{{ artist.name }}</h3>
+      <app-play-button class="artist-header__info-button" [isPlaying]="isPlaying" [queue]="songs!" />
+      <h3>{{ (artist$ | async)?.name }}</h3>
     </div>
   </div>
-  }
 
   <div class="m-6">
     <a [routerLink]="['top']" class="link">
@@ -27,6 +25,8 @@
     <div class="grid gap-1">
       @for(song of songs?.slice(0,5); track $index) {
       <app-song [index]="$index" [hideArtist]="true" [queue]="getQueue()" [song]="song"></app-song>
+      }@empty {
+      <p class="text-secondary">Пусто :(</p>
       }
     </div>
   </div>
@@ -45,12 +45,11 @@
       @for(album of (albums$ | async)?.slice(0,lastIndex); track $index) {
       <app-album [album]="album"></app-album>
       } @empty {
-      <p class="text-[var(--text-color-secondary)]">Пусто :(</p>
+      <p class="text-secondary">Пусто :(</p>
       }
     </div>
   </div>
 
-  @if (related$ | async; as related) {
   <div class="m-6 my-12">
     <a routerLink="/" class="link">
       <h5 class="leading-none">Схоже с творчеством</h5>
@@ -62,16 +61,14 @@
       </svg>
     </a>
     <div class="grid-container">
-      @for(artist of related.slice(0,lastIndex); track $index) {
+      @for(artist of (related$ | async)?.slice(0,lastIndex); track $index) {
       <app-artist [artist]="artist"></app-artist>
       } @empty {
-      <p class="text-[var(--text-color-secondary)]">Пусто :(</p>
+      <p class="text-secondary">Пусто :(</p>
       }
     </div>
   </div>
-  }
 
-  @if (playlists$ | async; as playlists ) {
   <div class="m-6">
     <a routerLink="/" class="link">
       <h5 class="leading-none">Плейлисты</h5>
@@ -83,18 +80,17 @@
       </svg>
     </a>
     <div class="grid-container">
-      @for(playlist of playlists.slice(0,10); track $index) {
+      @for(playlist of (playlists$ | async)?.slice(0,10); track $index) {
       <div [routerLink]="['/playlist', playlist.id]"
-        class="cursor-pointer rounded-md p-3 hover:bg-[var(--bg-color-secondary)] flex flex-col gap-2 w-full">
+        class="cursor-pointer rounded-md p-3 hover:bg-secondary flex flex-col gap-2 w-full">
         <img class="rounded w-full aspect-square" [src]="playlist.picture_medium" alt="">
         <p class="one-stroke-text">{{playlist.title}}</p>
       </div>
       }@empty {
-      <p class="text-[var(--text-color-secondary)]">Пусто :(</p>
+      <p class="text-secondary">Пусто :(</p>
       }
     </div>
   </div>
-  }
   }
 
 </section>

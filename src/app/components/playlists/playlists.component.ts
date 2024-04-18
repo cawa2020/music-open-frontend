@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Album } from '../../interfaces/app.interface';
-import { FormatterService } from '../../services/formatter.service';
 import { ActivatedRoute, NavigationStart, Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { filter } from 'rxjs';
@@ -22,7 +21,7 @@ export class PlaylistsComponent implements OnInit {
   public playlists: Album[] = []
   public currentPlaylistId!: number
 
-  constructor(private api: ApiService, private formatter: FormatterService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     ids.map(id => {

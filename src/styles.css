@@ -36,24 +36,24 @@
   --side-margin: 8px;
 }
 
+div::-webkit-scrollbar {
+  @apply h-3 bg-default
+}
+
+div::-webkit-scrollbar-thumb {
+  @apply h-3 bg-secondary
+}
+
 html {
-  height: 100%
+  @apply h-full;
 }
 
 body {
-  background-color: var(--bg-color-secondary);
-  padding: var(--side-margin);
-  width: 100%;
-  height: 100%;
+  @apply bg-secondary p-[var(--side-margin)] w-full h-full;
 }
 
 .content-container {
-  position: relative;
-  width: inherit;
-  height: inherit;
-  min-height: 100%;
-  display: grid;
-  gap: var(--side-margin);
+  @apply relative min-h-full grid gap-[var(--side-margin)];
   grid-template-columns: auto 1fr;
   grid-template-rows: calc(100vh - 36px - 80px) 80px;
   grid-template-areas:
@@ -62,19 +62,13 @@ body {
 }
 
 hr {
-  border-color: var(--border-color);
+  @apply border-default;
 }
 
 section,
 .section {
-  /* padding: 12px; */
-  border-radius: calc(4px + var(--border-radius));
-  background-color: var(--bg-color-main);
-  border: 1px solid var(--border-color);
-}
-
-header .player {
-  width: 100%;
+  @apply bg-default border border-default;
+  border-radius: var(--border-radius);
 }
 
 .material-icons {
@@ -102,8 +96,7 @@ header .player {
 }
 
 mat-icon.mat-icon {
-  width: 20px;
-  height: 20px;
+  @apply w-5 h-5;
 }
 
 h1 {
@@ -131,36 +124,15 @@ h6 {
 }
 
 a:hover {
-  text-decoration: underline;
+  @apply underline
 }
 
 button:disabled {
-  opacity: .8;
-  cursor: not-allowed;
-}
-
-.outlined-button,
-.button {
-  padding: 0 12px;
-  height: 40px;
-  border-radius: var(--border-radius);
-  transition: var(--transition-time);
-}
-
-.outlined-button {
-  background-color: transparent;
-  border: 1.5px solid var(--main-color);
-  color: var(--main-color);
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--bg-color-secondary), 0 0 0 4px var(--main-color);
-  }
+  @apply cursor-not-allowed opacity-80;
 }
 
 .button {
-  background-color: var(--main-color);
-  border: none;
-  color: white;
+  @apply py-3 h-10 transition-default bg-main text-white;
 
   &:hover {
     background-color: var(--hover-color);
@@ -172,98 +144,62 @@ button:disabled {
 }
 
 .active-button {
-  color: var(--main-color);
-  position: relative;
+  @apply !text-main relative;
 
   &::after {
+    @apply rounded-full p-[2px] absolute bg-main bottom-[-2px] left-[45%];
     content: "";
-    border-radius: 9999px;
-    padding: 2px;
-    position: absolute;
-    background-color: var(--main-color);
-    bottom: -2px;
-    left: 45%;
   }
 }
 
 .icon-button {
-  padding: 6px;
-  border-radius: 9999px;
-  height: 32px;
-  width: 32px;
+  @apply p-[6px] rounded-full h-8 w-8;
 }
 
 input:not([type="range"]):not([type="color"]) {
-  padding: 0 12px;
-  height: 40px;
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
+  @apply px-3 h-10 text-default border border-default rounded-default;
   outline: none;
   background-color: var(--bg-input-color);
 }
 
 input[type="range"] {
-  -webkit-appearance: none;
+  @apply appearance-none;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  width: 300px;
-  height: 4px;
-  background: #ddd;
-  border: none;
-  border-radius: var(--border-radius);
+  @apply w-[300px] h-[4px] bg-[#ddd] border-none rounded-default
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  height: 8px;
-  width: 8px;
-  background: var(--main-color);
-  margin-top: -2px;
-  border-radius: 99999px;
+  @apply w-2 h-2 bg-main mt-[-2px] rounded-full appearance-none;
 }
 
-.equalizer-paused {
-  height: 16px;
-  display: flex;
-  align-items: end;
-  gap: 2px;
-
-  & div {
-    background-color: var(--main-color);
-    width: 2px;
-    height: 2px;
-  }
-}
-
+.equalizer-paused,
 .equalizer {
-  height: 16px;
-  display: flex;
-  align-items: end;
-  gap: 2px;
+  @apply h-4 flex items-end gap-[2px];
+}
 
-  & div {
-    background-color: var(--main-color);
-    width: 2px;
-    height: 100%;
-    transition: var(--transition-time);
+.equalizer-paused div {
+  @apply bg-main w-[2px] h-[2px];
+}
 
-    &:nth-child(1) {
-      animation: equalizer-animation-1 0.5s infinite;
-    }
+.equalizer div {
+  @apply bg-main w-[2px] h-full transition-default;
 
-    &:nth-child(2) {
-      animation: equalizer-animation-2 1s infinite;
-    }
+  &:nth-child(1) {
+    animation: equalizer-animation-1 0.5s infinite;
+  }
 
-    &:nth-child(3) {
-      animation: equalizer-animation-3 0.5s infinite;
-    }
+  &:nth-child(2) {
+    animation: equalizer-animation-2 1s infinite;
+  }
 
-    &:nth-child(4) {
-      animation: equalizer-animation-2 2s infinite reverse;
-    }
+  &:nth-child(3) {
+    animation: equalizer-animation-3 0.5s infinite;
+  }
+
+  &:nth-child(4) {
+    animation: equalizer-animation-2 2s infinite reverse;
   }
 }
 
@@ -336,35 +272,26 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .cdk-drop-list-dragging .cdk-drag:not(.cdk-drag-preview) {
-  transition: var(--transition-time);
-  cursor: unset;
-  user-select: none;
+  @apply transition-default select-none cursor-[unset];
 
   &:hover {
-    background-color: var(--bg-color-main);
+    @apply bg-default;
   }
 }
 
 .cdk-drag-placeholder {
-  visibility: hidden;
+  @apply invisible;
 }
 
 .cdk-drag-preview {
-  background-color: var(--bg-color-secondary);
+  @apply bg-secondary;
 }
 
 .hidden-block-container {
-  position: relative;
+  @apply relative;
 
   & .hidden-block {
-    position: absolute;
-    visibility: hidden;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-
-    background-color: var(--bg-color-main);
-    padding: 12px 16px;
-    z-index: 3;
+    @apply align-baseline invisible border border-default rounded-default bg-default px-4 py-3 z-[3];
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   }
 
@@ -384,6 +311,5 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .play-button {
-  @apply flex justify-center items-center absolute left-2 bottom-2 backdrop-blur-sm bg-white/40	rounded-full hover:bg-[var(--main-color)] text-white opacity-0 invisible;
-  transition: var(--transition-time);
+  @apply flex justify-center items-center absolute left-2 bottom-2 backdrop-blur-sm bg-white/40 rounded-full hover:bg-[var(--main-color)] text-white opacity-0 invisible transition-default;
 }

@@ -15,9 +15,9 @@
 }
 
 .playlist__main-item {
-  @apply h-fit flex p-2 gap-2 hover:bg-[var(--bg-color-secondary)] cursor-pointer rounded-lg;
+  @apply h-fit flex p-2 gap-2 hover:bg-secondary cursor-pointer rounded-lg;
 }
 
 .playlist__main-artist {
-  @apply leading-none text-[var(--text-color-secondary)] w-fit;
+  @apply leading-none text-secondary w-fit;
 }

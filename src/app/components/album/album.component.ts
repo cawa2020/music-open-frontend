@@ -24,7 +24,7 @@ export class AlbumComponent {
   // PLAYBUTTON
   playAlbum() {
     this.api.getAlbumTracks(this.album.id).pipe(map(res => res.data), take(1)).subscribe(tracks => {
-      const queue: any[] = tracks.map((el) => {
+      const queue: Track[] = tracks.map((el) => {
         return { ...el, album: this.album }
       })
 

@@ -57,4 +57,12 @@ export class SongService {
   getQueue(): Track[] {
     return this.queue
   }
+
+  compareQueues(diffQueue: Track[]): boolean {
+    if (!this.queue) return false
+    for (let i = 0; i <= this.queue.length; i++) {
+      if (this.queue.find(el => el?.id === diffQueue[i]?.id === undefined)) { return false }
+    }
+    return true
+  }
 }

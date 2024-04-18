@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PlaylistsComponent } from "../../components/playlists/playlists.component";
 import { ApiService } from '../../services/api.service';
 import { FormsModule } from '@angular/forms';
-import { Album, Track } from '../../interfaces/app.interface';
-import { Subject, debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { Track } from '../../interfaces/app.interface';
+import { Subject, debounceTime } from 'rxjs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { FormatterService } from '../../services/formatter.service';
 import { SongComponent } from "../../components/song/song.component";
 import { PlayerService } from '../../services/audio.service';
 import { LoaderComponent } from "../../components/loader/loader.component";
@@ -17,13 +16,13 @@ import { LoaderComponent } from "../../components/loader/loader.component";
   styleUrl: './search.component.css',
   imports: [PlaylistsComponent, FormsModule, RouterLink, SongComponent, LoaderComponent]
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   public search: string = ''
   public searchSubject = new Subject<string>()
   public findedSongs!: Track[]
   public loading: boolean = false
 
-  constructor(private api: ApiService, private formatter: FormatterService, private player: PlayerService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private api: ApiService, private player: PlayerService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params: any) => {
@@ -55,9 +54,5 @@ export class SearchComponent {
       this.findedSongs = res.data
       this.loading = false
     })
-  }
-
-  getDuration(duration: number): string {
-    return this.formatter.getTime(duration)
   }
 }

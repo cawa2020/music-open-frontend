@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Track } from '../../interfaces/app.interface';
 import { SongService } from '../../services/song.service';
 import { filter } from 'rxjs';
@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './queue.component.css',
   imports: [SongComponent, DragDropModule, MatIconModule]
 })
-export class QueueComponent {
+export class QueueComponent implements OnInit {
   public queue!: Track[]
 
   constructor(private songData: SongService) { }

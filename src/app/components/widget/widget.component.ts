@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RoutesRecognized } from '@angular/router';
@@ -15,7 +15,7 @@ import { Location } from '@angular/common';
   styleUrl: './widget.component.css',
   providers: [Document]
 })
-export class WidgetComponent {
+export class WidgetComponent implements OnInit {
   @ViewChild('excludedElement') excludedElement: ElementRef | undefined;
   public color: string = localStorage.getItem('mainColor') ?? '#3b82f6'
   public isMenuOpen: boolean = false

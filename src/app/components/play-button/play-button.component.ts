@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Track } from '../../interfaces/app.interface';
 import { PlayerService } from '../../services/audio.service';
 import { SongService } from '../../services/song.service';
@@ -13,20 +13,14 @@ import { Observable, filter, map } from 'rxjs';
   styleUrl: './play-button.component.css'
 })
 export class PlayButtonComponent {
+  @Input({ required: true }) isPlaying: boolean = false
   @Input() queue!: Track[]
-  public isPlaying!: boolean
 
   constructor(private songData: SongService, private audio: PlayerService) { }
 
-  ngOnInit() {
-    this.audio.audioChanges.pipe(filter(el => el.type === 'time')).subscribe(value => this.isPlaying = value.data)
-  }
-
   // PLAYBUTTON
   play() {
-    const currQueue = JSON.stringify(this.songData.getQueue())
-    const newQueue = JSON.stringify(this.queue)
-    if (currQueue === newQueue) {
+    if (this.songData.compareQueues(this.queue)) {
       if (this.isPlaying) {
         this.audio.pauseSong()
       } else {
@@ -37,6 +31,5 @@ export class PlayButtonComponent {
       this.audio.setSong(this.queue[0])
       this.audio.playSong()
     }
-
   }
 }

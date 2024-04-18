@@ -29,11 +29,11 @@
     <app-controls color="var(--text-color)"></app-controls>
     <div class="player__time-container">
       <span class="text-xs text-center min-w-8">
-        {{ getFormattedTime() }}
+        {{ currentTime | time }}
       </span>
       <app-slider-time class="w-full max-w-[600px] min-w-[220px]" />
       <span class="text-xs text-center min-w-8">
-        {{formattedDuration}}
+        {{ duration | time }}
       </span>
     </div>
   </div>

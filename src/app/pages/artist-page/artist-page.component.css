@@ -11,7 +11,7 @@
 }
 
 .grid-container {
-  @apply grid gap-6 grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7;
+  @apply grid gap-6 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7;
 }
 
 .artist-header {

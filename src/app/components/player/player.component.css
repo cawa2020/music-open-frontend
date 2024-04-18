@@ -7,7 +7,7 @@
 }
 
 .player__info-artist {
-  @apply leading-none truncate text-[var(--text-color-secondary)];
+  @apply leading-none truncate text-secondary;
 }
 
 .player__buttons {

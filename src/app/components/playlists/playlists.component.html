@@ -7,7 +7,7 @@
   </div>
   <div class="playlist__main">
     @for (list of playlists; track $index) {
-    <div class="playlist__main-item" [class.bg-[var(--bg-color-secondary)]]="currentPlaylistId === list.id" (click)="routeToPlaylist(list.id, list.type)">
+    <div class="playlist__main-item" [class.bg-secondary]="currentPlaylistId === list.id" (click)="routeToPlaylist(list.id, list.type)">
       <img class="w-12 h-12 rounded" [src]="list.cover_small" alt="" />
       @if (!isShort) {
       <div class="flex flex-col justify-center gap-1">

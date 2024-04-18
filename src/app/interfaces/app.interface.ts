@@ -136,7 +136,7 @@ export interface Track {
   preview: string
   md5_image: string
   artist: ArtistBrief
-  album: Album
+  album: Album | AlbumBrief
   type: string
   contributors?: Artist[]
 }

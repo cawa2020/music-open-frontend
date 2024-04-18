@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { PlayerService } from '../../services/audio.service';
-import { volumeMultiplier } from '../../app.constants';
 import { FormsModule } from '@angular/forms';
+import { volumeMultiplier } from '../../constants/app.constants';
 
 @Component({
     selector: 'app-volume-editor',
@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
     styleUrls: ['./volume-editor.component.css', '../slider-time/slider-time.component.css'],
     imports: [MatIconModule, FormsModule]
 })
-export class VolumeEditorComponent {
+export class VolumeEditorComponent implements OnInit {
   @Input() sliderWidth: string = '100%'
   public pastVolume: number = 0
   public volume: number = Number(localStorage.getItem('volume'))

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subject, debounceTime, take } from 'rxjs';
 import { Track } from '../../interfaces/app.interface';
 import { ApiService } from '../../services/api.service';
@@ -14,7 +14,7 @@ import { LoaderComponent } from "../../components/loader/loader.component";
   styleUrls: ['./artist-top.component.css'],
   imports: [CommonModule, SongComponent, LoaderComponent]
 })
-export class ArtistTopComponent {
+export class ArtistTopComponent implements OnInit {
   public songs!: Track[]
   public isLoadedAll: boolean = false
   public isLoading: boolean = false

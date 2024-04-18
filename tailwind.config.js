@@ -13,7 +13,27 @@ module.exports = {
       '3xl': '1400px',
       '4xl': '1600px',
     },
-    extend: {},
+    extend: {
+      textColor: {
+        'default': 'var(--text-color)',
+        'secondary': 'var(--text-color-secondary)',
+        'main': 'var(--main-color)',
+      },
+      backgroundColor: {
+        'default': 'var(--bg-color-main)',
+        'secondary': 'var(--bg-color-secondary)',
+        'main': 'var(--main-color)',
+      },
+      borderColor: {
+        'default': 'var(--border-color)',
+      },
+      transitionProperty: {
+        'default': 'var(--transition-time)'
+      },
+      borderRadius: {
+        'default': 'var(--border-radius)'
+      }
+    },
   },
   plugins: [],
 }

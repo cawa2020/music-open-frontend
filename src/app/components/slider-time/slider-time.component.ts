@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PlayerService } from '../../services/audio.service';
 import { FormsModule } from '@angular/forms';
 
@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './slider-time.component.html',
   styleUrl: '../slider-time/slider-time.component.css'
 })
-export class SliderTimeComponent {
+export class SliderTimeComponent implements OnInit {
   public duration: number = 0
   public time: number = 0
   public editableTimeWhenDisable: number = 0

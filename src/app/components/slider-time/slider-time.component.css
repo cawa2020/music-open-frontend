@@ -6,7 +6,7 @@
   @apply h-3 flex items-center;
 
   &:hover .loader {
-    @apply bg-[var(--main-color)]
+    @apply bg-main
   }
 
   &:hover .loader-circle {

@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PlayerService } from '../../services/audio.service';
 import { Track } from '../../interfaces/app.interface';
 import { MatIconModule } from '@angular/material/icon';
-import { FormatterService } from '../../services/formatter.service';
 import { SongService } from '../../services/song.service';
 import { ControlsComponent } from '../controls/controls.component';
 import { filter } from 'rxjs';
@@ -22,7 +21,7 @@ export class ZenComponent implements OnInit {
   public song: Track | null = null
   public duration!: number
 
-  constructor(private player: PlayerService, private songData: SongService, private formatter: FormatterService) { }
+  constructor(private player: PlayerService, private songData: SongService) { }
 
   ngOnInit(): void {
     this.updateSong()

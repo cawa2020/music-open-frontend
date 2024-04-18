@@ -7,6 +7,6 @@
   </div>
   <a [routerLink]="['/album', album.id]">
     <span class="one-stroke-text">{{album.title}}</span>
-    <p class="text-[var(--text-color-secondary)] text-sm">{{album.release_date | date: 'yyyy'}}</p>
+    <p class="text-secondary text-sm">{{album.release_date | date: 'yyyy'}}</p>
   </a>
 </div>

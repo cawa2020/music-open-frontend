@@ -4,7 +4,7 @@
 }
 
 .song {
-  @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-[var(--bg-color-secondary)];
+  @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-secondary;
 
   &:hover .favorite-button {
     @apply visible
@@ -28,11 +28,11 @@
 }
 
 .song__start {
-  @apply w-10 h-10 flex justify-center items-center text-[var(--text-color)];
+  @apply w-10 h-10 flex justify-center items-center;
 }
 
 .song__start-icon {
-  @apply hidden text-[var(--main-color)]
+  @apply hidden text-main
 }
 
 .song__content {
@@ -40,5 +40,5 @@
 }
 
 .song__content-artist {
-  @apply text-[var(--text-color-secondary)] leading-none w-fit;
+  @apply text-secondary leading-none w-fit;
 }

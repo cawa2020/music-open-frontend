@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Album, Repeat, Song, Track } from '../interfaces/app.interface';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { SongService } from './song.service';
-import { volumeMultiplier } from '../app.constants';
+import { volumeMultiplier } from '../constants/app.constants';
 
 @Injectable({
   providedIn: 'root'
