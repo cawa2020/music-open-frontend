@@ -1,0 +1,3 @@
+.button {
+  @apply w-10 h-10 rounded-full p-0 flex justify-center items-center;
+}

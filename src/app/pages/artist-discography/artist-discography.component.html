@@ -1,8 +1,8 @@
-<section class="w-full h-full overflow-auto p-6">
+<section class="w-full h-full overflow-auto section-adaptive">
   <h5 class="mb-4 leading-none">Дискоргафия</h5>
   <div class="grid-container">
-    @for (album of albums$ | async; track $index) {
-    <app-album [album]="album"></app-album>
+    @for (album of albums$ | async; track album.id) {
+    <app-album-card [album]="album" />
     }
   </div>
 </section>

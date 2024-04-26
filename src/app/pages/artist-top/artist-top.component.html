@@ -1,7 +1,7 @@
-<section (scroll)="loadMoreItems($event)" class="h-full overflow-auto p-6">
+<section (scroll)="loadMoreItems($event)" class="h-full overflow-auto section-adaptive">
   <h5 class="mb-4 leading-none">Топ треки</h5>
   <div >
-    @for (song of songs; track $index) {
+    @for (song of songs; track song.id) {
     <app-song [song]="song" [index]="$index" [queue]="songs"></app-song>
     }
   </div>

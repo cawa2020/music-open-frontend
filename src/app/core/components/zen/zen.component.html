@@ -1,0 +1,26 @@
+<div class="zen-bg" [style.backgroundImage]="'url(' + song?.album?.cover_xl + ')'">
+</div>
+<button class="zen-close" (click)="closeZen()">
+  <mat-icon class="!text-[32px] !w-fit !h-fit text-white">close</mat-icon>
+</button>
+<div class="zen-content">
+  <img class="w-full aspect-square rounded-lg transition-all" [src]="song?.album?.cover_big" alt="обложка">
+  <div class="w-full grid gap-2">
+    <h4 class="text-white leading-none">{{song?.title}}</h4>
+    <div class="flex justify-center">
+      @if (song?.contributors?.length) {
+      @for (artist of song?.contributors; track artist.id) {
+      <h5 class="text-gray-400 leading-none">{{artist.name}}</h5>
+      @if ($index !== (song?.contributors?.length ?? 1) - 1) {<span class="text-gray-400 leading-none">,&nbsp;</span>}
+      }
+      } @else {
+      <h5 class="text-gray-400 leading-none">{{song?.artist?.name}}</h5>
+      }
+    </div>
+  </div>
+  <app-slider-time class="w-full" />
+  <app-controls />
+  <div class="w-full">
+    <app-volume-editor />
+  </div>
+</div>

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Track } from '../../interfaces/app.interface';
-import { SongService } from '../../services/song.service';
+import { SongService } from '../../core/services/song.service';
 import { filter } from 'rxjs';
-import { SongComponent } from "../../components/song/song.component";
+import { SongComponent } from "../../shared/components/song/song.component";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';
+import { Track } from '../../shared/interfaces/track.interface';
+
 @Component({
   selector: 'app-queue',
   standalone: true,
@@ -30,7 +31,7 @@ export class QueueComponent implements OnInit {
     // Я пиписька
     setTimeout(() => {
       this.songData.setQueue(this.queue)
-    }, 0)
+    })
   }
 
   getIndex(songId: number) {

@@ -1,0 +1,39 @@
+<div class="widget-container">
+  <button (click)="move('prev')" class="icon-button">
+    <ion-icon name="chevron-back" />
+  </button>
+  <button [disabled]="index === 0" (click)="move('next')" class="icon-button">
+    <ion-icon name="chevron-forward" />
+  </button>
+  <button (click)="toggleMenu()" class="icon-button">
+    <ion-icon name="person" />
+  </button>
+  @if (isMenuOpen) {
+  <div class="left-hidden-block menu">
+    <div class="flex gap-2 w-full">
+      <button class="button w-full">sign up</button>
+      <button class="button w-full">login</button>
+    </div>
+    <hr class="w-full mt-4 mb-2">
+    <button class="h-10 flex items-center gap-3 hover:underline" (click)="toggleMode()">
+      @if (theme.getMode() === 'light') {
+      <ion-icon class="icon" name="sunny" />
+      <p>light mode</p>
+      } @else {
+      <ion-icon name="moon" />
+      <p>dark mode</p>
+      }
+    </button>
+    <hr class="w-full mb-4 mt-2" />
+    <div class="flex gap-3 items-center">
+      <ion-icon name="color-palette" />
+      <div class="relative flex justify-between items-center gap-2">
+        <input class="w-24" type="text" [(ngModel)]="color" (ngModelChange)="changeColor($event)" />
+        <div class="w-7 h-7 rounded-full cursor-pointer" [style.backgroundColor]="color"></div>
+        <input type="color" class="w-7 h-7 rounded-full opacity-0 absolute top-[6px] right-0 z-30" [(ngModel)]="color"
+          (ngModelChange)="changeColor($event)" />
+      </div>
+    </div>
+  </div>
+  }
+</div>

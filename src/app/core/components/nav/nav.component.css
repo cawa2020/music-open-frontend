@@ -1,0 +1,11 @@
+.nav {
+  @apply flex lg:flex-col gap-2 w-full p-3;
+}
+
+.link {
+  @apply px-1 flex items-center gap-2 opacity-80 w-full hover:opacity-100 hover:no-underline;
+}
+
+.icon {
+  @apply text-[26px] py-[6px] px-[7px];
+}

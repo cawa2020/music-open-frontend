@@ -1,17 +1,20 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { AlbumBrief, Artist, Playlist, Track } from '../../interfaces/app.interface';
-import { ApiService } from '../../services/api.service';
-import { PlaylistsComponent } from "../../components/playlists/playlists.component";
-import { SongComponent } from "../../components/song/song.component";
+import { ApiService } from '../../core/services/api.service';
+import { PlaylistsComponent } from "../../core/components/playlists/playlists.component";
+import { SongComponent } from "../../shared/components/song/song.component";
 import { CommonModule } from '@angular/common';
 import { Observable, filter, finalize, map, of, shareReplay, switchMap, tap } from 'rxjs';
-import { AlbumComponent } from "../../components/album/album.component";
-import { ArtistComponent } from '../../components/artist/artist.component';
-import { LoaderComponent } from "../../components/loader/loader.component";
-import { PlayButtonComponent } from "../../components/play-button/play-button.component";
-import { PlayerService } from '../../services/audio.service';
-import { SongService } from '../../services/song.service';
+import { AlbumComponent } from "../../shared/components/album-card/album-card.component";
+import { ArtistComponent } from '../../shared/components/artist-card/artist-card.component';
+import { LoaderComponent } from "../../shared/components/loader/loader.component";
+import { PlayButtonComponent } from "../../shared/components/play-button/play-button.component";
+import { PlayerService } from '../../core/services/audio.service';
+import { SongService } from '../../core/services/song.service';
+import { AlbumBrief } from '../../shared/interfaces/album.interface';
+import { Artist } from '../../shared/interfaces/artist.interface';
+import { Playlist } from '../../shared/interfaces/playlist.interface';
+import { Track } from '../../shared/interfaces/track.interface';
 
 @Component({
   selector: 'app-artist-page',
@@ -33,6 +36,7 @@ export class ArtistPageComponent implements OnInit {
   constructor(private activateRoute: ActivatedRoute, private api: ApiService, private player: PlayerService, private songData: SongService) { }
 
   ngOnInit(): void {
+
     this.onResize({ target: { innerWidth: window.innerWidth } })
 
     this.player.audioChanges.pipe(filter(el => el.type === 'time')).subscribe(el => {
@@ -40,6 +44,11 @@ export class ArtistPageComponent implements OnInit {
     })
 
     this.activateRoute.params.subscribe(params => {
+      this.albums$ = of(null)
+      this.related$ = of(null)
+      this.playlists$ = of(null)
+      this.songs = []
+
       this.requests = 4
       const id = Number(params["id"])
 
@@ -64,18 +73,14 @@ export class ArtistPageComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     const width = event.target.innerWidth
-    if (width > 1600) {
+    if (width >= 1600) {
       this.lastIndex = 7
-    } else if (width > 1400) {
+    } else if (width >= 1400) {
       this.lastIndex = 6
-    } else if (width > 1200) {
+    } else if (width >= 1000) {
       this.lastIndex = 5
-    } else if (width > 1000) {
-      this.lastIndex = 4
-    } else if (width > 800) {
-      this.lastIndex = 3
     } else {
-      this.lastIndex = 2
+      this.lastIndex = 7
     }
   }
 

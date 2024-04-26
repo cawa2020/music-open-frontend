@@ -1,13 +1,13 @@
+<app-widget></app-widget>
 <div class="content-container">
-  <app-widget></app-widget>
-  <div class="flex flex-col gap-[var(--side-margin)]" style="grid-area: left-sidebar;">
+  <div class="flex flex-col gap-[var(--side-margin)]" style="grid-area: sidebar;">
     <app-nav [isShort]="isContained"></app-nav>
-    <app-playlists class="h-full" (toggleShortEmitter)="toggleContained($event)" [isShort]="isContained"></app-playlists>
+    <app-playlists class="h-full" [isShort]="isContained" (toggleShortEmitter)="setContained($event)"></app-playlists>
   </div>
-  <main style="grid-area: main-view/main-view/main-view/right-sidebar;">
+  <main style="grid-area: main-view">
     <router-outlet class="absolute"></router-outlet>
   </main>
   <div style="grid-area: now-playing-bar;">
-    <app-player class="w-full"></app-player>
+    <app-player></app-player>
   </div>
 </div>

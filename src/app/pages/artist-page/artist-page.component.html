@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  <div class="m-6">
+  <div class="adaptive-margin">
     <a [routerLink]="['top']" class="link">
       <h5 class="leading-none">Топ треки</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
@@ -22,16 +22,16 @@
         </path>
       </svg>
     </a>
-    <div class="grid gap-1">
-      @for(song of songs?.slice(0,5); track $index) {
-      <app-song [index]="$index" [hideArtist]="true" [queue]="getQueue()" [song]="song"></app-song>
+    <div>
+      @for(song of songs?.slice(0,5); track song.id) {
+      <app-song [index]="$index" [hideArtist]="true" [queue]="getQueue()" [song]="song" />
       }@empty {
       <p class="text-secondary">Пусто :(</p>
       }
     </div>
   </div>
 
-  <div class="m-6 my-12">
+  <div class="adaptive-margin">
     <a [routerLink]="['discography']" class="link">
       <h5 class="leading-none">Дискоргафия</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
@@ -42,15 +42,15 @@
       </svg>
     </a>
     <div class="grid-container">
-      @for(album of (albums$ | async)?.slice(0,lastIndex); track $index) {
-      <app-album [album]="album"></app-album>
+      @for(album of (albums$ | async)?.slice(0,lastIndex); track album.id) {
+      <app-album-card class="w-36 xl:w-full" [album]="album" />
       } @empty {
       <p class="text-secondary">Пусто :(</p>
       }
     </div>
   </div>
 
-  <div class="m-6 my-12">
+  <div class="adaptive-margin">
     <a routerLink="/" class="link">
       <h5 class="leading-none">Схоже с творчеством</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
@@ -61,15 +61,15 @@
       </svg>
     </a>
     <div class="grid-container">
-      @for(artist of (related$ | async)?.slice(0,lastIndex); track $index) {
-      <app-artist [artist]="artist"></app-artist>
+      @for(artist of (related$ | async)?.slice(0,lastIndex); track artist.id) {
+      <app-artist-card class="w-36 xl:w-fit" [artist]="artist" />
       } @empty {
       <p class="text-secondary">Пусто :(</p>
       }
     </div>
   </div>
 
-  <div class="m-6">
+  <div class="adaptive-margin">
     <a routerLink="/" class="link">
       <h5 class="leading-none">Плейлисты</h5>
       <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
@@ -80,7 +80,7 @@
       </svg>
     </a>
     <div class="grid-container">
-      @for(playlist of (playlists$ | async)?.slice(0,10); track $index) {
+      @for(playlist of (playlists$ | async)?.slice(0,10); track playlist.id) {
       <div [routerLink]="['/playlist', playlist.id]"
         class="cursor-pointer rounded-md p-3 hover:bg-secondary flex flex-col gap-2 w-full">
         <img class="rounded w-full aspect-square" [src]="playlist.picture_medium" alt="">

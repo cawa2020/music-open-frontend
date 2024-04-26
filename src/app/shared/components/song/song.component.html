@@ -1,0 +1,66 @@
+<div class="song">
+  <div class="song__start" (click)="setTrack()">
+    @if ((isCurrentSong$ | async) && (isPlaying$ | async)) {
+    <div class="equalizer">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <ion-icon class="song__start-icon" name="pause" />
+    } @else {
+    <p [class.text-main]="isCurrentSong$ | async" class="song__start-index">{{ index + 1 }}</p>
+    <ion-icon class="song__start-icon" name="play" />
+    }
+  </div>
+
+  <div class="song__content">
+    <div class="w-full grid gap-2 items-center grid-cols-[100%] mxl:grid-cols-[52%_auto]">
+      <div class="flex gap-3 w-full">
+        @if (!hideImg) {
+        <img [src]="song.album.cover_medium" loading="lazy" class="w-10 h-10 rounded" alt="song_cover" />
+        }
+
+        <div class="flex flex-col justify-center">
+          <span class="one-stroke-text" [class.text-main]="isCurrentSong$ | async">
+            {{ song.title }}
+          </span>
+
+          @if (!hideArtist) {
+          <div class="flex items-start">
+            @if (song.contributors?.length) {
+            @for (artist of song.contributors; track artist.id) {
+            <a [routerLink]="['/artist', artist.id]" class="song__content-artist one-stroke-text">
+              {{ artist.name }}
+            </a>
+            @if (!isLastSong($index)) {<span class="song__content-artist">,&nbsp;</span>}}
+            } @else {
+            <a [routerLink]="['/artist', song.artist.id]" class="song__content-artist one-stroke-text">
+              {{ song.artist.name }}
+            </a>
+            }
+          </div>
+          }
+
+        </div>
+      </div>
+
+      @if (!hideAlbum) {
+      <a class="text-secondary truncate w-fit max-w-full hidden mxl:block"
+        [routerLink]="['/album/', song.album.id]">{{song.album.title}}</a>
+      }
+    </div>
+
+    <div tooltip="Добавить в избранное" class="favorite-button w-fit flex justify-end">
+      <button (click)="toggleFavorite()" class="icon-button" [class.text-main]="isFavorite">
+        <ion-icon [name]="getFavoriteIcon()" />
+      </button>
+    </div>
+    <div class="flex">
+      <p class="flex items-center text-sm text-right mr-2 font-normal">{{ song.duration | time }}</p>
+      <button tooltip="Меню" class="icon-button more-button">
+        <ion-icon class="text-[16px]" name="ellipsis-horizontal" />
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="flex items-center gap-2">
+  <button class="icon-button" [style.color]="color" [class.active-button]="isShuffled" (click)="toggleShuffle()">
+    <ion-icon name="shuffle" />
+  </button>
+  <button class="icon-button" [style.color]="color" (click)="prevSong()">
+    <ion-icon name="play-skip-back" />
+  </button>
+  <button class="icon-button bg-[var(--text-color)] text-[var(--bg-color-secondary)]" (click)="toggleTrack()">
+    <ion-icon [name]="isPlaying ? 'pause' : 'play' " />
+  </button>
+  <button class="icon-button" [style.color]="color" (click)="nextSong()">
+    <ion-icon name="play-skip-forward" />
+  </button>
+  <button class="icon-button" [style.color]="color" [class.active-button]="repeat !== 'none'" (click)="toggleRepeat()">
+    @switch (repeat) { @case ('playlist') {
+    <ion-icon name="repeat" />
+    } @case ('song') {
+    <ion-icon name="repeat" />
+    <!-- <mat-icon fontIcon="repeat_one"></mat-icon> -->
+    } @default {
+    <ion-icon name="repeat" />
+    } }
+  </button>
+</div>

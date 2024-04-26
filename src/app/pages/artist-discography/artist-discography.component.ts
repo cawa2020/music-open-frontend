@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../core/services/api.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Observable, map } from 'rxjs';
-import { Album, AlbumBrief } from '../../interfaces/app.interface';
 import { CommonModule } from '@angular/common';
-import { AlbumComponent } from "../../components/album/album.component";
+import { AlbumComponent } from "../../shared/components/album-card/album-card.component";
+import { AlbumBrief } from '../../shared/interfaces/album.interface';
 
 @Component({
     selector: 'app-artist-discography',
     standalone: true,
     templateUrl: './artist-discography.component.html',
-    styleUrls: ['./artist-discography.component.css', '../artist-page/artist-page.component.css'],
+    styleUrl: './artist-discography.component.css',
     imports: [CommonModule, RouterLink, AlbumComponent]
 })
 export class ArtistDiscographyComponent implements OnInit {

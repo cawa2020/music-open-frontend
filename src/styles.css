@@ -36,6 +36,11 @@
   --side-margin: 8px;
 }
 
+ion-icon {
+  color: inherit;
+  font-size: 18px;
+}
+
 div::-webkit-scrollbar {
   @apply h-3 bg-default
 }
@@ -55,9 +60,9 @@ body {
 .content-container {
   @apply relative min-h-full grid gap-[var(--side-margin)];
   grid-template-columns: auto 1fr;
-  grid-template-rows: calc(100vh - 36px - 80px) 80px;
+  grid-template-rows: calc(100vh - var(--side-margin) * 3 - 80px) 80px;
   grid-template-areas:
-    "left-sidebar main-view right-sidebar"
+    "sidebar main-view main-view"
     "now-playing-bar now-playing-bar now-playing-bar";
 }
 
@@ -69,6 +74,10 @@ section,
 .section {
   @apply bg-default border border-default;
   border-radius: var(--border-radius);
+}
+
+.section-adaptive {
+  @apply p-3 lg:p-6
 }
 
 .material-icons {
@@ -93,10 +102,6 @@ section,
 
   /* Support for IE. */
   font-feature-settings: "liga";
-}
-
-mat-icon.mat-icon {
-  @apply w-5 h-5;
 }
 
 h1 {
@@ -127,6 +132,10 @@ a:hover {
   @apply underline
 }
 
+button {
+  @apply w-fit h-fit flex justify-center items-center
+}
+
 button:disabled {
   @apply cursor-not-allowed opacity-80;
 }
@@ -147,13 +156,14 @@ button:disabled {
   @apply !text-main relative;
 
   &::after {
-    @apply rounded-full p-[2px] absolute bg-main bottom-[-2px] left-[45%];
+    @apply rounded-full p-[2px] absolute bg-main bottom-0 left-[45%];
     content: "";
   }
 }
 
 .icon-button {
-  @apply p-[6px] rounded-full h-8 w-8;
+  @apply p-[6px] rounded-full;
+  box-sizing: border-box;
 }
 
 input:not([type="range"]):not([type="color"]) {
@@ -312,4 +322,27 @@ input[type="range"]::-webkit-slider-thumb {
 
 .play-button {
   @apply flex justify-center items-center absolute left-2 bottom-2 backdrop-blur-sm bg-white/40 rounded-full hover:bg-[var(--main-color)] text-white opacity-0 invisible transition-default;
+}
+
+.after-center::after {
+  @apply left-1/2 -translate-x-1/2
+}
+
+.after-right-start::after {
+  @apply right-0
+}
+
+.after-left-start::after {
+  @apply left-0
+}
+
+@media (max-width: 800px) {
+  .content-container {
+    grid-template-rows: 80px calc(100vh - var(--side-margin) * 4 - 160px) 80px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "sidebar"
+      "main-view"
+      "now-playing-bar";
+  }
 }

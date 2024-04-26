@@ -1,7 +1,7 @@
-<section class="h-full overflow-auto p-6">
+<section class="h-full overflow-auto section-adaptive">
   <h5 class="mb-4">Текущая очередь</h5>
   <div cdkDropList (cdkDropListDropped)="onDrop($event)">
-    @for (song of queue; track $index) {
+    @for (song of queue; track song.id) {
     <div cdkDrag>
       <app-song [song]="song" [hideIndex]="true" [index]="$index" [queue]="queue"></app-song>
     </div>

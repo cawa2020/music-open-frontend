@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { PlaylistsComponent } from "../../components/playlists/playlists.component";
-import { ApiService } from '../../services/api.service';
+import { PlaylistsComponent } from "../../core/components/playlists/playlists.component";
+import { ApiService } from '../../core/services/api.service';
 import { FormsModule } from '@angular/forms';
-import { Track } from '../../interfaces/app.interface';
 import { Subject, debounceTime } from 'rxjs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { SongComponent } from "../../components/song/song.component";
-import { PlayerService } from '../../services/audio.service';
-import { LoaderComponent } from "../../components/loader/loader.component";
+import { SongComponent } from "../../shared/components/song/song.component";
+import { PlayerService } from '../../core/services/audio.service';
+import { LoaderComponent } from "../../shared/components/loader/loader.component";
+import { Track } from '../../shared/interfaces/track.interface';
 
 @Component({
   selector: 'app-search',

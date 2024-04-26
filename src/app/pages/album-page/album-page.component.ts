@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Album, Track } from '../../interfaces/app.interface';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../core/services/api.service';
 import { CommonModule } from '@angular/common';
-import { SongComponent } from '../../components/song/song.component';
-import { LoaderComponent } from "../../components/loader/loader.component";
-import { PlayButtonComponent } from "../../components/play-button/play-button.component";
-import { PlayerService } from '../../services/audio.service';
+import { SongComponent } from '../../shared/components/song/song.component';
+import { LoaderComponent } from "../../shared/components/loader/loader.component";
+import { PlayButtonComponent } from "../../shared/components/play-button/play-button.component";
+import { PlayerService } from '../../core/services/audio.service';
 import { filter } from 'rxjs';
-import { SongService } from '../../services/song.service';
+import { SongService } from '../../core/services/song.service';
+import { Album } from '../../shared/interfaces/album.interface';
 
 @Component({
   selector: 'app-album-page',

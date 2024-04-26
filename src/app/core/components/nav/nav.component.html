@@ -1,0 +1,14 @@
+<nav class="nav section">
+  <a class="link" [routerLink]="['/']">
+    <ion-icon class="icon" name="home" />
+    @if (!isShort) {
+      <span class="text-lg font-medium">Главная</span>
+    }
+  </a>
+  <a class="link" [routerLink]="['/search']">
+    <ion-icon class="icon" name="search" />
+    @if (!isShort) {
+      <span class="text-lg font-medium">Поиск</span>
+    }
+  </a>
+</nav>

@@ -1,0 +1,51 @@
+<section class="player">
+  <div class="player__info">
+    <div tooltip="Во весь экран">
+      <img class="rounded min-w-14 w-14 aspect-square hover:brightness-50" (click)="toggleZenMode()"
+        [src]="song?.album?.cover_small ?? '../../assets/placeholder.jpg'" alt="song cover" />
+    </div>
+    <div class="player__info-text">
+      <a appSlidingText class="player__info-title" [routerLink]="['/album', song?.album?.id]">
+        {{ song?.title }}
+      </a>
+      <div class="player__info-artist">
+        @if (song?.contributors?.length) {
+        @for (artist of song?.contributors; track artist.id) {
+        <a [routerLink]="['/artist', artist.id]">
+          {{ artist.name }}
+        </a>
+        @if (!isLastElement($index)) {<span class="text-inherit">,&nbsp;</span>}
+        }} @else {
+        <a [routerLink]="['/artist', song?.artist?.id]">
+          {{ song?.artist?.name }}
+        </a>
+        }
+      </div>
+    </div><button tooltip="Добавить в избранное" class="icon-button">
+      <ion-icon name="heart-outline" />
+    </button>
+  </div>
+
+  <div class="player__controllers">
+    <app-controls color="var(--text-color)"></app-controls>
+    <div class="player__time-container">
+      <span class="text-xs text-center min-w-8">
+        {{ currentTime | time }}
+      </span>
+      <app-slider-time class="w-full max-w-[600px]" />
+      <span class="text-xs text-center min-w-8">
+        {{ duration | time }}
+      </span>
+    </div>
+  </div>
+
+  <div class="player__buttons">
+    <button tooltip="Очередь" class="icon-button" [routerLink]="['/queue']">
+      <ion-icon name="menu" />
+    </button>
+    <app-volume-editor sliderWidth="80px" />
+  </div>
+</section>
+@if (zenMode) {
+<app-zen (toggleZenMode)="toggleZenMode($event)"></app-zen>
+}

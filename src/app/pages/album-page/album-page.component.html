@@ -1,4 +1,4 @@
-<section class="h-full overflow-auto p-6">
+<section class="h-full overflow-auto section-adaptive">
   @if (loading) {
   <div class="flex justify-center items-center w-full h-full">
     <app-loader />
@@ -10,7 +10,7 @@
       <div class="playlist-header__info">
         <h3 class="text-balance">{{ playlist.title }}</h3>
         <div class="flex">
-          @for (artist of playlist.contributors; track $index) {
+          @for (artist of playlist.contributors; track artist.id) {
           <a [routerLink]="['/artist', artist.id]" class="text-2xl w-fit">{{ artist.name }}</a>
           @if (!isLastPlaylist($index)) {<span class="text-2xl w-fit">,&nbsp;</span>}
           }
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="grid gap-1">
-      @for (song of playlist.tracks.data; track $index) {
+      @for (song of playlist.tracks.data; track song.id) {
       <app-song [index]="$index" [hideImg]="true" [queue]="playlist.tracks.data" [hideAlbum]="true"
         [song]="song"></app-song>
       }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PlaylistsComponent } from "../../components/playlists/playlists.component";
+import { PlaylistsComponent } from "../../core/components/playlists/playlists.component";
 
 @Component({
   selector: 'app-main',

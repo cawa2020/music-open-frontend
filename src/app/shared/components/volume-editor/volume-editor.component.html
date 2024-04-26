@@ -1,0 +1,12 @@
+<div class="flex items-center">
+  <button class="icon-button" (click)="toggleVolume()">
+    <ion-icon [name]="getVolumeIcon()" />
+  </button>
+  <div class="slider-container" [style.width]="sliderWidth">
+    <div class="slider">
+      <div class="loader" [style.width]="getCurrentPercentage()"></div>
+      <div class="loader-circle" [style.left]="getCurrentPercentage()"></div>
+      <input class="slider-input" type="range" [ngModel]="volume" (ngModelChange)="handleVolume($event)" />
+    </div>
+  </div>
+</div>

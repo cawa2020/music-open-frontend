@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, debounceTime, take } from 'rxjs';
-import { Track } from '../../interfaces/app.interface';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../core/services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { SongComponent } from "../../components/song/song.component";
-import { LoaderComponent } from "../../components/loader/loader.component";
+import { SongComponent } from "../../shared/components/song/song.component";
+import { LoaderComponent } from "../../shared/components/loader/loader.component";
+import { Track } from '../../shared/interfaces/track.interface';
 
 @Component({
   selector: 'app-artist-top',
