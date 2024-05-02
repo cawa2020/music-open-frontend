@@ -14,7 +14,7 @@ import { SongService } from '../../core/services/song.service';
 import { AlbumBrief } from '../../shared/interfaces/album.interface';
 import { Artist } from '../../shared/interfaces/artist.interface';
 import { Playlist } from '../../shared/interfaces/playlist.interface';
-import { Track } from '../../shared/interfaces/track.interface';
+import { Song } from '../../shared/interfaces/track.interface';
 
 @Component({
   selector: 'app-artist-page',
@@ -29,7 +29,7 @@ export class ArtistPageComponent implements OnInit {
   public related$!: Observable<Artist[] | null>
   public playlists$!: Observable<Playlist[] | null>
   public isPlaying: boolean = false
-  public songs: Track[] | undefined
+  public songs: Song[] | undefined
   public requests!: number
   public lastIndex: number = 7
 
@@ -66,7 +66,7 @@ export class ArtistPageComponent implements OnInit {
     })
   }
 
-  getQueue(): Track[] {
+  getQueue(): Song[] {
     return this.songs ?? []
   }
 

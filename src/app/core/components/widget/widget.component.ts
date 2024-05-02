@@ -5,12 +5,16 @@ import { Router, RouterLink, RoutesRecognized } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { filter, pairwise } from 'rxjs';
 import { Location } from '@angular/common';
+import { AuthModalComponent } from '../auth-modal/auth-modal.component';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../../shared/interfaces/playlist.interface';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
   selector: 'app-widget',
   standalone: true,
-  imports: [RouterLink, FormsModule, MatIconModule],
+  imports: [RouterLink, FormsModule, MatIconModule, AuthModalComponent],
   templateUrl: './widget.component.html',
   styleUrl: './widget.component.css',
   providers: [Document],
@@ -20,13 +24,20 @@ export class WidgetComponent implements OnInit {
   public color: string = localStorage.getItem('mainColor') ?? '#3b82f6'
   public isMenuOpen: boolean = false
   public index: number = 0
+  public modal: 'registration' | 'login' | null = null
+  public user: null | User = null
 
-  constructor(public theme: ThemeService, private location: Location) { }
+  constructor(public theme: ThemeService, private location: Location, private auth: AuthService, private userService: UserService) { }
 
   ngOnInit() {
     const isThemeDark = localStorage.getItem('themeMode') === 'dark'
     if (isThemeDark) { this.theme.toggleMode() }
     this.changeColor(this.color)
+
+    this.userService.userChanges.subscribe(() => {
+      const user = this.userService.getUser()
+      this.user = user
+    })
   }
 
   @HostListener('document:click', ['$event'])
@@ -59,5 +70,13 @@ export class WidgetComponent implements OnInit {
       this.location.back()
       this.index--
     }
+  }
+
+  setModal(type: 'registration' | 'login' | null) {
+    this.modal = type
+  }
+
+  logout() {
+    this.auth.logout()
   }
 }

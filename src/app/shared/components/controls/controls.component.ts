@@ -3,7 +3,7 @@ import { PlayerService } from '../../../core/services/audio.service';
 import { SongService } from '../../../core/services/song.service';
 import { filter } from 'rxjs';
 import { Repeat } from '../../interfaces/app.interface';
-import { Track } from '../../interfaces/track.interface';
+import { Song } from '../../interfaces/track.interface';
 
 @Component({
   selector: 'app-controls',
@@ -40,7 +40,7 @@ export class ControlsComponent implements OnInit {
     })
   }
 
-  shuffleSongs(queue: Track[]): Track[] {
+  shuffleSongs(queue: Song[]): Song[] {
     const arr = JSON.parse(JSON.stringify(queue))
 
     for (let i = arr.length - 1; i > 0; i--) {
@@ -54,7 +54,7 @@ export class ControlsComponent implements OnInit {
   toggleShuffle() {
     this.songData.setShuffle(!this.isShuffled)
     if (this.isShuffled) {
-      const queue: Track[] = this.songData.getQueue()
+      const queue: Song[] = this.songData.getQueue()
       if (!queue) return
       this.songData.setUnshQueue(JSON.parse(JSON.stringify(queue)))
       this.songData.setQueue(this.shuffleSongs(queue))

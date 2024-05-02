@@ -4,27 +4,35 @@
     <app-loader />
   </div>
   } @else {
-  <div class="grid gap-4">
+  <div>
     <div class="playlist-header">
-      <img class="playlist-header__img" [src]="playlist.cover_big" alt="cover" />
+      <img class="playlist-header__img" [src]="album.cover_big" alt="cover" />
       <div class="playlist-header__info">
-        <h3 class="text-balance">{{ playlist.title }}</h3>
+        <h3 class="text-balance">{{ album.title }}</h3>
         <div class="flex">
-          @for (artist of playlist.contributors; track artist.id) {
+          @for (artist of album.contributors; track artist.id) {
           <a [routerLink]="['/artist', artist.id]" class="text-2xl w-fit">{{ artist.name }}</a>
           @if (!isLastPlaylist($index)) {<span class="text-2xl w-fit">,&nbsp;</span>}
           }
         </div>
         <div class="flex gap-[6px]">
           <p>{{ genres }} ·</p>
-          {{ playlist.release_date | date: 'YYYY' }}
+          {{ album.release_date | date: 'YYYY' }}
         </div>
-        <app-play-button class="playlist-header__info-button" [isPlaying]="isPlaying" [queue]="playlist.tracks.data" />
+        <div class="playlist-header__info-buttons">
+          <!-- <button (click)="addToFavorite()">
+            <ion-icon class="h-4 w-4" name="heart" />
+          </button> -->
+          <app-play-button [isPlaying]="isPlaying" [queue]="album.tracks.data" />
+          <button>
+            <ion-icon class="h-4 w-4" name="ellipsis-horizontal" />
+          </button>
+        </div>
       </div>
     </div>
     <div class="grid gap-1">
-      @for (song of playlist.tracks.data; track song.id) {
-      <app-song [index]="$index" [hideImg]="true" [queue]="playlist.tracks.data" [hideAlbum]="true"
+      @for (song of album.tracks.data; track song.id) {
+      <app-song [index]="$index" [hideImg]="true" [queue]="album.tracks.data" [hideAlbum]="true"
         [song]="song"></app-song>
       }
     </div>

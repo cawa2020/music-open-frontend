@@ -5,7 +5,7 @@ import { SongComponent } from "../../shared/components/song/song.component";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';
-import { Track } from '../../shared/interfaces/track.interface';
+import { Song } from '../../shared/interfaces/track.interface';
 
 @Component({
   selector: 'app-queue',
@@ -15,7 +15,7 @@ import { Track } from '../../shared/interfaces/track.interface';
   imports: [SongComponent, DragDropModule, MatIconModule]
 })
 export class QueueComponent implements OnInit {
-  public queue!: Track[]
+  public queue!: Song[]
 
   constructor(private songData: SongService) { }
 
@@ -26,7 +26,7 @@ export class QueueComponent implements OnInit {
     })
   }
 
-  onDrop(event: CdkDragDrop<Track[]>) {
+  onDrop(event: CdkDragDrop<Song[]>) {
     moveItemInArray(this.queue, event.previousIndex, event.currentIndex);
     // Я пиписька
     setTimeout(() => {

@@ -7,15 +7,14 @@
   </div>
   <div class="playlist__main">
     @for (list of playlists; track list.id) {
-    <div class="playlist__main-item" [class.bg-secondary]="currentPlaylistId === list.id"
-      (click)="routeToPlaylist(list.id, list.type)">
-      <img class="w-12 h-12 rounded" [src]="list.cover_small" alt="" />
+    <div class="playlist__main-item" (click)="routeToPlaylist(list.id, list.type)">
+      <img class="w-12 h-12 rounded" [src]="getCover(list)" alt="" />
       @if (!isShort) {
       <div class="flex flex-col justify-center gap-1">
         <h6 class="leading-none font-normal one-stroke-text">
-          {{ list.title }}
+          {{ getTitle(list) }}
         </h6>
-        <p class="playlist__main-artist one-stroke-text">{{ list.artist.name }}</p>
+        <p class="playlist__main-artist one-stroke-text">{{ getSecondaryText(list) }}</p>
       </div>
       }
     </div>

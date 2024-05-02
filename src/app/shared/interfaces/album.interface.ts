@@ -1,5 +1,5 @@
 import { Artist, Contributor } from "./artist.interface"
-import { Track } from "./track.interface"
+import { Song } from "./track.interface"
 
 export interface Album {
   id: number
@@ -27,7 +27,7 @@ export interface Album {
   contributors: Contributor[]
   artist: Artist
   type: string
-  tracks: { data: Track[] }
+  tracks: { data: Song[] }
 }
 
 export interface AlbumBrief {

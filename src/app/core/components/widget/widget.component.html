@@ -11,8 +11,12 @@
   @if (isMenuOpen) {
   <div class="left-hidden-block menu">
     <div class="flex gap-2 w-full">
-      <button class="button w-full">sign up</button>
-      <button class="button w-full">login</button>
+      @if (user) {
+      <a [routerLink]="['profile/me']">profile</a>
+      } @else {
+      <button class="button w-full" (click)="setModal('registration')">sign up</button>
+      <button class="button w-full" (click)="setModal('login')">login</button>
+      }
     </div>
     <hr class="w-full mt-4 mb-2">
     <button class="h-10 flex items-center gap-3 hover:underline" (click)="toggleMode()">
@@ -34,6 +38,13 @@
           (ngModelChange)="changeColor($event)" />
       </div>
     </div>
+    @if (user) {
+    <hr class="w-full my-4" />
+    <button (click)="logout()">logout</button>
+    }
   </div>
   }
 </div>
+@if (modal) {
+<app-auth-modal (onCloseModal)="setModal($event)" [type]="modal"></app-auth-modal>
+}

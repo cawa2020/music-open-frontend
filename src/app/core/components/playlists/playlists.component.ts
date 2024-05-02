@@ -4,8 +4,9 @@ import { ActivatedRoute, NavigationStart, Router, RouterLink } from '@angular/ro
 import { MatIconModule } from '@angular/material/icon';
 import { filter } from 'rxjs';
 import { Album } from '../../../shared/interfaces/album.interface';
-
-const ids = [552823212]
+import { UserService } from '../../services/user.service';
+import { Playlist } from '../../../shared/interfaces/playlist.interface';
+import { Artist } from '../../../shared/interfaces/artist.interface';
 
 @Component({
   selector: 'app-playlists',
@@ -19,14 +20,17 @@ const ids = [552823212]
 export class PlaylistsComponent implements OnInit {
   @Output() toggleShortEmitter = new EventEmitter()
   @Input() isShort!: boolean
-  public playlists: Album[] = []
+  public playlists: (Album | Playlist | Artist)[] = []
   public currentPlaylistId!: number
 
-  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit(): void {
-    ids.map(id => {
-      this.api.getAlbum(id).subscribe(res => { this.playlists.push(res) })
+    this.userService.userChanges.subscribe(() => {
+      const user = this.userService.getUser()
+      if (!user) return
+      console.log(user)
+      this.playlists = [...user.favoriteAlbums, ...user.favoriteArtists, ...user.favoritePlaylists]
     })
 
     this.route.params.subscribe(params => {
@@ -45,5 +49,29 @@ export class PlaylistsComponent implements OnInit {
 
   toggleShort() {
     this.toggleShortEmitter.emit(!this.isShort)
+  }
+
+  getCover(el: Album | Playlist | Artist): string {
+    if ('cover_small' in el) {
+      return el.cover_small ?? '../../assets/placeholder.jpg';
+    } else {
+      return '../../assets/placeholder.jpg'
+    }
+  }
+
+  getTitle(el: Album | Playlist | Artist): string {
+    if ('title' in el) {
+      return el.title;
+    } else {
+      return el.name
+    }
+  }
+
+  getSecondaryText(el: Album | Playlist | Artist): string {
+    if ('artist' in el) {
+      return `${el.type} • ${el.artist.name}`
+    } else {
+      return el.type
+    }
   }
 }

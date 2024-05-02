@@ -1,0 +1,6 @@
+.asd {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  height: calc(100% - 40px);
+}

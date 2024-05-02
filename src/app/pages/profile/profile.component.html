@@ -1,1 +1,29 @@
-<p>sdfsdfdsfsdf!</p>
+<section class="section-adaptive h-full">
+  @if (loading) {
+  <div class="flex justify-center items-center w-full h-full">
+    <app-loader />
+  </div>
+  } @else {
+  <h3>Wassup! {{user.username}}</h3>
+
+  <div class="adaptive-margin">
+    <h5 class="mb-3">Ваши плейлисты</h5>
+    @for (playlist of user.created_playlists; track playlist.id) {
+    <app-playlist-card [playlist]="playlist"></app-playlist-card>
+    } @empty {
+    <p class="text-secondary">Пусто :(</p>
+    }
+  </div>
+
+  <div class="adaptive-margin">
+    <h5 class="mb-3">Отслеживаемые артисты</h5>
+    <div>
+      @for (artist of user.favoriteArtists; track artist.id) {
+      <app-artist-card [artist]="artist"></app-artist-card>
+      } @empty {
+      <p class="text-secondary">Пусто :(</p>
+      }
+    </div>
+  </div>
+  }
+</section>

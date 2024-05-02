@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, Component, Input, OnInit } from '@angular/core'
 import { MatIconModule } from '@angular/material/icon';
 import { PlayerService } from '../../../core/services/audio.service';
 import { FormsModule } from '@angular/forms';
-import { volumeMultiplier } from '../../constants/constants';
+import { volumeMultiplier } from '../../constants/app.constant';
 
 @Component({
   selector: 'app-volume-editor',

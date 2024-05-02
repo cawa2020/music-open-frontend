@@ -13,7 +13,7 @@ import { VolumeEditorComponent } from "../../../shared/components/volume-editor/
 import { TimePipe } from "../../../shared/pipes/time.pipe";
 import { SlidingTextDirective } from './directives/sliding-text.directive';
 import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
-import { Track } from '../../../shared/interfaces/track.interface';
+import { Song } from '../../../shared/interfaces/track.interface';
 
 @Component({
   selector: 'app-player',
@@ -26,7 +26,7 @@ import { Track } from '../../../shared/interfaces/track.interface';
 })
 export class PlayerComponent implements OnInit {
   public zenMode: boolean = false
-  public song: Track | undefined = undefined
+  public song: Song | undefined = undefined
 
   public currentTime!: number
   public duration!: number

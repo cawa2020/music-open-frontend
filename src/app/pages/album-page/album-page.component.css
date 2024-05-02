@@ -1,5 +1,5 @@
 .playlist-header {
-  @apply items-center flex-col xl:flex-row flex gap-4;
+  @apply items-center flex-col xl:flex-row flex gap-4 mb-4;
 }
 
 .playlist-header__img {
@@ -10,6 +10,6 @@
   @apply flex flex-col justify-center text-center xl:text-left items-center xl:items-start gap-2 xl:gap-0 relative h-full;
 }
 
-.playlist-header__info-button {
-  @apply w-fit mt-4;
+.playlist-header__info-buttons {
+  @apply flex items-center gap-6 mt-4;
 }

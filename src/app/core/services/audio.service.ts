@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { SongService } from './song.service';
-import { volumeMultiplier } from '../../shared/constants/constants';
-import { Track } from '../../shared/interfaces/track.interface';
+import { volumeMultiplier } from '../../shared/constants/app.constant';
+import { Song } from '../../shared/interfaces/track.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class PlayerService {
     return this.audio
   }
 
-  setSong(song: Track) {
+  setSong(song: Song) {
     this.songData.setSong(song)
     this.audio.src = song.preview
     this.audio.currentTime = 0
@@ -49,7 +49,7 @@ export class PlayerService {
   }
 
   skipSong(direction: 'prev' | 'next', isEndedByItself?: boolean) {
-    const queue: Track[] | undefined = this.songData.getQueue()
+    const queue: Song[] | undefined = this.songData.getQueue()
     const index = this.getIndexOfNextSong(direction, isEndedByItself)
     if (index === null) {
       this.pauseSong()
@@ -61,7 +61,7 @@ export class PlayerService {
   }
 
   private getIndexOfNextSong(direction: 'prev' | 'next', isEndedByItself?: boolean): number | null {
-    const queue: Track[] | undefined = this.songData.getQueue()
+    const queue: Song[] | undefined = this.songData.getQueue()
     const index = queue?.findIndex(el => el.id === this.songData.getSong()?.id) ?? 0
     const isLastSong = index === (queue?.length ?? 9999) - 1
     const isFirstSong = index === 0

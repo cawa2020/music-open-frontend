@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Track } from '../../shared/interfaces/track.interface';
+import { Song } from '../../shared/interfaces/track.interface';
 import { Repeat } from '../../shared/interfaces/app.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SongService {
-  private queue!: Track[]
-  private unshuffledQueue!: Track[]
-  private song: Track | null = null
+  private queue!: Song[]
+  private unshuffledQueue!: Song[]
+  private song: Song | null = null
   private repeat: Repeat = 'none'
   private isShuffled: boolean = false
   public readonly changes = new BehaviorSubject<'song' | 'repeat' | 'queue' | 'shuffle' | null>(null)
 
-  getSong(): Track | null {
+  getSong(): Song | null {
     return this.song
   }
 
-  setSong(value: Track) {
+  setSong(value: Song) {
     this.song = value
     this.changes.next('song')
   }
@@ -32,11 +32,11 @@ export class SongService {
     this.changes.next('repeat')
   }
 
-  getUnshQueue(): Track[] {
+  getUnshQueue(): Song[] {
     return this.unshuffledQueue
   }
 
-  setUnshQueue(newQueue: Track[]) {
+  setUnshQueue(newQueue: Song[]) {
     this.unshuffledQueue = newQueue
   }
 
@@ -49,22 +49,22 @@ export class SongService {
     this.changes.next('shuffle')
   }
 
-  setQueue(tracks: Track[]) {
+  setQueue(tracks: Song[]) {
     this.queue = tracks
     this.changes.next('queue')
   }
 
-  getQueue(): Track[] {
+  getQueue(): Song[] {
     return this.queue
   }
 
-  compareQueues(diffQueue: Track[]): boolean {
+  compareQueues(diffQueue: Song[]): boolean {
     if (!this.queue) return false
     const queue = JSON.parse(JSON.stringify(this.queue))
     const newQueue = JSON.parse(JSON.stringify(diffQueue))
     if (this.isShuffled) {
-      newQueue.sort((a: Track, b: Track) => a.id - b.id)
-      queue.sort((a: Track, b: Track) => a.id - b.id)
+      newQueue.sort((a: Song, b: Song) => a.id - b.id)
+      queue.sort((a: Song, b: Song) => a.id - b.id)
     }
 
     for (let i = 0; i <= queue.length; i++) {

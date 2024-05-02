@@ -1,0 +1,16 @@
+<div class="shadow" (click)="closeModal()"></div>
+<form (ngSubmit)="submit()" [formGroup]="form">
+  <h4>
+    @if (type === 'login') {
+      Вход
+    } @else {
+      Регистрация
+    }
+  </h4>
+  @if (type === 'registration') {
+  <input formControlName="username" placeholder="Никнейм" type="text">
+  }
+  <input formControlName="email" placeholder="Почта" type="email" name="email">
+  <input formControlName="password" placeholder="Пароль" type="password">
+  <button [disabled]="form.invalid" class="button">Подвердить</button>
+</form>

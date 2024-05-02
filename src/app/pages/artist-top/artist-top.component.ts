@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SongComponent } from "../../shared/components/song/song.component";
 import { LoaderComponent } from "../../shared/components/loader/loader.component";
-import { Track } from '../../shared/interfaces/track.interface';
+import { Song } from '../../shared/interfaces/track.interface';
 
 @Component({
   selector: 'app-artist-top',
@@ -15,7 +15,7 @@ import { Track } from '../../shared/interfaces/track.interface';
   imports: [CommonModule, SongComponent, LoaderComponent]
 })
 export class ArtistTopComponent implements OnInit {
-  public songs!: Track[]
+  public songs!: Song[]
   public isLoadedAll: boolean = false
   public isLoading: boolean = false
   public id!: number

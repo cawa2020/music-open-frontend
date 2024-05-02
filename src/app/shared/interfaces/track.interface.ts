@@ -1,7 +1,7 @@
 import { Album, AlbumBrief } from "./album.interface"
 import { Artist, ArtistBrief } from "./artist.interface"
 
-export interface Track {
+export interface Song {
   id: number
   readable: boolean
   title: string

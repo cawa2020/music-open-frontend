@@ -7,7 +7,7 @@ import { filter } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { SliderTimeComponent } from "../../../shared/components/slider-time/slider-time.component";
 import { VolumeEditorComponent } from "../../../shared/components/volume-editor/volume-editor.component";
-import { Track } from '../../../shared/interfaces/track.interface';
+import { Song } from '../../../shared/interfaces/track.interface';
 
 @Component({
     selector: 'app-zen',
@@ -18,7 +18,7 @@ import { Track } from '../../../shared/interfaces/track.interface';
 })
 export class ZenComponent implements OnInit {
   @Output() toggleZenMode = new EventEmitter<boolean>()
-  public song: Track | null = null
+  public song: Song | null = null
   public duration!: number
 
   constructor(private player: PlayerService, private songData: SongService) { }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { light, dark } from './app.themes';
+import { light, dark } from '../../../../shared/constants/theme.contant';
 import { Theme, Mode, ColorCSS, ModeCSS } from '../../../../shared/interfaces/theme.interface';
 
 @Injectable({

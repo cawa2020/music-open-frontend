@@ -1,0 +1,12 @@
+<div class="playlist">
+  <div class="relative">
+    <img class="album__img" [routerLink]="['/playlist', playlist.id]" src="../../assets/placeholder.jpg'" alt="cover">
+    <button (click)="playAlbum()" class="icon-button play-button">
+      <ion-icon name="play-sharp" />
+    </button>
+  </div>
+  <a [routerLink]="['/playlist', playlist.id]">
+    <span class="one-stroke-text">{{playlist.title}}</span>
+    <p class="text-secondary text-sm">{{playlist.creation_date | date: 'yyyy'}}</p>
+  </a>
+</div>

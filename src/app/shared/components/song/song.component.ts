@@ -7,7 +7,7 @@ import { Observable, filter, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TimePipe } from "../../pipes/time.pipe";
 import { TooltipDirective } from '../../directives/tooltip.directive';
-import { Track } from '../../interfaces/track.interface';
+import { Song } from '../../interfaces/track.interface';
 
 @Component({
   selector: 'app-song',
@@ -18,8 +18,8 @@ import { Track } from '../../interfaces/track.interface';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SongComponent implements OnInit {
-  @Input({ required: true }) song!: Track
-  @Input({ required: true }) queue!: Track[]
+  @Input({ required: true }) song!: Song
+  @Input({ required: true }) queue!: Song[]
   @Input({ required: true }) index!: number
   @Input() hideImg?: boolean
   @Input() hideAlbum?: boolean

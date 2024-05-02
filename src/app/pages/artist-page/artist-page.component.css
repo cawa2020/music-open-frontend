@@ -10,18 +10,6 @@
   }
 }
 
-.adaptive-margin {
-  @apply my-8 lg:my-12 m-4 lg:m-6;
-
-  &:first-child {
-    @apply my-0
-  }
-
-  &:last-child {
-    @apply my-0
-  }
-}
-
 .grid-container {
   @apply grid grid-flow-col gap-4 overflow-x-auto pb-2 w-full xl:grid-cols-5 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7
 }

@@ -5,6 +5,10 @@ import { NavComponent } from './core/components/nav/nav.component';
 import { PlaylistsComponent } from "./core/components/playlists/playlists.component";
 import { WidgetComponent } from "./core/components/widget/widget.component";
 import { PlayerComponent } from "./core/components/player/player.component";
+import { UserService } from './core/services/user.service';
+import { CookieService } from './core/services/cookie.service';
+import { ApiService } from './core/services/api.service';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -16,10 +20,18 @@ import { PlayerComponent } from "./core/components/player/player.component";
 export class AppComponent implements OnInit {
   public isContained: boolean = localStorage.getItem('isContained') === 'true'
 
+  constructor(private userService: UserService, private cookie: CookieService) { }
+
   ngOnInit(): void {
     if (window.innerWidth <= 900) {
       this.isContained = true
     }
+
+    const token = this.cookie.get('access_token')
+    if (!token) return
+    this.userService.fetchUserData(token).subscribe(user => {
+      this.userService.setUser(user)
+    })
   }
 
   setContained(value: boolean) {

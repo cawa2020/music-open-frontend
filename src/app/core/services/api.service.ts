@@ -4,9 +4,9 @@ import { Observable, map } from 'rxjs';
 import { AlbumBrief } from '../../shared/interfaces/album.interface';
 import { Artist } from '../../shared/interfaces/artist.interface';
 import { Playlist } from '../../shared/interfaces/playlist.interface';
-import { Track, TrackBrief } from '../../shared/interfaces/track.interface';
+import { Song, TrackBrief } from '../../shared/interfaces/track.interface';
+import { Method } from '../../shared/interfaces/app.interface';
 
-type Method = 'POST' | 'GET'
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class ApiService {
     return this._request('GET', 'artist/' + id)
   }
 
-  getArtistTop(id: number, limit?: number, index?: number): Observable<{ data: Track[], total: number }> {
+  getArtistTop(id: number, limit?: number, index?: number): Observable<{ data: Song[], total: number }> {
     let url = `artist/${id}/top?`
     if (limit) url += 'limit=' + limit
     if (index) url += '&index=' + index
@@ -66,7 +66,8 @@ export class ApiService {
     headers = headers.set('X-RapidAPI-Host', 'deezerdevs-deezer.p.rapidapi.com')
 
     const options = {
-      headers: headers
+      headers: headers,
+      body: body
     }
 
     const url = 'https://deezerdevs-deezer.p.rapidapi.com/' + path

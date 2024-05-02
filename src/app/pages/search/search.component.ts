@@ -7,7 +7,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SongComponent } from "../../shared/components/song/song.component";
 import { PlayerService } from '../../core/services/audio.service';
 import { LoaderComponent } from "../../shared/components/loader/loader.component";
-import { Track } from '../../shared/interfaces/track.interface';
+import { Song } from '../../shared/interfaces/track.interface';
 
 @Component({
   selector: 'app-search',
@@ -17,9 +17,9 @@ import { Track } from '../../shared/interfaces/track.interface';
   imports: [PlaylistsComponent, FormsModule, RouterLink, SongComponent, LoaderComponent]
 })
 export class SearchComponent implements OnInit {
+  private timeout!: any
   public search: string = ''
-  public searchSubject = new Subject<string>()
-  public findedSongs!: Track[]
+  public findedSongs!: Song[]
   public loading: boolean = false
 
   constructor(private api: ApiService, private player: PlayerService, private router: Router, private route: ActivatedRoute) { }
@@ -30,29 +30,25 @@ export class SearchComponent implements OnInit {
       this.search = params.q;
       this.getBySearch(this.search)
     });
-
-    this.searchSubject.pipe(debounceTime(300)).subscribe((searchValue) => {
-      this.getBySearch(searchValue)
-      this.router.navigate([], {
-        queryParams: {
-          q: searchValue
-        },
-        queryParamsHandling: 'merge',
-      });
-    });
   }
 
   handleSearch(value: string) {
     this.loading = true
-    this.searchSubject.next(value)
     this.search = value
+
+    clearTimeout(this.timeout)
+    this.timeout = setTimeout(() => {
+      this.getBySearch(this.search)
+      const params = { q: this.search }
+      this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge' });
+    }, 300)
   }
 
   getBySearch(search: string) {
     this.loading = true
-    this.api.getBySearch(search).subscribe((res: { data: Track[] }) => {
+    this.api.getBySearch(search).subscribe((res: { data: Song[] }) => {
       this.findedSongs = res.data
-      this.loading = false
+      // this.loading = false
     })
   }
 }

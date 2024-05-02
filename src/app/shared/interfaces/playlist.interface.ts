@@ -1,25 +1,25 @@
+import { Album } from "./album.interface"
+import { Artist } from "./artist.interface"
+import { Song } from "./track.interface"
+
 export interface Playlist {
   id: number
   title: string
-  public: boolean
-  link: string
-  picture: string
-  picture_small: string
-  picture_medium: string
-  picture_big: string
-  picture_xl: string
-  checksum: string
-  tracklist: string
+  songs: Song[]
   creation_date: string
   md5_image: string
-  picture_type: string
-  user: User
+  userId: string
   type: string
 }
 
 export interface User {
   id: number
-  name: string
-  tracklist: string
-  type: string
+  email: string
+  username: string
+  favoriteSongs: Song[]
+  favoriteArtists: Artist[]
+  favoritePlaylists: Playlist[]
+  favoriteAlbums: Album[]
+  created_playlists: Playlist[]
+  playlists: Playlist[]
 }

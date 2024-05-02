@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, Component, Input, OnInit } from '@angular/core'
 import { PlayerService } from '../../../core/services/audio.service';
 import { SongService } from '../../../core/services/song.service';
 import { MatIconModule } from '@angular/material/icon';
-import { Track } from '../../interfaces/track.interface';
+import { Song } from '../../interfaces/track.interface';
 
 @Component({
   selector: 'app-play-button',
@@ -14,7 +14,7 @@ import { Track } from '../../interfaces/track.interface';
 })
 export class PlayButtonComponent {
   @Input({ required: true }) isPlaying: boolean = false
-  @Input() queue!: Track[]
+  @Input() queue!: Song[]
 
   constructor(private songData: SongService, private audio: PlayerService) { }
 

@@ -70,10 +70,23 @@ hr {
   @apply border-default;
 }
 
+
 section,
 .section {
   @apply bg-default border border-default;
   border-radius: var(--border-radius);
+}
+
+.adaptive-margin {
+  @apply my-8 lg:my-12 m-4 lg:m-6;
+
+  &:first-child {
+    @apply my-0
+  }
+
+  &:last-child {
+    @apply my-0
+  }
 }
 
 .section-adaptive {
@@ -141,7 +154,7 @@ button:disabled {
 }
 
 .button {
-  @apply py-3 h-10 transition-default bg-main text-white;
+  @apply px-3 h-10 transition-default bg-main text-white rounded-default;
 
   &:hover {
     background-color: var(--hover-color);
@@ -317,6 +330,20 @@ input[type="range"]::-webkit-slider-thumb {
 
   &:hover .hidden-block {
     visibility: visible;
+  }
+}
+
+.tooltip {
+  @apply relative;
+
+  &::before {
+    content: attr(tooltipText);
+    bottom: calc(100% + 6px);
+    @apply py-2 px-3 w-max left-1/2 -translate-x-1/2 rounded-default absolute bg-secondary text-sm font-medium border border-default opacity-0 invisible transition-default;
+  }
+
+  &:hover::before {
+    @apply visible opacity-100
   }
 }
 

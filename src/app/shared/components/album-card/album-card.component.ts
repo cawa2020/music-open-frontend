@@ -6,7 +6,7 @@ import { ApiService } from '../../../core/services/api.service';
 import { filter, map, take } from 'rxjs';
 import { SongService } from '../../../core/services/song.service';
 import { Album, AlbumBrief } from '../../interfaces/album.interface';
-import { Track } from '../../interfaces/track.interface';
+import { Song } from '../../interfaces/track.interface';
 
 @Component({
   selector: 'app-album-card',
@@ -24,7 +24,7 @@ export class AlbumComponent {
 
   playAlbum() {
     this.api.getAlbumTracks(this.album.id).pipe(map(res => res.data), take(1)).subscribe(tracks => {
-      const queue: Track[] = tracks.map((el) => {
+      const queue: Song[] = tracks.map((el) => {
         return { ...el, album: this.album }
       })
 
