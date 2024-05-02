@@ -15,6 +15,7 @@ export class VolumeEditorComponent implements OnInit {
   @Input() sliderWidth: string = '100%'
   public pastVolume: number = 0
   public volume: number = Number(localStorage.getItem('volume'))
+  private volumeTimeOut: any
 
   constructor(private player: PlayerService) { }
 
@@ -25,9 +26,8 @@ export class VolumeEditorComponent implements OnInit {
   handleVolume(value: number) {
     this.volume = value
     this.player.setVolume(value / 100)
-    var volumeTimeOut
-    clearTimeout(volumeTimeOut)
-    volumeTimeOut = setTimeout(() => {
+    clearTimeout(this.volumeTimeOut)
+    this.volumeTimeOut = setTimeout(() => {
       localStorage.setItem('volume', value.toString())
     }, 500)
   }

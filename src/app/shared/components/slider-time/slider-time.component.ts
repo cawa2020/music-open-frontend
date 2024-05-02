@@ -37,7 +37,7 @@ export class SliderTimeComponent implements OnInit {
     this.time = newValue
   }
 
-  getCurrentPercentage() {
+  get currentPercentage() {
     return +(this.disableChanging ? this.editableTimeWhenDisable : this.time).toFixed(2) + '%'
   }
 

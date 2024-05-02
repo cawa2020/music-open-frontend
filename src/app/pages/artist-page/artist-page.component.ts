@@ -29,7 +29,7 @@ export class ArtistPageComponent implements OnInit {
   public related$!: Observable<Artist[] | null>
   public playlists$!: Observable<Playlist[] | null>
   public isPlaying: boolean = false
-  public songs: Song[] | undefined
+  public songs: Song[] = []
   public requests!: number
   public lastIndex: number = 7
 
@@ -40,7 +40,7 @@ export class ArtistPageComponent implements OnInit {
     this.onResize({ target: { innerWidth: window.innerWidth } })
 
     this.player.audioChanges.pipe(filter(el => el.type === 'time')).subscribe(el => {
-      this.isPlaying = el.data && this.songData.compareQueues(this.songs ?? [])
+      this.isPlaying = el.data && this.songData.compareQueues(this.songs)
     })
 
     this.activateRoute.params.subscribe(params => {
@@ -64,10 +64,6 @@ export class ArtistPageComponent implements OnInit {
       this.related$.subscribe(() => { this.requests-- })
       this.playlists$.subscribe(() => { this.requests-- })
     })
-  }
-
-  get queue(): Song[] {
-    return this.songs ?? []
   }
 
   @HostListener('window:resize', ['$event'])

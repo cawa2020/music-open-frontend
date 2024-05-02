@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PlaylistCardComponent {
-  @Input({ required: true }) playlist: Playlist
+  @Input({required: true}) playlist!: Playlist
 
   constructor(private player: PlayerService, private songData: SongService) { }
 

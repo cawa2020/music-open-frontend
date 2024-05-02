@@ -15,7 +15,7 @@ import { Song } from '../../shared/interfaces/track.interface';
   imports: [SongComponent, DragDropModule, MatIconModule]
 })
 export class QueueComponent implements OnInit {
-  public queue!: Song[]
+  public queue: Song[] = []
 
   constructor(private songData: SongService) { }
 
@@ -28,10 +28,8 @@ export class QueueComponent implements OnInit {
 
   onDrop(event: CdkDragDrop<Song[]>) {
     moveItemInArray(this.queue, event.previousIndex, event.currentIndex);
-    // Я пиписька
-    setTimeout(() => {
-      this.songData.setQueue(this.queue)
-    })
+    // ?
+    this.songData.setQueue(this.queue)
   }
 
   getIndex(songId: number) {

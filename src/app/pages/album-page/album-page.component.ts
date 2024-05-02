@@ -24,7 +24,6 @@ import { UserService } from '../../core/services/user.service';
 })
 export class AlbumPageComponent implements OnInit {
   public album!: Album
-  public genres!: string
   public isPlaying: boolean = false
   public loading: boolean = false
   public isFavorite: boolean = false
@@ -42,10 +41,13 @@ export class AlbumPageComponent implements OnInit {
       this.api.getAlbum(id).subscribe(res => {
         this.album = res;
         this.isPlaying = !this.player.getAudio().paused && this.songData.compareQueues(this.album?.tracks?.data ?? [])
-        this.genres = this.album.genres?.data.map(el => el.name).join(', ') ?? ''
         this.loading = false
       })
     });
+  }
+
+  get genres(): string {
+    return this.album.genres?.data.map(el => el.name).join(', ') ?? ''
   }
 
   isLastPlaylist(index: number): boolean {
