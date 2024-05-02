@@ -19,7 +19,7 @@ import { Artist } from '../../../shared/interfaces/artist.interface';
 
 export class PlaylistsComponent implements OnInit {
   @Output() shortChange = new EventEmitter()
-  @Input() isShort!: boolean
+  @Input() isShort: boolean = true
   public playlists: (Album | Playlist | Artist)[] = []
   public currentPlaylistId!: number
 

@@ -11,5 +11,5 @@ import { Artist } from '../../interfaces/artist.interface';
   styleUrl: './artist-card.component.css'
 })
 export class ArtistComponent {
-  @Input() artist!: Artist
+  @Input({ required: true }) artist!: Artist
 }

@@ -14,7 +14,7 @@ import { Song } from '../../interfaces/track.interface';
 })
 export class PlayButtonComponent {
   @Input({ required: true }) isPlaying: boolean = false
-  @Input() queue!: Song[]
+  @Input() queue: Song[] = []
 
   constructor(private songData: SongService, private audio: PlayerService) { }
 

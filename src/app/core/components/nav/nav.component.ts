@@ -13,5 +13,5 @@ import { MatIconModule } from '@angular/material/icon';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NavComponent {
-  @Input() isShort!: boolean
+  @Input() isShort: boolean = true
 }
