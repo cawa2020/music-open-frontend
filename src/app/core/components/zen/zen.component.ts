@@ -17,7 +17,7 @@ import { Song } from '../../../shared/interfaces/track.interface';
     imports: [MatIconModule, ControlsComponent, RouterLink, SliderTimeComponent, VolumeEditorComponent]
 })
 export class ZenComponent implements OnInit {
-  @Output() toggleZenMode = new EventEmitter<boolean>()
+  @Output() zenClose = new EventEmitter<boolean>()
   public song: Song | null = null
   public duration!: number
 
@@ -35,8 +35,8 @@ export class ZenComponent implements OnInit {
     }
   }
 
-  closeZen() {
-    this.toggleZenMode.emit(false)
+  hideZen() {
+    this.zenClose.emit(false)
   }
 
   updateSong() {

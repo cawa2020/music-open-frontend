@@ -18,7 +18,7 @@ import { Artist } from '../../../shared/interfaces/artist.interface';
 })
 
 export class PlaylistsComponent implements OnInit {
-  @Output() toggleShortEmitter = new EventEmitter()
+  @Output() shortChange = new EventEmitter()
   @Input() isShort!: boolean
   public playlists: (Album | Playlist | Artist)[] = []
   public currentPlaylistId!: number
@@ -48,7 +48,7 @@ export class PlaylistsComponent implements OnInit {
   }
 
   toggleShort() {
-    this.toggleShortEmitter.emit(!this.isShort)
+    this.shortChange.emit(!this.isShort)
   }
 
   getCover(el: Album | Playlist | Artist): string {

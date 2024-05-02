@@ -46,5 +46,5 @@
   }
 </div>
 @if (modal) {
-<app-auth-modal (onCloseModal)="setModal($event)" [type]="modal"></app-auth-modal>
+<app-auth-modal (modalClose)="setModal($event)" [type]="modal"></app-auth-modal>
 }
