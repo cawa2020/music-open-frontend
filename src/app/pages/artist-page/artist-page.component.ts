@@ -66,7 +66,7 @@ export class ArtistPageComponent implements OnInit {
     })
   }
 
-  getQueue(): Song[] {
+  get queue(): Song[] {
     return this.songs ?? []
   }
 

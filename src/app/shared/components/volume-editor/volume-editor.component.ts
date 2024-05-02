@@ -1,5 +1,4 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, Input, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { PlayerService } from '../../../core/services/audio.service';
 import { FormsModule } from '@angular/forms';
 import { volumeMultiplier } from '../../constants/app.constant';
@@ -44,7 +43,7 @@ export class VolumeEditorComponent implements OnInit {
     }
   }
 
-  getVolumeIcon(): string {
+  get volumeIcon(): string {
     let icon
 
     if (this.volume >= 60) {
@@ -60,7 +59,7 @@ export class VolumeEditorComponent implements OnInit {
     return icon
   }
 
-  getCurrentPercentage() {
+  get currentPercentage() {
     return this.volume + '%'
   }
 }

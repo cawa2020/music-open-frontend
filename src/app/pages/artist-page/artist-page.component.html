@@ -24,7 +24,7 @@
     </a>
     <div>
       @for(song of songs?.slice(0,5); track song.id) {
-      <app-song [index]="$index" [hideArtist]="true" [queue]="getQueue()" [song]="song" />
+      <app-song [index]="$index" [hideArtist]="true" [queue]="queue" [song]="song" />
       }@empty {
       <p class="text-secondary">Пусто :(</p>
       }
