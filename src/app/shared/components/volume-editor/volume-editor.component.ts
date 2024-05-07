@@ -1,5 +1,4 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, Input, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { PlayerService } from '../../../core/services/audio.service';
 import { FormsModule } from '@angular/forms';
 import { volumeMultiplier } from '../../constants/app.constant';
@@ -16,6 +15,7 @@ export class VolumeEditorComponent implements OnInit {
   @Input() sliderWidth: string = '100%'
   public pastVolume: number = 0
   public volume: number = Number(localStorage.getItem('volume'))
+  private volumeTimeOut: any
 
   constructor(private player: PlayerService) { }
 
@@ -26,9 +26,8 @@ export class VolumeEditorComponent implements OnInit {
   handleVolume(value: number) {
     this.volume = value
     this.player.setVolume(value / 100)
-    var volumeTimeOut
-    clearTimeout(volumeTimeOut)
-    volumeTimeOut = setTimeout(() => {
+    clearTimeout(this.volumeTimeOut)
+    this.volumeTimeOut = setTimeout(() => {
       localStorage.setItem('volume', value.toString())
     }, 500)
   }
@@ -44,7 +43,7 @@ export class VolumeEditorComponent implements OnInit {
     }
   }
 
-  getVolumeIcon(): string {
+  get volumeIcon(): string {
     let icon
 
     if (this.volume >= 60) {
@@ -60,7 +59,7 @@ export class VolumeEditorComponent implements OnInit {
     return icon
   }
 
-  getCurrentPercentage() {
+  get currentPercentage() {
     return this.volume + '%'
   }
 }

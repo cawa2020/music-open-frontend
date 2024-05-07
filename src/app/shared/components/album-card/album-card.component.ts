@@ -18,7 +18,7 @@ import { Song } from '../../interfaces/track.interface';
 })
 
 export class AlbumComponent {
-  @Input() album!: Album | AlbumBrief
+  @Input({ required: true }) album!: Album | AlbumBrief
 
   constructor(private player: PlayerService, private api: ApiService, private songData: SongService) { }
 

@@ -7,7 +7,7 @@
   <div class="artist-header">
     <img class="artist-header__img" [src]="(artist$ | async)?.picture_medium" alt="cover" />
     <div class="artist-header__text">
-      <app-play-button class="artist-header__info-button" [isPlaying]="isPlaying" [queue]="songs!" />
+      <app-play-button class="artist-header__info-button" [isPlaying]="isPlaying" [queue]="songs" />
       <h3>{{ (artist$ | async)?.name }}</h3>
     </div>
   </div>
@@ -24,7 +24,7 @@
     </a>
     <div>
       @for(song of songs?.slice(0,5); track song.id) {
-      <app-song [index]="$index" [hideArtist]="true" [queue]="getQueue()" [song]="song" />
+      <app-song [index]="$index" [hideArtist]="true" [queue]="songs" [song]="song" />
       }@empty {
       <p class="text-secondary">Пусто :(</p>
       }

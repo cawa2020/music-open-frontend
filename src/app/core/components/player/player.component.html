@@ -1,7 +1,7 @@
 <section class="player">
   <div class="player__info">
     <div tooltip="Во весь экран">
-      <img class="rounded min-w-14 w-14 aspect-square hover:brightness-50" (click)="toggleZenMode()"
+      <img class="rounded min-w-14 w-14 aspect-square hover:brightness-50" (click)="onToggleZen()"
         [src]="song?.album?.cover_small ?? '../../assets/placeholder.jpg'" alt="song cover" />
     </div>
     <div class="player__info-text">
@@ -46,6 +46,6 @@
     <app-volume-editor sliderWidth="80px" />
   </div>
 </section>
-@if (zenMode) {
-<app-zen (toggleZenMode)="toggleZenMode($event)"></app-zen>
+@if (zen) {
+<app-zen (zenClose)="onToggleZen($event)"></app-zen>
 }

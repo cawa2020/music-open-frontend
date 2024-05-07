@@ -15,7 +15,7 @@ import { UserService } from '../../services/user.service';
 })
 export class AuthModalComponent implements OnInit {
   @Input({ required: true }) type!: "login" | "registration"
-  @Output() onCloseModal = new EventEmitter()
+  @Output() modalClose = new EventEmitter()
   public form!: FormGroup
 
   constructor(private fb: FormBuilder, private auth: AuthService, private cookieService: CookieService, private userService: UserService) { }
@@ -40,8 +40,8 @@ export class AuthModalComponent implements OnInit {
     }
   }
 
-  closeModal() {
-    this.onCloseModal.next(null)
+  hideModal() {
+    this.modalClose.next(null)
   }
 
   private handleRes(res: any) {

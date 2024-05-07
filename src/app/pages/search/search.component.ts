@@ -19,7 +19,7 @@ import { Song } from '../../shared/interfaces/track.interface';
 export class SearchComponent implements OnInit {
   private timeout!: any
   public search: string = ''
-  public findedSongs!: Song[]
+  public findedSongs: Song[] = []
   public loading: boolean = false
 
   constructor(private api: ApiService, private player: PlayerService, private router: Router, private route: ActivatedRoute) { }

@@ -5,7 +5,7 @@ import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/cor
   standalone: true
 })
 export class TooltipDirective implements OnInit {
-  @Input() tooltip!: string
+  @Input() tooltip: string = ''
 
   constructor(
     private el: ElementRef,

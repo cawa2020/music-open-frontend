@@ -25,7 +25,7 @@ import { Song } from '../../../shared/interfaces/track.interface';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PlayerComponent implements OnInit {
-  public zenMode: boolean = false
+  public zen: boolean = false
   public song: Song | undefined = undefined
 
   public currentTime!: number
@@ -53,9 +53,9 @@ export class PlayerComponent implements OnInit {
     })
   }
 
-  toggleZenMode(newValue?: boolean) {
+  onToggleZen(newValue?: boolean) {
     if (!this.player.getAudio().src.length) return
-    this.zenMode = newValue != undefined ? newValue : !this.zenMode
+    this.zen = newValue != undefined ? newValue : !this.zen
   }
 
   isLastElement(index: number): boolean {

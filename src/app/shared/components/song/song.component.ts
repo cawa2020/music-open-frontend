@@ -63,7 +63,7 @@ export class SongComponent implements OnInit {
     this.isFavorite = !this.isFavorite
   }
 
-  getFavoriteIcon(): string {
+  get favoriteIcon(): string {
     return this.isFavorite ? 'heart' : 'heart-outline'
   }
 

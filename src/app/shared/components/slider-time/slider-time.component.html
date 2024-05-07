@@ -1,7 +1,7 @@
 <div class="slider-container">
   <div class="slider">
-    <div class="loader" [style.width]="getCurrentPercentage()"></div>
-    <div class="loader-circle" [style.left]="getCurrentPercentage()"></div>
+    <div class="loader" [style.width]="currentPercentage"></div>
+    <div class="loader-circle" [style.left]="currentPercentage"></div>
     <input class="slider-input" type="range" [ngModel]="time" (ngModelChange)="handleChange($event)"
       (mousedown)="disableTimeChange()" (mouseup)="changeTime()" />
   </div>

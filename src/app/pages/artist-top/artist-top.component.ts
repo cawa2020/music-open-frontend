@@ -15,7 +15,7 @@ import { Song } from '../../shared/interfaces/track.interface';
   imports: [CommonModule, SongComponent, LoaderComponent]
 })
 export class ArtistTopComponent implements OnInit {
-  public songs!: Song[]
+  public songs: Song[] = []
   public isLoadedAll: boolean = false
   public isLoading: boolean = false
   public id!: number
