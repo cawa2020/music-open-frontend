@@ -48,7 +48,7 @@ export class SearchComponent implements OnInit {
     this.loading = true
     this.api.getBySearch(search).subscribe((res: { data: Song[] }) => {
       this.findedSongs = res.data
-      // this.loading = false
+      this.loading = false
     })
   }
 }

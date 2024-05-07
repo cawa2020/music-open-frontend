@@ -1,7 +1,6 @@
-<app-widget></app-widget>
 <div class="content-container">
+  <app-nav style="grid-area: nav;"></app-nav>
   <div class="flex flex-col gap-[var(--side-margin)]" style="grid-area: sidebar;">
-    <app-nav [isShort]="isContained"></app-nav>
     <app-playlists class="h-full" [isShort]="isContained" (toggleShortEmitter)="setContained($event)"></app-playlists>
   </div>
   <main style="grid-area: main-view">

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavComponent } from './core/components/nav/nav.component';
 import { PlaylistsComponent } from "./core/components/playlists/playlists.component";
-import { WidgetComponent } from "./core/components/widget/widget.component";
 import { PlayerComponent } from "./core/components/player/player.component";
 import { UserService } from './core/services/user.service';
 import { CookieService } from './core/services/cookie.service';
@@ -15,7 +14,7 @@ import { AuthService } from './core/services/auth.service';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [CommonModule, RouterOutlet, PlaylistsComponent, NavComponent, WidgetComponent, PlayerComponent]
+  imports: [CommonModule, RouterOutlet, PlaylistsComponent, NavComponent, PlayerComponent]
 })
 export class AppComponent implements OnInit {
   public isContained: boolean = localStorage.getItem('isContained') === 'true'

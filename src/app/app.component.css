@@ -1,0 +1,20 @@
+.content-container {
+  @apply relative min-h-full grid gap-[var(--side-margin)];
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 62px calc(100vh - var(--side-margin) * 4 - 80px - 62px) 80px;
+  grid-template-areas:
+    "sidebar nav nav"
+    "sidebar main-view main-view"
+    "now-playing-bar now-playing-bar now-playing-bar";
+}
+
+@media (max-width: 800px) {
+  .content-container {
+    grid-template-rows: 62px calc(100vh - var(--side-margin) * 4 - 90px - 62px) 80px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "nav"
+      "main-view"
+      "now-playing-bar";
+  }
+}

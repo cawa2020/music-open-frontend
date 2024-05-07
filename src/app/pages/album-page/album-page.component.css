@@ -7,9 +7,9 @@
 }
 
 .playlist-header__info {
-  @apply flex flex-col justify-center text-center xl:text-left items-center xl:items-start gap-2 xl:gap-0 relative h-full;
+  @apply flex flex-col justify-center text-center xl:text-left items-center xl:items-start gap-2 xl:gap-0 relative h-full w-full;
 }
 
 .playlist-header__info-buttons {
-  @apply flex items-center gap-6 mt-4;
+  @apply flex items-center justify-between gap-6 mt-4 w-full;
 }

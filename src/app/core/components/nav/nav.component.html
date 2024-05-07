@@ -1,14 +1,58 @@
 <nav class="nav section">
-  <a class="link" [routerLink]="['/']">
-    <ion-icon class="icon" name="home" />
-    @if (!isShort) {
-      <span class="text-lg font-medium">Главная</span>
+  <div class="flex gap-2">
+    <button (click)="move('prev')" class="nav-item">
+      <ion-icon class="icon" name="chevron-back" />
+    </button>
+    <button [disabled]="index === 0" (click)="move('next')" class="nav-item">
+      <ion-icon class="icon" name="chevron-forward" />
+    </button>
+  </div>
+  <div class="flex gap-2">
+    <a class="nav-item" [routerLink]="['/search']">
+      <ion-icon class="icon" name="search" />
+    </a>
+    <button (click)="toggleMenu()" class="nav-item">
+      <ion-icon class="icon" name="person" />
+    </button>
+  </div>
+  @if (isMenuOpen) {
+  <div class="left-hidden-block menu">
+    <div class="flex gap-2 w-full">
+      @if (user) {
+      <a [routerLink]="['profile/me']">profile</a>
+      } @else {
+      <button class="button w-full" (click)="setModal('registration')">sign up</button>
+      <button class="button w-full" (click)="setModal('login')">login</button>
+      }
+    </div>
+    <hr class="w-full mt-4 mb-2">
+    <button class="h-10 flex items-center gap-3 hover:underline" (click)="toggleMode()">
+      @if (theme.getMode() === 'light') {
+      <ion-icon class="icon" name="sunny" />
+      <p>light mode</p>
+      } @else {
+      <ion-icon name="moon" />
+      <p>dark mode</p>
+      }
+    </button>
+    <hr class="w-full mb-4 mt-2" />
+    <div class="flex gap-3 items-center">
+      <ion-icon name="color-palette" />
+      <div class="relative flex justify-between items-center gap-2">
+        <input class="w-24" type="text" [(ngModel)]="color" (ngModelChange)="changeColor($event)" />
+        <div class="w-7 h-7 rounded-full cursor-pointer" [style.backgroundColor]="color"></div>
+        <input type="color" class="w-7 h-7 rounded-full opacity-0 absolute top-[6px] right-0 z-30" [(ngModel)]="color"
+          (ngModelChange)="changeColor($event)" />
+      </div>
+    </div>
+    @if (user) {
+    <hr class="w-full my-4" />
+    <button (click)="logout()">logout</button>
     }
-  </a>
-  <a class="link" [routerLink]="['/search']">
-    <ion-icon class="icon" name="search" />
-    @if (!isShort) {
-      <span class="text-lg font-medium">Поиск</span>
-    }
-  </a>
+  </div>
+  }
 </nav>
+
+@if (modal) {
+<app-auth-modal (onCloseModal)="setModal($event)" [type]="modal"></app-auth-modal>
+}
