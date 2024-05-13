@@ -2,22 +2,22 @@
   display: none;
 }
 
-.playlist {
+.user-music {
   @apply hidden lg:block min-w-[74px] !px-1 h-full p-3;
 }
 
-.playlist__header {
+.user-music__header {
   @apply px-[12px] flex items-center gap-2 cursor-pointer mb-2 opacity-80 hover:opacity-100;
 }
 
-.playlist__main {
+.user-music__main {
   @apply grid overflow-auto h-fit hidden-scroll;
 }
 
-.playlist__main-item {
+.user-music__main-item {
   @apply h-fit flex p-2 gap-2 hover:bg-secondary cursor-pointer rounded-lg;
 }
 
-.playlist__main-artist {
+.user-music__main-artist {
   @apply leading-none text-secondary w-fit;
 }

@@ -1,8 +1,8 @@
-<section class="h-full overflow-auto section-adaptive">
+<section class="h-full overflow-auto section-adaptive relative">
   <input class="w-full lg:w-60 mb-4" type="text" placeholder="Что послушаем сегодня?" [(ngModel)]="search"
     (ngModelChange)="handleSearch($event)" />
   @if (loading) {
-  <div class=" asd">
+  <div class="center">
     <app-loader></app-loader>
   </div>
   } @else {

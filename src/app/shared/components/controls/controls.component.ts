@@ -3,7 +3,7 @@ import { PlayerService } from '../../../core/services/audio.service';
 import { SongService } from '../../../core/services/song.service';
 import { filter } from 'rxjs';
 import { Repeat } from '../../interfaces/app.interface';
-import { Song } from '../../interfaces/track.interface';
+import { Song } from '../../interfaces/song.interface';
 
 @Component({
   selector: 'app-controls',

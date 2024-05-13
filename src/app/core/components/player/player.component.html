@@ -21,18 +21,19 @@
         </a>
         }
       </div>
-    </div><button tooltip="Добавить в избранное" class="icon-button">
+    </div>
+    <button (click)="addToFavorite()" tooltip="Добавить в избранное" class="icon-button">
       <ion-icon name="heart-outline" />
     </button>
   </div>
 
   <div class="player__controllers">
-    <app-controls color="var(--text-color)"></app-controls>
+    <app-controls color="var(--text-color)" />
     <div class="player__time-container">
       <span class="text-xs text-center min-w-8">
         {{ currentTime | time }}
       </span>
-      <app-slider-time class="w-full max-w-[600px]" />
+      <app-slider-time [currentTime]="currentTime" [duration]="duration" class="w-full max-w-[600px]" />
       <span class="text-xs text-center min-w-8">
         {{ duration | time }}
       </span>

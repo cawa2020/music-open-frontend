@@ -21,7 +21,7 @@ export interface Song {
   contributors?: Artist[]
 }
 
-export interface TrackBrief {
+export interface SongBrief {
   id: number
   readable: boolean
   title: string

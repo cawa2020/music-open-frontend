@@ -4,8 +4,8 @@ import { Observable, map } from 'rxjs';
 import { AlbumBrief } from '../../shared/interfaces/album.interface';
 import { Artist } from '../../shared/interfaces/artist.interface';
 import { Playlist } from '../../shared/interfaces/playlist.interface';
-import { Song, TrackBrief } from '../../shared/interfaces/track.interface';
 import { Method } from '../../shared/interfaces/app.interface';
+import { Song, SongBrief } from '../../shared/interfaces/song.interface';
 
 
 @Injectable({
@@ -51,7 +51,7 @@ export class ApiService {
     return this._request('GET', 'album/' + id)
   }
 
-  getAlbumTracks(id: number): Observable<{ data: TrackBrief[] }> {
+  getAlbumTracks(id: number): Observable<{ data: SongBrief[] }> {
     return this._requestAPI('GET', 'album/' + id + '/tracks')
   }
 

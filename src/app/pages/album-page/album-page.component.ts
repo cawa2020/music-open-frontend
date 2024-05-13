@@ -7,12 +7,13 @@ import { SongComponent } from '../../shared/components/song/song.component';
 import { LoaderComponent } from "../../shared/components/loader/loader.component";
 import { PlayButtonComponent } from "../../shared/components/play-button/play-button.component";
 import { PlayerService } from '../../core/services/audio.service';
-import { filter } from 'rxjs';
+import { filter, isEmpty } from 'rxjs';
 import { SongService } from '../../core/services/song.service';
 import { Album } from '../../shared/interfaces/album.interface';
 import { AuthService } from '../../core/services/auth.service';
 import { CookieService } from '../../core/services/cookie.service';
 import { UserService } from '../../core/services/user.service';
+import { UserMusicService } from '../../core/services/user-music.service';
 
 @Component({
   selector: 'app-album-page',
@@ -28,7 +29,7 @@ export class AlbumPageComponent implements OnInit {
   public loading: boolean = false
   public isFavorite: boolean = false
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private player: PlayerService, private songData: SongService, private cookie: CookieService, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private api: ApiService, private player: PlayerService, private songData: SongService, private cookie: CookieService, private userService: UserService, private userMusic: UserMusicService) { }
 
   ngOnInit() {
     this.player.audioChanges.pipe(filter(el => el.type === 'time')).subscribe(el => {
@@ -41,6 +42,7 @@ export class AlbumPageComponent implements OnInit {
       this.api.getAlbum(id).subscribe(res => {
         this.album = res;
         this.isPlaying = !this.player.getAudio().paused && this.songData.compareQueues(this.album?.tracks?.data ?? [])
+        this.markIsFavorite()
         this.loading = false
       })
     });
@@ -50,14 +52,30 @@ export class AlbumPageComponent implements OnInit {
     return this.album.genres?.data.map(el => el.name).join(', ') ?? ''
   }
 
-  isLastPlaylist(index: number): boolean {
+  isLastArtist(index: number): boolean {
     return index === this.album.contributors.length - 1
   }
 
   addToFavorite() {
     const token = this.cookie.get('access_token')
-    this.userService.addToFavotiteAlbum(this.album, token).subscribe(el => {
-      console.log(el)
+    this.userService.addToFavotiteAlbum(this.album, token).subscribe(user => {
+      if (!user.id) return
+      this.isFavorite = !this.isFavorite
+      const favoriteSongsCollection = this.userMusic.getMusic().getValue()[0]
+      this.userMusic.setMusic([favoriteSongsCollection, ...user.favoritePlaylists, ...user.favoriteAlbums, ...user.favoriteArtists])
     })
   }
+
+  markIsFavorite() {
+    this.userMusic.getMusic().subscribe((music) => {
+      this.isFavorite = music.some(e => e.id === this.album.id)
+    })
+  }
+
+  get favoriteIcon(): string {
+    return this.isFavorite ? 'heart' : 'heart-outline'
+  }
 }
+
+
+// !!!!!!!!!!!!! ТУПОЕ ГОВНО С SETMUSIC НАДО ФИЕСИТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

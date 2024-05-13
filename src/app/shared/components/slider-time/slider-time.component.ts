@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { PlayerService } from '../../../core/services/audio.service';
 import { FormsModule } from '@angular/forms';
 
@@ -7,38 +7,27 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './slider-time.component.html',
-  styleUrl: '../slider-time/slider-time.component.css'
+  styleUrl: '../slider-time/slider-time.component.css',
 })
-export class SliderTimeComponent implements OnInit {
-  public duration: number = 0
-  public time: number = 0
+export class SliderTimeComponent {
+  @Input({ required: true }) currentTime: number = 0
+  @Input({ required: true }) duration: number = 0
   public editableTimeWhenDisable: number = 0
   public disableChanging: boolean = false
 
   constructor(private player: PlayerService) { }
 
-  ngOnInit(): void {
-    const audio = this.player.getAudio()
-    this.duration = audio.duration
-
-    audio.addEventListener('loadedmetadata', () => {
-      this.duration = audio.duration
-    });
-
-    audio.addEventListener('timeupdate', () => {
-      this.time = audio.currentTime / this.duration * 100
-    });
+  get currentPercentage() {
+    const currentPercent = this.currentTime / this.duration * 100
+    const percent = Number(this.disableChanging ? this.editableTimeWhenDisable : currentPercent)
+    return percent.toFixed(2) + '%'
   }
 
   handleChange(newValue: any) {
     this.editableTimeWhenDisable = newValue
     localStorage.setItem('currentTime', (newValue * this.duration / 100).toString())
     if (this.disableChanging) return
-    this.time = newValue
-  }
-
-  get currentPercentage() {
-    return +(this.disableChanging ? this.editableTimeWhenDisable : this.time).toFixed(2) + '%'
+    this.currentTime = newValue
   }
 
   changeTime() {

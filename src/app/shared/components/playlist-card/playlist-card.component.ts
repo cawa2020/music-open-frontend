@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, Input } from '@angular/core';
 import { Playlist } from '../../interfaces/playlist.interface';
-import { Song } from '../../interfaces/track.interface';
+import { Song } from '../../interfaces/song.interface';
 import { PlayerService } from '../../../core/services/audio.service';
 import { SongService } from '../../../core/services/song.service';
 import { RouterLink } from '@angular/router';

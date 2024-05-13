@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Song } from '../../shared/interfaces/track.interface';
+import { Song } from '../../shared/interfaces/song.interface';
 import { Repeat } from '../../shared/interfaces/app.interface';
 
 @Injectable({

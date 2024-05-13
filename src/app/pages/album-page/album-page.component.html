@@ -5,28 +5,28 @@
   </div>
   } @else {
   <div>
-    <div class="playlist-header">
-      <img class="playlist-header__img" [src]="album.cover_big" alt="cover" />
-      <div class="playlist-header__info">
+    <div class="album-header">
+      <img class="album-header__img" [src]="album.cover_big" alt="cover" />
+      <div class="album-header__info">
         <h3 class="text-balance">{{ album.title }}</h3>
         <div class="flex">
           @for (artist of album.contributors; track artist.id) {
           <a [routerLink]="['/artist', artist.id]" class="text-2xl w-fit">{{ artist.name }}</a>
-          @if (!isLastPlaylist($index)) {<span class="text-2xl w-fit">,&nbsp;</span>}
+          @if (!isLastArtist($index)) {<span class="text-2xl w-fit">,&nbsp;</span>}
           }
         </div>
         <div class="flex gap-[6px]">
           <p>{{ genres }} ·</p>
           {{ album.release_date | date: 'YYYY' }}
         </div>
-        <div class="playlist-header__info-buttons">
-          <!-- <button (click)="addToFavorite()">
-            <ion-icon class="h-4 w-4" name="heart" />
-          </button> -->
+        <div class="album-header__info-buttons">
           <app-play-button [isPlaying]="isPlaying" [queue]="album.tracks.data" />
-          <button>
-            <ion-icon class="h-4 w-4" name="ellipsis-horizontal" />
+          <button (click)="addToFavorite()" [class.text-main]="isFavorite">
+            <ion-icon class="h-4 w-4" [name]="favoriteIcon" />
           </button>
+          <!-- <button class="mr-3">
+            <ion-icon class="h-4 w-4" name="ellipsis-horizontal" />
+          </button> -->
         </div>
       </div>
     </div>

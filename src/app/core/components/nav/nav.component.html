@@ -27,13 +27,8 @@
     </div>
     <hr class="w-full mt-4 mb-2">
     <button class="h-10 flex items-center gap-3 hover:underline" (click)="toggleMode()">
-      @if (theme.getMode() === 'light') {
-      <ion-icon class="icon" name="sunny" />
-      <p>light mode</p>
-      } @else {
-      <ion-icon name="moon" />
-      <p>dark mode</p>
-      }
+      <ion-icon [name]="themeIcon" />
+      <p>{{currentTheme}} mode</p>
     </button>
     <hr class="w-full mb-4 mt-2" />
     <div class="flex gap-3 items-center">
@@ -54,5 +49,5 @@
 </nav>
 
 @if (modal) {
-<app-auth-modal (onCloseModal)="setModal($event)" [type]="modal"></app-auth-modal>
+<app-auth-modal (modalClose)="setModal($event)" [type]="modal"></app-auth-modal>
 }

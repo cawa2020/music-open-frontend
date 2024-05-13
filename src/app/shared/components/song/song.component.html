@@ -51,8 +51,8 @@
       }
     </div>
 
-    <div tooltip="Добавить в избранное" class="favorite-button w-fit flex justify-end">
-      <button (click)="toggleFavorite()" class="icon-button" [class.text-main]="isFavorite">
+    <div tooltip="Добавить в избранное" class="favorite-button w-fit flex justify-end items-center">
+      <button [disabled]="isFavotiteLoading" (click)="toggleFavorite()" class="icon-button" [class.text-main]="isFavorite">
         <ion-icon [name]="favoriteIcon" />
       </button>
     </div>

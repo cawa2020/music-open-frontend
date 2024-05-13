@@ -1,15 +1,15 @@
-.playlist-header {
+.album-header {
   @apply items-center flex-col xl:flex-row flex gap-4 mb-4;
 }
 
-.playlist-header__img {
+.album-header__img {
   @apply max-w-64 w-1/4 min-w-48 aspect-square rounded-lg shadow-2xl;
 }
 
-.playlist-header__info {
+.album-header__info {
   @apply flex flex-col justify-center text-center xl:text-left items-center xl:items-start gap-2 xl:gap-0 relative h-full w-full;
 }
 
-.playlist-header__info-buttons {
+.album-header__info-buttons {
   @apply flex items-center justify-between gap-6 mt-4 w-full;
 }

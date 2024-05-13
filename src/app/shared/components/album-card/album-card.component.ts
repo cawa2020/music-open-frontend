@@ -6,7 +6,7 @@ import { ApiService } from '../../../core/services/api.service';
 import { filter, map, take } from 'rxjs';
 import { SongService } from '../../../core/services/song.service';
 import { Album, AlbumBrief } from '../../interfaces/album.interface';
-import { Song } from '../../interfaces/track.interface';
+import { Song } from '../../interfaces/song.interface';
 
 @Component({
   selector: 'app-album-card',

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../../shared/interfaces/playlist.interface';
 import { UserService } from '../../core/services/user.service';
 import { LoaderComponent } from "../../shared/components/loader/loader.component";
 import { ArtistComponent } from "../../shared/components/artist-card/artist-card.component";
 import { PlaylistCardComponent } from "../../shared/components/playlist-card/playlist-card.component";
+import { User } from '../../shared/interfaces/auth.interface';
 
 @Component({
     selector: 'app-profile',
@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
       const id = params["id"]
 
       if (id === 'me') {
-        this.userService.userChanges.subscribe(() => {
+        this.userService.changes.subscribe(() => {
           const newUser = this.userService.getUser()
           if (!newUser) return
           this.user = newUser

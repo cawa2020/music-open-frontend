@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ApiService } from '../../core/services/api.service';
-import { PlaylistsComponent } from "../../core/components/playlists/playlists.component";
 import { SongComponent } from "../../shared/components/song/song.component";
 import { CommonModule } from '@angular/common';
 import { Observable, filter, finalize, map, of, shareReplay, switchMap, tap } from 'rxjs';
@@ -14,14 +13,14 @@ import { SongService } from '../../core/services/song.service';
 import { AlbumBrief } from '../../shared/interfaces/album.interface';
 import { Artist } from '../../shared/interfaces/artist.interface';
 import { Playlist } from '../../shared/interfaces/playlist.interface';
-import { Song } from '../../shared/interfaces/track.interface';
+import { Song } from '../../shared/interfaces/song.interface';
 
 @Component({
   selector: 'app-artist-page',
   standalone: true,
   templateUrl: './artist-page.component.html',
   styleUrl: './artist-page.component.css',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, PlaylistsComponent, SongComponent, CommonModule, AlbumComponent, ArtistComponent, LoaderComponent, PlayButtonComponent]
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, SongComponent, CommonModule, AlbumComponent, ArtistComponent, LoaderComponent, PlayButtonComponent]
 })
 export class ArtistPageComponent implements OnInit {
   public artist$!: Observable<Artist>

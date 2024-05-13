@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SongComponent } from "../../shared/components/song/song.component";
 import { LoaderComponent } from "../../shared/components/loader/loader.component";
-import { Song } from '../../shared/interfaces/track.interface';
+import { Song } from '../../shared/interfaces/song.interface';
 
 @Component({
   selector: 'app-artist-top',

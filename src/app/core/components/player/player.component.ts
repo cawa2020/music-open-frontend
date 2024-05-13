@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PlayerService } from '../../services/audio.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +13,10 @@ import { VolumeEditorComponent } from "../../../shared/components/volume-editor/
 import { TimePipe } from "../../../shared/pipes/time.pipe";
 import { SlidingTextDirective } from './directives/sliding-text.directive';
 import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
-import { Song } from '../../../shared/interfaces/track.interface';
+import { Song } from '../../../shared/interfaces/song.interface';
+import { ApiService } from '../../services/api.service';
+import { UserService } from '../../services/user.service';
+import { CookieService } from '../../services/cookie.service';
 
 @Component({
   selector: 'app-player',
@@ -22,7 +25,8 @@ import { Song } from '../../../shared/interfaces/track.interface';
   styleUrl: './player.component.css',
   providers: [HttpClientModule],
   imports: [TooltipDirective, SlidingTextDirective, RouterLink, RouterLinkActive, FormsModule, HttpClientModule, ZenComponent, ControlsComponent, SliderTimeComponent, VolumeEditorComponent, TimePipe],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlayerComponent implements OnInit {
   public zen: boolean = false
@@ -33,7 +37,7 @@ export class PlayerComponent implements OnInit {
   public editableTimeWhenDisable: number = 0
   public disableChanging: boolean = false
 
-  constructor(private player: PlayerService, private songData: SongService) { }
+  constructor(private player: PlayerService, private songData: SongService, private userService: UserService, private cookie: CookieService) { }
 
   ngOnInit() {
     const audio = this.player.getAudio()
@@ -60,5 +64,13 @@ export class PlayerComponent implements OnInit {
 
   isLastElement(index: number): boolean {
     return index === (this.song?.contributors?.length ?? 1) - 1
+  }
+
+  addToFavorite() {
+    const token = this.cookie.get('access_token')
+    if (!this.song) return
+    this.userService.addToFavotiteSong(this.song, token).subscribe((res) => {
+      this.userService.setUser(res)
+    })
   }
 }

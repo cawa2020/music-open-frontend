@@ -10,6 +10,7 @@ import { QueueComponent } from './pages/queue/queue.component';
 import { ArtistTopComponent } from './pages/artist-top/artist-top.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { authGuard } from './core/guards/auth.guard';
+import { CollectionComponent } from './pages/collection/collection.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,9 @@ export const routes: Routes = [
   },
   {
     path: 'queue', component: QueueComponent
+  },
+  {
+    path: 'collection/:type', component: CollectionComponent, canActivate: [authGuard]
   },
   {
     path: 'profile/:id', component: ProfileComponent, canActivate: [authGuard]

@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../shared/interfaces/playlist.interface';
-import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject, of } from 'rxjs';
 import { Method } from '../../shared/interfaces/app.interface';
 import { Album } from '../../shared/interfaces/album.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Song } from '../../shared/interfaces/song.interface';
+import { Artist } from '../../shared/interfaces/artist.interface';
+import { User } from '../../shared/interfaces/auth.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private user: User | null = null
-  public readonly userChanges: BehaviorSubject<number> = new BehaviorSubject(0)
+  public readonly changes: ReplaySubject<number> = new ReplaySubject(1)
 
   constructor(private http: HttpClient) { }
 
@@ -20,16 +22,26 @@ export class UserService {
 
   setUser(value: User | null) {
     this.user = value
-    this.userChanges.next(Math.random())
+    this.changes.next(Math.random())
   }
 
   fetchUserData(token: string) {
-    return this._request('GET', `byToken/${token}`)
+    return this._request('GET', `me/${token}`)
   }
 
   addToFavotiteAlbum(album: Album, token: string | undefined) {
     // ПРОВЕРКА НА ТОКЕН
     return this._request('POST', `album?token=${token}`, album)
+  }
+
+  addToFavotiteSong(song: Song, token: string | undefined) {
+    // ПРОВЕРКА НА ТОКЕН
+    return this._request('POST', `song?token=${token}`, song)
+  }
+
+  addToFavotiteArtist(artist: Artist, token: string | undefined) {
+    // ПРОВЕРКА НА ТОКЕН
+    return this._request('POST', `artist?token=${token}`, artist)
   }
 
   private _request(method: Method, path: string, body?: any): Observable<any> {

@@ -2,19 +2,19 @@ import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, HostListene
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavComponent } from './core/components/nav/nav.component';
-import { PlaylistsComponent } from "./core/components/playlists/playlists.component";
 import { PlayerComponent } from "./core/components/player/player.component";
 import { UserService } from './core/services/user.service';
 import { CookieService } from './core/services/cookie.service';
 import { ApiService } from './core/services/api.service';
 import { AuthService } from './core/services/auth.service';
+import { UserMusicComponent } from "./core/components/user-music/user-music.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
-  imports: [CommonModule, RouterOutlet, PlaylistsComponent, NavComponent, PlayerComponent]
+    selector: 'app-root',
+    standalone: true,
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css',
+    imports: [CommonModule, RouterOutlet, NavComponent, PlayerComponent, UserMusicComponent]
 })
 export class AppComponent implements OnInit {
   public isContained: boolean = localStorage.getItem('isContained') === 'true'

@@ -3,12 +3,12 @@ import { RouterLink } from '@angular/router';
 import { PlayerComponent } from '../player/player.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ThemeService } from './services/theme.service';
-import { User } from '../../../shared/interfaces/playlist.interface';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthModalComponent } from '../auth-modal/auth-modal.component';
+import { User } from '../../../shared/interfaces/auth.interface';
 
 @Component({
   selector: 'app-nav',
@@ -25,14 +25,14 @@ export class NavComponent {
   public modal: 'registration' | 'login' | null = null
   public user: null | User = null
 
-  constructor(public theme: ThemeService, private location: Location, private auth: AuthService, private userService: UserService) { }
+  constructor(private theme: ThemeService, private location: Location, private auth: AuthService, private userService: UserService) { }
 
   ngOnInit() {
     const isThemeDark = localStorage.getItem('themeMode') === 'dark'
     if (isThemeDark) { this.theme.toggleMode() }
     this.changeColor(this.color)
 
-    this.userService.userChanges.subscribe(() => {
+    this.userService.changes.subscribe(() => {
       const user = this.userService.getUser()
       this.user = user
     })
@@ -76,5 +76,13 @@ export class NavComponent {
 
   logout() {
     this.auth.logout()
+  }
+
+  get themeIcon() {
+    return this.theme.getMode() === 'light' ? 'sunny' : 'moon'
+  }
+
+  get currentTheme() {
+    return this.theme.getMode()
   }
 }

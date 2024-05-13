@@ -1,20 +1,20 @@
-<div [class]="isShort ? 'w-fit' : 'w-80'" class="section playlist">
-  <div class="playlist__header" (click)="toggleShort()">
+<div [class]="isShort ? 'w-fit' : 'w-80'" class="section user-music">
+  <div class="user-music__header" (click)="toggleShort()">
     <ion-icon name="musical-notes" class="icon" />
     @if (!isShort) {
     <h6>Библиотека</h6>
     }
   </div>
-  <div class="playlist__main">
-    @for (list of playlists; track list.id) {
-    <div class="playlist__main-item" (click)="routeToPlaylist(list.id, list.type)">
+  <div class="user-music__main">
+    @for (list of userMusic; track list.id) {
+    <div class="user-music__main-item" (click)="routeToPlaylist(list.id, list.type)">
       <img class="w-12 h-12 rounded" [src]="getCover(list)" alt="" />
       @if (!isShort) {
       <div class="flex flex-col justify-center gap-1">
         <h6 class="leading-none font-normal one-stroke-text">
           {{ getTitle(list) }}
         </h6>
-        <p class="playlist__main-artist one-stroke-text">{{ getSecondaryText(list) }}</p>
+        <p class="user-music__main-artist one-stroke-text">{{ getSecondaryText(list) }}</p>
       </div>
       }
     </div>

@@ -1,5 +1,5 @@
 import { Artist, Contributor } from "./artist.interface"
-import { Song } from "./track.interface"
+import { Song } from "./song.interface"
 
 export interface Album {
   id: number

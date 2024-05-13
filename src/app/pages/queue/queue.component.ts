@@ -5,7 +5,7 @@ import { SongComponent } from "../../shared/components/song/song.component";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';
-import { Song } from '../../shared/interfaces/track.interface';
+import { Song } from '../../shared/interfaces/song.interface';
 
 @Component({
   selector: 'app-queue',

@@ -70,13 +70,17 @@ section,
 .adaptive-margin {
   @apply my-8 lg:my-12 m-4 lg:m-6;
 
-  &:first-child {
-    @apply my-0
+  &:last-child {
+    @apply mb-6
   }
 
-  &:last-child {
-    @apply my-0
+  &:first-child {
+    @apply mt-6
   }
+}
+
+.adaptive-margin:first-child {
+  margin: 1px;
 }
 
 .section-adaptive {
@@ -140,7 +144,7 @@ button {
 }
 
 button:disabled {
-  @apply cursor-not-allowed opacity-80;
+  @apply opacity-70 brightness-50;
 }
 
 .button {

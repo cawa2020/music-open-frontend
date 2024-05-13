@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { SongService } from './song.service';
 import { volumeMultiplier } from '../../shared/constants/app.constant';
-import { Song } from '../../shared/interfaces/track.interface';
+import { Song } from '../../shared/interfaces/song.interface';
 
 @Injectable({
   providedIn: 'root'

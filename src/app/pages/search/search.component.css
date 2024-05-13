@@ -1,6 +1,7 @@
-.asd {
-  display: grid;
+.center {
+  @apply absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2;
+  /* display: grid;
   justify-items: center;
   align-items: center;
-  height: calc(100% - 40px);
+  height: calc(100% - 40px); */
 }

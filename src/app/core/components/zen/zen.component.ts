@@ -7,19 +7,20 @@ import { filter } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { SliderTimeComponent } from "../../../shared/components/slider-time/slider-time.component";
 import { VolumeEditorComponent } from "../../../shared/components/volume-editor/volume-editor.component";
-import { Song } from '../../../shared/interfaces/track.interface';
+import { Song } from '../../../shared/interfaces/song.interface';
 
 @Component({
-    selector: 'app-zen',
-    standalone: true,
-    templateUrl: './zen.component.html',
-    styleUrl: './zen.component.css',
-    imports: [MatIconModule, ControlsComponent, RouterLink, SliderTimeComponent, VolumeEditorComponent]
+  selector: 'app-zen',
+  standalone: true,
+  templateUrl: './zen.component.html',
+  styleUrl: './zen.component.css',
+  imports: [MatIconModule, ControlsComponent, RouterLink, SliderTimeComponent, VolumeEditorComponent]
 })
 export class ZenComponent implements OnInit {
   @Output() zenClose = new EventEmitter<boolean>()
   public song: Song | null = null
-  public duration!: number
+  public duration: number = 0
+  public currentTime: number = 0
 
   constructor(private player: PlayerService, private songData: SongService) { }
 
@@ -28,6 +29,10 @@ export class ZenComponent implements OnInit {
 
     this.songData.changes.pipe(filter(el => el === 'song')).subscribe(el => {
       this.updateSong()
+    })
+
+    this.player.getAudio().addEventListener('timeupdate', () => {
+      this.currentTime = this.player.getAudio().currentTime
     })
 
     this.player.getAudio().onloadedmetadata = () => {
