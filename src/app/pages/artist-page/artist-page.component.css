@@ -11,14 +11,14 @@
 }
 
 .grid-container {
-  @apply grid grid-flow-col gap-4 overflow-x-auto pb-2 w-full xl:grid-cols-5 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7
+  @apply grid grid-flow-col gap-4 overflow-x-auto pb-2 w-full xl:grid-cols-5 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7;
 }
 
 .artist-header {
   @apply flex gap-4 h-[350px] w-full items-center justify-center relative shadow-inner;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     z-index: 1;
     top: 0;
@@ -27,7 +27,7 @@
     right: 0;
     width: 100%;
     background: linear-gradient(transparent 0, var(--bg-color-secondary));
-    opacity: .8;
+    opacity: 0.8;
   }
 }
 
@@ -36,5 +36,5 @@
 }
 
 .artist-header__text {
-  @apply flex gap-3 items-center absolute p-6 w-full bottom-0 z-[2];
+  @apply flex gap-3 items-center justify-between absolute p-6 w-full bottom-0 z-[2];
 }

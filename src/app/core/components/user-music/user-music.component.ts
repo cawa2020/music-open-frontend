@@ -50,9 +50,19 @@ export class UserMusicComponent {
     this.isShort = !this.isShort
   }
 
+  getBorderRadius(el: Album | Playlist | Artist | Collection): string {
+    if (el.type === 'artist') {
+      return 'rounded-full'
+    } else {
+      return 'rounded'
+    }
+  }
+
   getCover(el: Album | Playlist | Artist | Collection): string {
     if ('cover_small' in el) {
       return el.cover_small ?? '../../assets/placeholder.jpg';
+    } else if ('picture_small' in el) {
+      return el.picture_small
     } else {
       return '../../assets/placeholder.jpg'
     }

@@ -4,7 +4,7 @@
     <app-loader />
   </div>
   } @else {
-  <h3>Wassup! {{user.username}}</h3>
+  <h3>Wassup! {{ user.username }}</h3>
 
   <div class="adaptive-margin">
     <h5 class="mb-3">Ваши плейлисты</h5>
@@ -17,7 +17,7 @@
 
   <div class="adaptive-margin">
     <h5 class="mb-3">Отслеживаемые артисты</h5>
-    <div>
+    <div class="grid-container">
       @for (artist of user.favoriteArtists; track artist.id) {
       <app-artist-card [artist]="artist"></app-artist-card>
       } @empty {

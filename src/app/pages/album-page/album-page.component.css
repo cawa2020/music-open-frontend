@@ -11,5 +11,5 @@
 }
 
 .album-header__info-buttons {
-  @apply flex items-center justify-between gap-6 mt-4 w-full;
+  @apply flex items-center gap-6 mt-4 w-full;
 }

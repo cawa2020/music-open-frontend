@@ -7,8 +7,13 @@
   <div class="artist-header">
     <img class="artist-header__img" [src]="(artist$ | async)?.picture_medium" alt="cover" />
     <div class="artist-header__text">
-      <app-play-button class="artist-header__info-button" [isPlaying]="isPlaying" [queue]="songs" />
-      <h3>{{ (artist$ | async)?.name }}</h3>
+      <div class="flex gap-2">
+        <app-play-button class="artist-header__info-button" [isPlaying]="isPlaying" [queue]="songs" />
+        <h3>{{ (artist$ | async)?.name }}</h3>
+      </div>
+      <button (click)="addToFavorite()" [class.text-main]="isFavorite">
+        <ion-icon class="h-6 w-6" [name]="favoriteIcon" />
+      </button>
     </div>
   </div>
 
