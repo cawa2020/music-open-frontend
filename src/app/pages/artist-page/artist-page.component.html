@@ -5,10 +5,18 @@
   </div>
   } @else {
   <div class="artist-header">
-    <img class="artist-header__img" [src]="(artist$ | async)?.picture_medium" alt="cover" />
+    <img
+      class="artist-header__img"
+      [src]="(artist$ | async)?.picture_medium"
+      alt="cover"
+    />
     <div class="artist-header__text">
       <div class="flex gap-2">
-        <app-play-button class="artist-header__info-button" [isPlaying]="isPlaying" [queue]="songs" />
+        <app-play-button
+          class="artist-header__info-button"
+          [isPlaying]="isPlaying"
+          [queue]="songs"
+        />
         <h3>{{ (artist$ | async)?.name }}</h3>
       </div>
       <button (click)="addToFavorite()" [class.text-main]="isFavorite">
@@ -20,16 +28,25 @@
   <div class="adaptive-margin">
     <a [routerLink]="['top']" class="link">
       <h5 class="leading-none">Топ треки</h5>
-      <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
-        aria-hidden="true">
+      <svg
+        class="arrow h-3 fill-[var(--text-color-secondary)]"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 64 64"
+        aria-hidden="true"
+      >
         <path
-          d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z">
-        </path>
+          d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z"
+        ></path>
       </svg>
     </a>
     <div>
       @for(song of songs.slice(0,5); track song.id) {
-      <app-song [index]="$index" [hideArtist]="true" [queue]="songs" [song]="song" />
+      <app-song
+        [index]="$index"
+        [hideArtist]="true"
+        [queue]="songs"
+        [song]="song"
+      />
       }@empty {
       <p class="text-secondary">Пусто :(</p>
       }
@@ -39,14 +56,18 @@
   <div class="adaptive-margin">
     <a [routerLink]="['discography']" class="link">
       <h5 class="leading-none">Дискоргафия</h5>
-      <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
-        aria-hidden="true">
+      <svg
+        class="arrow h-3 fill-[var(--text-color-secondary)]"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 64 64"
+        aria-hidden="true"
+      >
         <path
-          d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z">
-        </path>
+          d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z"
+        ></path>
       </svg>
     </a>
-    <div class="grid-container">
+    <div class="grid-container-scroll">
       @for(album of (albums$ | async)?.slice(0,lastIndex); track album.id) {
       <app-album-card class="w-36 xl:w-full" [album]="album" />
       } @empty {
@@ -58,14 +79,18 @@
   <div class="adaptive-margin">
     <a routerLink="/" class="link">
       <h5 class="leading-none">Схоже с творчеством</h5>
-      <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
-        aria-hidden="true">
+      <svg
+        class="arrow h-3 fill-[var(--text-color-secondary)]"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 64 64"
+        aria-hidden="true"
+      >
         <path
-          d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z">
-        </path>
+          d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z"
+        ></path>
       </svg>
     </a>
-    <div class="grid-container">
+    <div class="grid-container-scroll">
       @for(artist of (related$ | async)?.slice(0,lastIndex); track artist.id) {
       <app-artist-card class="w-36 xl:w-fit" [artist]="artist" />
       } @empty {
@@ -84,7 +109,7 @@
         </path>
       </svg>
     </a>
-    <div class="grid-container">
+    <div class="grid-container-scroll">
       @for(playlist of (playlists$ | async)?.slice(0,10); track playlist.id) {
       <div [routerLink]="['/playlist', playlist.id]"
         class="cursor-pointer rounded-md p-3 hover:bg-secondary flex flex-col gap-2 w-full">
@@ -97,5 +122,4 @@
     </div>
   </div> -->
   }
-
 </section>

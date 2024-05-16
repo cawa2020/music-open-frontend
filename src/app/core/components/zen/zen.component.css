@@ -1,5 +1,9 @@
+.zen-bg-placeholder {
+  @apply absolute top-0 bottom-0 left-0 right-0 z-[997] bg-secondary;
+}
+
 .zen-bg {
-  @apply absolute top-[-8px] bottom-[-8px] left-[-8px] right-[-8px] z-[998] bg-center bg-cover brightness-[.2] transition-all
+  @apply absolute top-[-8px] bottom-[-8px] left-[-8px] right-[-8px] z-[999] bg-center bg-cover brightness-[.2] transition-all;
 }
 
 .zen-content {
@@ -10,5 +14,5 @@
 }
 
 .zen-close {
-  @apply absolute left-[20px] top-[16px] z-[1000]
+  @apply absolute left-[20px] top-[16px] z-[1000];
 }
