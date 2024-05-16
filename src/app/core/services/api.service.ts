@@ -13,10 +13,6 @@ import { Song, SongBrief } from '../../shared/interfaces/song.interface';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  getPlaylist(id: number) {
-    return this._request('GET', 'playlist/' + id);
-  }
-
   getArtist(id: number): Observable<Artist> {
     return this._request('GET', 'artist/' + id);
   }
@@ -72,6 +68,25 @@ export class ApiService {
     return this._request('GET', path);
   }
 
+  getPlaylist(id: number) {
+    return this._requestLocal('GET', 'playlist/' + id);
+  }
+
+  createPlaylist(token: string | undefined, body: Playlist) {
+    const url = `playlist/?token=${token}`;
+    return this._requestLocal('POST', url, body);
+  }
+
+  updatePlaylist(token: string | undefined, id: string, body: Playlist) {
+    const url = `playlist/${id}?token=${token}`;
+    return this._requestLocal('PUT', url, body);
+  }
+
+  deletePlaylist(token: string | undefined, id: string) {
+    const url = `playlist/${id}?token=${token}`;
+    return this._requestLocal('DELETE', url);
+  }
+
   private _request(method: Method, path: string, body?: any): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.set(
@@ -100,7 +115,17 @@ export class ApiService {
   ): Observable<any> {
     const url =
       `https://thingproxy.freeboard.io/fetch/https://api.deezer.com/` + path;
-    // const url = `https://corsproxy.io/?https://api.deezer.com/` + path
+    // const url = `https://corsproxy.io/?https://api.deezer.com/` + path;
+
+    return this.http.request(method, url);
+  }
+
+  private _requestLocal(
+    method: Method,
+    path: string,
+    body?: any
+  ): Observable<any> {
+    const url = `localhost:3000` + path;
 
     return this.http.request(method, url);
   }
