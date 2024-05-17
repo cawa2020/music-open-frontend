@@ -1,0 +1,6 @@
+@for(message of messages; track $index) {
+<div class="toast" [style]="getStyles(message.type, $index)">
+  <ion-icon [name]="getIcon(message.type)" class="icon" />
+  {{ message.info }}
+</div>
+}

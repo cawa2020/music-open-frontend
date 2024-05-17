@@ -1,4 +1,7 @@
-<div class="zen-bg-placeholder"></div>
+<div
+  class="zen-bg-placeholder"
+  [style.backgroundImage]="'url(' + prevSongCover + ')'"
+></div>
 <div
   class="zen-bg"
   [style.backgroundImage]="'url(' + song?.album?.cover_xl + ')'"
