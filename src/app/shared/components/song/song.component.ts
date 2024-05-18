@@ -107,14 +107,16 @@ export class SongComponent implements OnInit {
     this.isFavotiteLoading = true;
     const token = this.cookie.get('access_token');
     this.userService.addToFavotiteSong(this.song, token).subscribe((res) => {
-      if (res.id) {
+      if (res?.id) {
         this.userService.setUser(res);
         this.isFavorite = !this.isFavorite;
         if (this.isFavorite) {
-          this.toast.success('Песня успешна добавлена!');
+          this.toast.success('Песня добавлена в "Favorite tracks"');
         } else {
-          this.toast.success('Песня успешна убрана!');
+          this.toast.success('Песня убрана из "Favorite tracks"');
         }
+      } else if (res !== null) {
+        this.toast.error('Что-то пошло не так...');
       }
       this.isFavotiteLoading = false;
     });

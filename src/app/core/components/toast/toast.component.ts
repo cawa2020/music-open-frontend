@@ -1,31 +1,38 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { transition, style, animate, trigger } from '@angular/animations';
 import {
-  Message,
-  MessageType,
-} from '../../../shared/interfaces/message.interface';
-import { ToastService } from '../../services/toast.service';
+  ChangeDetectionStrategy,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  Input,
+} from '@angular/core';
+import { Message } from '../../../shared/interfaces/message.interface';
+
+const enterTransition = transition(':enter', [
+  style({ transform: 'translateY(-8px)', opacity: 0 }),
+  animate('.15s ease-in', style({ transform: 'translateY(0px)', opacity: 1 })),
+]);
+const exitTransition = transition(':leave', [
+  animate('.15s ease-out', style({ transform: 'translateY(8px)', opacity: 0 })),
+]);
+
+const fadeIn = trigger('fadeIn', [enterTransition]);
+const fadeOut = trigger('fadeOut', [exitTransition]);
 
 @Component({
   selector: 'app-toast',
   standalone: true,
-  imports: [],
+  animations: [fadeIn, fadeOut],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './toast.component.html',
   styleUrl: './toast.component.css',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToastComponent implements OnInit {
-  public messages: Message[] = [];
+export class ToastComponent {
+  @Input() index!: number;
+  @Input() message!: Message;
 
-  constructor(private toast: ToastService) {}
-
-  ngOnInit() {
-    this.toast.changes$.subscribe((newMessage) => {
-      this.messages.push(newMessage);
-    });
-  }
-
-  getIcon(type: MessageType) {
-    switch (type) {
+  get icon() {
+    switch (this.message.type) {
       case 'success':
         return 'checkmark-circle';
       case 'error':
@@ -37,19 +44,31 @@ export class ToastComponent implements OnInit {
     }
   }
 
-  getStyles(type: MessageType, index: number) {
+  get styles() {
     const styles: any = {};
-    switch (type) {
+    switch (this.message.type) {
       case 'success':
         styles.backgroundColor = 'hsl(143, 85%, 96%)';
         styles.color = 'hsl(140, 100%, 27%)';
         styles.borderColor = 'hsl(145, 92%, 91%)';
         break;
       case 'error':
+        styles.backgroundColor = 'hsl(359, 100%, 97%)';
+        styles.color = 'hsl(360, 100%, 45%)';
+        styles.borderColor = 'hsl(359, 100%, 94%)';
+        break;
       case 'info':
+        styles.backgroundColor = 'hsl(208, 100%, 97%)';
+        styles.color = 'hsl(210, 92%, 45%)';
+        styles.borderColor = 'hsl(221, 91%, 91%)';
+        break;
       default:
     }
-    styles.top = index * 55 + 20 + 'px';
+    styles.bottom = `${this.index * 55 + 112}px`;
     return styles;
+  }
+
+  onClick() {
+    // this.messages.splice(index, 1);
   }
 }

@@ -7,6 +7,7 @@ import { UserService } from './core/services/user.service';
 import { CookieService } from './core/services/cookie.service';
 import { UserMusicComponent } from './core/components/user-music/user-music.component';
 import { ToastComponent } from './core/components/toast/toast.component';
+import { ToastsComponent } from './core/components/toasts/toasts.component';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { ToastComponent } from './core/components/toast/toast.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   imports: [
+    ToastsComponent,
     CommonModule,
     RouterOutlet,
     NavComponent,
@@ -23,35 +25,16 @@ import { ToastComponent } from './core/components/toast/toast.component';
   ],
 })
 export class AppComponent implements OnInit {
-  public isContained: boolean = localStorage.getItem('isContained') === 'true';
-
   constructor(
     private userService: UserService,
     private cookie: CookieService
   ) {}
 
   ngOnInit(): void {
-    if (window.innerWidth <= 900) {
-      this.isContained = true;
-    }
-
     const token = this.cookie.get('access_token');
     if (!token) return;
     this.userService.fetchUserData(token).subscribe((user) => {
       this.userService.setUser(user);
     });
-  }
-
-  setContained(value: boolean) {
-    this.isContained = value;
-    localStorage.setItem('isContained', String(this.isContained));
-  }
-
-  @HostListener('window:resize', ['$event'])
-  toggleContained(event: any) {
-    const width = event.target.innerWidth;
-    if (width <= 900) {
-      this.setContained(true);
-    }
   }
 }
