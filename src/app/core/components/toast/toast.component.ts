@@ -7,21 +7,9 @@ import {
 } from '@angular/core';
 import { Message } from '../../../shared/interfaces/message.interface';
 
-const enterTransition = transition(':enter', [
-  style({ transform: 'translateY(-8px)', opacity: 0 }),
-  animate('.15s ease-in', style({ transform: 'translateY(0px)', opacity: 1 })),
-]);
-const exitTransition = transition(':leave', [
-  animate('.15s ease-out', style({ transform: 'translateY(8px)', opacity: 0 })),
-]);
-
-const fadeIn = trigger('fadeIn', [enterTransition]);
-const fadeOut = trigger('fadeOut', [exitTransition]);
-
 @Component({
   selector: 'app-toast',
   standalone: true,
-  animations: [fadeIn, fadeOut],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './toast.component.html',
   styleUrl: './toast.component.css',

@@ -11,21 +11,20 @@
     <a class="nav-item" [routerLink]="['/search']">
       <ion-icon class="icon" name="search" />
     </a>
-    <button (click)="toggleMenu()" class="nav-item">
-      <ion-icon class="icon" name="person" />
+    <button #menuIcon (click)="toggleMenu()" class="nav-item">
+      <ion-icon class="icon" name="settings-outline" />
     </button>
+    @if (user) {
+    <a [routerLink]="['profile/me']" class="nav-item">
+      <ion-icon class="icon" name="person" />
+    </a>
+    } @else {
+    <button class="button" (click)="setModal('registration')">sign up</button>
+    <button class="button" (click)="setModal('login')">login</button>
+    }
   </div>
   @if (isMenuOpen) {
-  <div class="left-hidden-block menu">
-    <div class="flex gap-2 w-full">
-      @if (user) {
-      <a [routerLink]="['profile/me']">profile</a>
-      } @else {
-      <button class="button w-full" (click)="setModal('registration')">sign up</button>
-      <button class="button w-full" (click)="setModal('login')">login</button>
-      }
-    </div>
-    <hr class="w-full mt-4 mb-2">
+  <div #menu @fadeIn @fadeOut class="left-hidden-block menu">
     <button class="h-10 flex items-center gap-3 hover:underline" (click)="toggleMode()">
       <ion-icon [name]="themeIcon" />
       <p>{{currentTheme}} mode</p>

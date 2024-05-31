@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, HostListener, Input, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PlayerComponent } from '../player/player.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,9 @@ import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthModalComponent } from '../auth-modal/auth-modal.component';
 import { User } from '../../../shared/interfaces/auth.interface';
+import { fadeIn } from '../../../shared/animations/fadeIn';
+import { fadeOut } from '../../../shared/animations/fadeOut';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-nav',
@@ -16,7 +19,8 @@ import { User } from '../../../shared/interfaces/auth.interface';
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
   imports: [RouterLink, PlayerComponent, MatIconModule, FormsModule, AuthModalComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  animations: [fadeIn, fadeOut],
 })
 export class NavComponent {
   public color: string = localStorage.getItem('mainColor') ?? '#3b82f6'
@@ -24,6 +28,8 @@ export class NavComponent {
   public index: number = 0
   public modal: 'registration' | 'login' | null = null
   public user: null | User = null
+  @ViewChild('menu') menu: ElementRef | undefined
+  @ViewChild('menuIcon') menuIcon!: ElementRef
 
   constructor(private theme: ThemeService, private location: Location, private auth: AuthService, private userService: UserService) { }
 
@@ -38,12 +44,12 @@ export class NavComponent {
     })
   }
 
-  @HostListener('document:click', ['$event'])
-  handleDocumentClick(event: MouseEvent) {
-    // console.log(event.target)
-    // if (this.excludedElement && !this.excludedElement.nativeElement.contains(event.target as Node)) {
-    //   this.toggleMenu()
-    // }
+  @HostListener('document:mousedown', ['$event'])
+  onGlobalClick(event: any): void {
+    if (!this.menu) return
+    if (!this.menu.nativeElement.contains(event.target) && !this.menuIcon.nativeElement.contains(event.target)) {
+      this.isMenuOpen = false;
+    }
   }
 
   toggleMenu() {

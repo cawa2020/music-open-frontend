@@ -1,3 +1,6 @@
 @for (message of messages; track $index) {
-<app-toast @fadeIn @fadeOut [message]="message" [index]="$index" />
+<div @fadeIn @fadeOut class="toast" [style]="getStyles($index, message.type)">
+    <ion-icon [name]="getIcon(message.type)" class="icon" />
+    {{ message.info }}
+</div>
 }
