@@ -1,3 +1,10 @@
 <section class="h-full overflow-auto">
-  <h1 class="text-6xl">Добро пожаловать на сайт!! </h1>
+  <h5 class="mb-4 leading-none"> Недавно игравшие </h5>
+  @for (item of recently_played; track item.id) {
+  @if(item.type === 'album') {
+  <app-album-card [album]="item" />
+  } @else if(item.type === 'playlist') {
+  <app-playlist-card [playlist]="item" />
+  }
+  }
 </section>

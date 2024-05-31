@@ -17,15 +17,12 @@ import { CommonModule } from '@angular/common';
 import {
   Observable,
   filter,
-  finalize,
   map,
   of,
   shareReplay,
   switchMap,
   take,
-  tap,
 } from 'rxjs';
-import { AlbumComponent } from '../../shared/components/album-card/album-card.component';
 import { ArtistComponent } from '../../shared/components/artist-card/artist-card.component';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { PlayButtonComponent } from '../../shared/components/play-button/play-button.component';
@@ -38,6 +35,7 @@ import { Song } from '../../shared/interfaces/song.interface';
 import { CookieService } from '../../core/services/cookie.service';
 import { UserService } from '../../core/services/user.service';
 import { UserMusicService } from '../../core/services/user-music.service';
+import { AlbumCardComponent } from '../../shared/components/album-card/album-card.component';
 
 @Component({
   selector: 'app-artist-page',
@@ -50,7 +48,7 @@ import { UserMusicService } from '../../core/services/user-music.service';
     RouterLinkActive,
     SongComponent,
     CommonModule,
-    AlbumComponent,
+    AlbumCardComponent,
     ArtistComponent,
     LoaderComponent,
     PlayButtonComponent,
@@ -76,7 +74,7 @@ export class ArtistPageComponent implements OnInit {
     private cookie: CookieService,
     private userService: UserService,
     private userMusic: UserMusicService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.onResize({ target: { innerWidth: window.innerWidth } });

@@ -17,7 +17,7 @@ import { Song } from '../../interfaces/song.interface';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
-export class AlbumComponent {
+export class AlbumCardComponent {
   @Input({ required: true }) album!: Album | AlbumBrief
 
   constructor(private player: PlayerService, private api: ApiService, private songData: SongService) { }

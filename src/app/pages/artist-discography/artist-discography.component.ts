@@ -3,7 +3,7 @@ import { ApiService } from '../../core/services/api.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { AlbumComponent } from "../../shared/components/album-card/album-card.component";
+import { AlbumCardComponent } from "../../shared/components/album-card/album-card.component";
 import { AlbumBrief } from '../../shared/interfaces/album.interface';
 
 @Component({
@@ -11,7 +11,7 @@ import { AlbumBrief } from '../../shared/interfaces/album.interface';
     standalone: true,
     templateUrl: './artist-discography.component.html',
     styleUrl: './artist-discography.component.css',
-    imports: [CommonModule, RouterLink, AlbumComponent]
+    imports: [CommonModule, RouterLink, AlbumCardComponent]
 })
 export class ArtistDiscographyComponent implements OnInit {
   public albums$!: Observable<AlbumBrief[] | null>
