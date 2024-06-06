@@ -1,6 +1,7 @@
 @for (message of messages; track $index) {
 <div @fadeIn @fadeOut class="toast" [style]="getStyles($index, message.type)">
-    <ion-icon [name]="getIcon(message.type)" class="icon" />
-    {{ message.info }}
+  <!-- <img src="../../../../assets/icons/" alt="like"> -->
+  <!-- нужна иконка ???? !!!!!-->
+  {{ message.info }}
 </div>
 }

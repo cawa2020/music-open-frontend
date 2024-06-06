@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { PlayerService } from '../../services/audio.service';
+import { AudioService } from '../../services/audio.service';
 import { MatIconModule } from '@angular/material/icon';
 import { SongService } from '../../services/song.service';
 import { ControlsComponent } from '../../../shared/components/controls/controls.component';
@@ -29,16 +29,16 @@ export class ZenComponent implements OnInit {
   public currentTime: number = 0;
   public prevSongCover!: string;
 
-  constructor(private player: PlayerService, private songData: SongService) {}
+  constructor(private player: AudioService, private songData: SongService) {}
 
   ngOnInit(): void {
     this.updateSong();
 
-    this.songData.changes
-      .pipe(filter((el) => el === 'song'))
-      .subscribe((el) => {
-        this.updateSong();
-      });
+    //!!!!!!!!!! this.songData.changes
+    //   .pipe(filter((el) => el === 'song'))
+    //   .subscribe((el) => {
+    //     this.updateSong();
+    //   });
 
     this.player.getAudio().addEventListener('timeupdate', () => {
       this.currentTime = this.player.getAudio().currentTime;

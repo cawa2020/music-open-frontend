@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, Input, OnInit } from '@angular/core';
-import { PlayerService } from '../../../core/services/audio.service';
+import { AudioService } from '../../../core/services/audio.service';
 import { FormsModule } from '@angular/forms';
 import { volumeMultiplier } from '../../constants/app.constant';
 
@@ -9,7 +9,7 @@ import { volumeMultiplier } from '../../constants/app.constant';
   templateUrl: './volume-editor.component.html',
   styleUrls: ['./volume-editor.component.css', '../slider-time/slider-time.component.css'],
   imports: [FormsModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class VolumeEditorComponent implements OnInit {
   @Input() sliderWidth: string = '100%'
@@ -17,7 +17,7 @@ export class VolumeEditorComponent implements OnInit {
   public volume: number = Number(localStorage.getItem('volume'))
   private volumeTimeOut: any
 
-  constructor(private player: PlayerService) { }
+  constructor(private player: AudioService) { }
 
   ngOnInit(): void {
     this.player.setVolume(this.volume / 100)

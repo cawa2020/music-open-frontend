@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, Input, OnInit } from '@angular/core';
-import { PlayerService } from '../../../core/services/audio.service';
+import { AudioService } from '../../../core/services/audio.service';
 import { SongService } from '../../../core/services/song.service';
 import { MatIconModule } from '@angular/material/icon';
 import { Song } from '../../interfaces/song.interface';
@@ -10,13 +10,13 @@ import { Song } from '../../interfaces/song.interface';
   imports: [MatIconModule],
   templateUrl: './play-button.component.html',
   styleUrl: './play-button.component.css',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class PlayButtonComponent {
   @Input({ required: true }) isPlaying: boolean = false
   @Input() queue: Song[] = []
 
-  constructor(private songData: SongService, private audio: PlayerService) { }
+  constructor(private songData: SongService, private audio: AudioService) { }
 
   play() {
     if (this.songData.compareQueues(this.queue)) {
@@ -31,4 +31,6 @@ export class PlayButtonComponent {
       this.audio.playSong()
     }
   }
+
+
 }

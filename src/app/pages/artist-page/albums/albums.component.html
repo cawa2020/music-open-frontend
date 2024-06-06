@@ -1,0 +1,13 @@
+<div class="container">
+  @if (!albums) {
+  <div class="flex justify-center items-center w-full h-full">
+    <app-loader />
+  </div>
+  } @else {
+  @for(album of albums; track album.id) {
+  <app-album-card [album]="album" />
+  } @empty {
+  <p class="text-secondary">Пусто :(</p>
+  }
+  }
+</div>

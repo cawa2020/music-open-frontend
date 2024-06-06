@@ -1,0 +1,12 @@
+.link {
+  @apply flex gap-1 mb-3 items-center w-fit translate-x-0;
+
+  & .arrow {
+    @apply w-fit;
+    transition: transform calc(var(--transition-time) / 2) ease-in-out;
+  }
+
+  &:hover .arrow {
+    @apply translate-x-1;
+  }
+}

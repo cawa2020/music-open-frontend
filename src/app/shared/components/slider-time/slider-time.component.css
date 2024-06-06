@@ -1,9 +1,13 @@
+.asd {
+  @apply flex gap-2 items-center min-w-[320px] justify-center;
+}
+
 .slider {
   @apply w-full h-1 relative bg-[var(--bg-slider-color)] rounded-full select-none;
 }
 
 .slider-container {
-  @apply h-3 flex items-center;
+  @apply w-full h-3 flex items-center;
 
   &:hover .loader {
     @apply bg-main

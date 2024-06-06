@@ -25,12 +25,12 @@ export class ProfileComponent implements OnInit {
       const id = params["id"]
 
       if (id === 'me') {
-        this.userService.changes.subscribe(() => {
-          const newUser = this.userService.getUser()
-          if (!newUser) return
-          this.user = newUser
-          this.loading = false
-        })
+        // this.userService.changes.subscribe(() => {
+        //   const newUser = this.userService.getUser()
+        //   if (!newUser) return
+        //   this.user = newUser
+        //   this.loading = false
+        // })
       } else {
 
       }

@@ -18,7 +18,7 @@
   --bg-color-secondary: rgb(235, 235, 235);
 
   --text-color: #222;
-  --text-color-secondary: #818c99;
+  --text-color-secondary: #898989;
   --icon-color: #5f6368;
   --border-color: #d1d5db;
   --bg-input-color: white;
@@ -30,12 +30,9 @@
 
   --border-radius: 8px;
   --transition-time: 0.3s;
-  --side-margin: 8px;
-}
-
-ion-icon {
-  color: inherit;
-  font-size: 18px;
+  --side-margin-x: 7px;
+  --side-margin-y: 4px;
+  --user-music-width: 240px;
 }
 
 div::-webkit-scrollbar {
@@ -50,18 +47,28 @@ html {
   @apply h-full;
 }
 
+a {
+  @apply hover:cursor-pointer hover:no-underline;
+}
+
 body {
-  @apply bg-secondary p-[var(--side-margin)] w-full h-full;
+  @apply bg-secondary;
+}
+
+main {
+  @apply border-default border rounded-default;
 }
 
 hr {
   @apply border-default;
 }
 
-section,
-.section {
-  @apply bg-default border border-default;
-  border-radius: var(--border-radius);
+svg {
+  @apply w-10 h-10 stroke-[var(--text-color-secondary)]
+}
+
+section {
+  @apply h-full overflow-y-auto
 }
 
 .adaptive-margin {
@@ -81,31 +88,7 @@ section,
 }
 
 .section-adaptive {
-  @apply p-3 lg:p-6;
-}
-
-.material-icons {
-  font-family: "Material Icons";
-  font-weight: normal;
-  font-size: 20px;
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
-
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
-
-  /* Support for IE. */
-  font-feature-settings: "liga";
+  @apply px-[20px] py-[20px];
 }
 
 h1 {
@@ -145,7 +128,7 @@ button:disabled {
 }
 
 .button {
-  @apply px-3 h-10 transition-default bg-main text-white rounded-default;
+  @apply px-4 h-10 transition-default bg-main text-white rounded-full;
 
   &:hover {
     background-color: var(--hover-color);
@@ -156,13 +139,8 @@ button:disabled {
   }
 }
 
-.active-button {
-  @apply !text-main relative;
-
-  &::after {
-    @apply rounded-full p-[2px] absolute bg-main bottom-0 left-[45%];
-    content: "";
-  }
+.active-button path {
+  @apply !stroke-[var(--main-color)];
 }
 
 .icon-button {
@@ -171,7 +149,7 @@ button:disabled {
 }
 
 input:not([type="range"]):not([type="color"]) {
-  @apply px-3 h-10 text-default border border-default rounded-default;
+  @apply px-4 h-10 text-default border border-default rounded-full;
   outline: none;
   background-color: var(--bg-input-color);
 }
@@ -289,6 +267,10 @@ input[type="range"]::-webkit-slider-thumb {
   @apply grid gap-6 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7;
 }
 
+.container {
+  @apply grid grid-cols-6 4xl:grid-cols-8 gap-x-[10px] gap-y-[20px]
+}
+
 .cdk-drop-list-dragging .cdk-drag:not(.cdk-drag-preview) {
   @apply transition-default select-none cursor-[unset];
 
@@ -343,17 +325,41 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .play-button {
-  @apply flex justify-center items-center absolute left-2 bottom-2 backdrop-blur-sm bg-white/40 rounded-full hover:bg-[var(--main-color)] text-white opacity-0 invisible transition-default;
+  @apply p-1 flex justify-center items-center absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 backdrop-blur-sm bg-white/40 rounded-full hover:bg-[var(--main-color)] text-white opacity-0 invisible transition-default;
 }
 
-.after-center::after {
-  @apply left-1/2 -translate-x-1/2;
+.spinner {
+  animation: spin 1s infinite linear;
 }
 
-.after-right-start::after {
-  @apply right-0;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-.after-left-start::after {
-  @apply left-0;
+.text-icon-block {
+  @apply flex items-center gap-[10px] cursor-pointer hover:no-underline;
+
+  &:hover {
+    & svg {
+      @apply stroke-[var(--text-color)];
+    }
+
+    & span {
+      @apply text-default;
+    }
+  }
+
+  & svg {
+    @apply stroke-[var(--text-color-secondary)] transition-default;
+  }
+
+  & span {
+    @apply text-secondary transition-default;
+  }
 }

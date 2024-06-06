@@ -1,5 +1,5 @@
 <div class="shadow" (click)="hideModal()"></div>
-<form (ngSubmit)="submit()" [formGroup]="form">
+<form @scaleIn @scaleOut (ngSubmit)="submit()" [formGroup]="form">
   <h4>
     @if (type === 'login') {
       Вход

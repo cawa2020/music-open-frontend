@@ -3,21 +3,28 @@
 }
 
 .user-music {
-  @apply hidden lg:block min-w-[74px] !px-1 h-full p-3;
+  @apply hidden lg:flex flex-col h-full p-[10px] gap-[10px] w-[var(--user-music-width)] rounded-default;
 }
 
-.user-music__header {
-  @apply px-[12px] flex items-center gap-2 cursor-pointer mb-2 opacity-80 hover:opacity-100;
+.active-side-bar {
+  @apply relative;
 }
 
-.user-music__main {
-  @apply grid overflow-auto h-fit hidden-scroll;
+.active-side-bar::after {
+  --nav-height-minus: -56px;
+  @apply bg-default absolute rounded-default left-0 right-0 bottom-0 z-[-1];
+  top: calc(var(--nav-height-minus));
+  content: '';
 }
 
-.user-music__main-item {
-  @apply h-fit flex p-2 gap-2 hover:bg-secondary cursor-pointer rounded-lg;
-}
+.active {
+  @apply bg-[var(--border-color)] rounded-default;
 
-.user-music__main-artist {
-  @apply leading-none text-secondary w-fit;
+  & svg {
+    @apply stroke-[var(--text-color)]
+  }
+
+  & span {
+    @apply text-default
+  }
 }

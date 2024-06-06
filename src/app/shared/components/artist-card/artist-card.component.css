@@ -1,5 +1,5 @@
 .artist {
-  @apply cursor-pointer rounded-md flex flex-col gap-2 w-full;
+  @apply cursor-pointer rounded-md flex flex-col gap-2 w-full text-center;
 
   &:hover .artist__img {
     filter: brightness(0.7);

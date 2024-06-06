@@ -4,7 +4,7 @@
 }
 
 .song {
-  @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-secondary;
+  @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-default;
 
   &:hover .favorite-button {
     @apply visible
@@ -28,7 +28,7 @@
 }
 
 .song__start {
-  @apply w-10 h-10 flex justify-center items-center;
+  @apply min-w-[42px] h-[42px] flex justify-center items-center;
 }
 
 .song__start-icon {
@@ -41,4 +41,8 @@
 
 .song__content-artist {
   @apply text-secondary leading-none w-fit;
+}
+
+svg {
+  @apply w-8 h-8
 }

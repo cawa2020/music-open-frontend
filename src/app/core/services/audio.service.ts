@@ -7,7 +7,7 @@ import { Song } from '../../shared/interfaces/song.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class PlayerService {
+export class AudioService {
   private audio: HTMLAudioElement = new Audio()
   public readonly audioChanges = new BehaviorSubject<{ data?: any, type: 'time' | 'src' }>({ type: 'src' })
 

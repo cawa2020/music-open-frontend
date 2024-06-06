@@ -26,10 +26,7 @@ export class ArtistTopComponent implements OnInit {
     this.activateRoute.params.subscribe(params => {
       this.id = Number(params["id"])
       const defNumberOfTracks = 30
-      this.api.getArtistTop(this.id, defNumberOfTracks).pipe(take(1)).subscribe((res) => {
-        this.songs = res.data
-        this.isLoadedAll = res.total === this.songs.length
-      })
+      this.getMoreSongs(defNumberOfTracks, 0)
     });
   }
 
@@ -37,10 +34,14 @@ export class ArtistTopComponent implements OnInit {
     const offset = 600
     const isScrolledToBottom = event.target.offsetHeight + event.target.scrollTop < event.target.scrollHeight - offset
     if (isScrolledToBottom || this.isLoadedAll || this.isLoading) return
-    const lastIndex = this.songs.length
-    const limit = 15
     this.isLoading = true
-    this.api.getArtistTop(this.id, limit, lastIndex + 15).pipe(take(1)).subscribe((res) => {
+    const lastIndex = this.songs.length
+    const amount = 10
+    this.getMoreSongs(amount, lastIndex)
+  }
+
+  private getMoreSongs(amount: number, index: number) {
+    this.api.getArtistTop(this.id, amount, index).pipe(take(1)).subscribe((res) => {
       this.songs = this.songs.concat(res.data)
       this.isLoadedAll = res.total === this.songs.length
       this.isLoading = false

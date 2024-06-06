@@ -1,125 +1,63 @@
 <section class="w-full overflow-auto h-full">
-  @if (requests > 0) {
+  @if (!artist) {
   <div class="flex justify-center items-center w-full h-full">
     <app-loader />
   </div>
   } @else {
   <div class="artist-header">
-    <img
-      class="artist-header__img"
-      [src]="(artist$ | async)?.picture_medium"
-      alt="cover"
-    />
+    <img class="artist-header__img" [src]="artist.picture_medium" alt="cover" />
     <div class="artist-header__text">
       <div class="flex gap-2">
-        <app-play-button
-          class="artist-header__info-button"
-          [isPlaying]="isPlaying"
-          [queue]="songs"
-        />
-        <h3>{{ (artist$ | async)?.name }}</h3>
+        <h3>{{ artist.name }}</h3>
       </div>
-      <button (click)="addToFavorite()" [class.text-main]="isFavorite">
-        <ion-icon class="h-6 w-6" [name]="favoriteIcon" />
-      </button>
-    </div>
-  </div>
-
-  <div class="adaptive-margin">
-    <a [routerLink]="['top']" class="link">
-      <h5 class="leading-none">Топ треки</h5>
-      <svg
-        class="arrow h-3 fill-[var(--text-color-secondary)]"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 64 64"
-        aria-hidden="true"
-      >
-        <path
-          d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z"
-        ></path>
-      </svg>
-    </a>
-    <div>
-      @for(song of songs.slice(0,5); track song.id) {
-      <app-song
-        [index]="$index"
-        [hideArtist]="true"
-        [queue]="songs"
-        [song]="song"
-      />
-      }@empty {
-      <p class="text-secondary">Пусто :(</p>
-      }
-    </div>
-  </div>
-
-  <div class="adaptive-margin">
-    <a [routerLink]="['discography']" class="link">
-      <h5 class="leading-none">Дискоргафия</h5>
-      <svg
-        class="arrow h-3 fill-[var(--text-color-secondary)]"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 64 64"
-        aria-hidden="true"
-      >
-        <path
-          d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z"
-        ></path>
-      </svg>
-    </a>
-    <div class="grid-container-scroll">
-      @for(album of (albums$ | async)?.slice(0,lastIndex); track album.id) {
-      <app-album-card class="w-36 xl:w-full" [album]="album" />
-      } @empty {
-      <p class="text-secondary">Пусто :(</p>
-      }
-    </div>
-  </div>
-
-  <div class="adaptive-margin">
-    <a routerLink="/" class="link">
-      <h5 class="leading-none">Схоже с творчеством</h5>
-      <svg
-        class="arrow h-3 fill-[var(--text-color-secondary)]"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 64 64"
-        aria-hidden="true"
-      >
-        <path
-          d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z"
-        ></path>
-      </svg>
-    </a>
-    <div class="grid-container-scroll">
-      @for(artist of (related$ | async)?.slice(0,lastIndex); track artist.id) {
-      <app-artist-card class="w-36 xl:w-fit" [artist]="artist" />
-      } @empty {
-      <p class="text-secondary">Пусто :(</p>
-      }
-    </div>
-  </div>
-
-  <!-- <div class="adaptive-margin">
-    <a routerLink="/" class="link">
-      <h5 class="leading-none">Плейлисты</h5>
-      <svg class="arrow h-3 fill-[var(--text-color-secondary)]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
-        aria-hidden="true">
-        <path
-          d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z">
-        </path>
-      </svg>
-    </a>
-    <div class="grid-container-scroll">
-      @for(playlist of (playlists$ | async)?.slice(0,10); track playlist.id) {
-      <div [routerLink]="['/playlist', playlist.id]"
-        class="cursor-pointer rounded-md p-3 hover:bg-secondary flex flex-col gap-2 w-full">
-        <img class="rounded w-full aspect-square" [src]="playlist.picture_medium" alt="">
-        <p class="one-stroke-text">{{playlist.title}}</p>
+      <div class="flex gap-2 items-center">
+        <app-play-button class="artist-header__info-button" [isPlaying]="isPlaying" [queue]="songs" />
+        <!-- !!!!!!!! гавно снзик -->
+        <button class="button !bg-[var(--border-color)] !text-default" (click)="addToFavorite()"
+          [disabled]="isFavoriteLoading">
+          @if (isFavorite) {
+          Подписан
+          } @else {
+          Подписаться
+          }
+        </button>
+        <button>
+          <svg width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="20" height="20" rx="3" transform="matrix(1 0 0 -1 10.2487 32.248)" stroke-width="2"
+              stroke-linejoin="round" />
+            <path
+              d="M12.2487 12.248H28.2487V12.248C28.2487 10.5912 26.9055 9.24805 25.2487 9.24805H15.2487C13.5918 9.24805 12.2487 10.5912 12.2487 12.248V12.248Z"
+              stroke-width="1.5" stroke-linejoin="round" />
+            <path d="M16.2487 22.248H20.2487M24.2487 22.248H20.2487M20.2487 22.248V18.248M20.2487 22.248V26.248"
+              stroke-width="2.02054" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <button>
+          <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12.7001" cy="20.8771" r="1.68378" fill="var(--text-color-secondary)" />
+            <circle cx="21.119" cy="20.8771" r="1.68378" fill="var(--text-color-secondary)" />
+            <circle cx="29.5378" cy="20.8771" r="1.68378" fill="var(--text-color-secondary)" />
+          </svg>
+        </button>
       </div>
-      }@empty {
-      <p class="text-secondary">Пусто :(</p>
-      }
     </div>
-  </div> -->
+  </div>
+
+  <div class="tabs">
+    @for (tab of tabs; track $index) {
+    <button class="tab" [class.active-tab]="tab.value === currentTab" (click)="changeTab(tab.value)">
+      {{tab.title}}
+    </button>
+    }
+  </div>
+
+  <div class="tab-content">
+    @switch (currentTab) {
+    @case ('home') {<app-home />}
+    @case ('album') {<app-albums />}
+    @case ('single') {<app-singles /> }
+    @case ('related') {<app-related />}
+    }
+  </div>
   }
 </section>

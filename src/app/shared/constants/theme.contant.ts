@@ -6,7 +6,7 @@ export const light: ModeCSS = {
 
   "--text-input-color": "#000000",
   "--text-color": "#222",
-  "--text-color-secondary": "#818c99",
+  "--text-color-secondary": "#898989",
   "--icon-color": "#5f6368",
   "--border-color": "#d1d5db",
   "--bg-slider-color": "#ddd",
@@ -20,7 +20,7 @@ export const dark: ModeCSS = {
 
   "--text-input-color": "#000000",
   "--text-color": "#eee",
-  "--text-color-secondary": "#818c99",
+  "--text-color-secondary": "#898989",
   "--icon-color": "#b0b7c0",
   "--border-color": "#222",
   "--bg-slider-color": "#616161",

@@ -1,15 +1,51 @@
-.album-header {
-  @apply items-center flex-col xl:flex-row flex gap-4 mb-4;
+.album-left {
+  @apply flex-col flex gap-5 mb-[30px];
 }
 
-.album-header__img {
-  @apply max-w-64 w-1/4 min-w-48 aspect-square rounded-lg shadow-2xl;
+.album-left__buttons {
+  @apply flex items-center gap-3 w-full;
 }
 
-.album-header__info {
-  @apply flex flex-col justify-center text-center xl:text-left items-center xl:items-start gap-2 xl:gap-0 relative h-full w-full;
+.section-adaptive {
+  @apply pl-[37px] pt-[22px] pr-[50px]
 }
 
-.album-header__info-buttons {
-  @apply flex items-center gap-6 mt-4 w-full;
+.table-header {
+  @apply flex mb-3 ml-2 mr-7;
+
+  & span {
+    @apply text-secondary;
+  }
+}
+
+.genre {
+  @apply rounded-full text-secondary border-2 border-default px-[20px] py-[10px];
+}
+
+.album-right {
+  @apply flex flex-col gap-[30px] sticky top-0 h-fit;
+}
+
+.album-right__genres {
+  @apply flex flex-wrap gap-[10px]
+}
+
+.album-right__artists {
+  @apply flex flex-col gap-[15px];
+}
+
+.album-right__artists-item {
+  @apply flex items-center;
+
+  & span {
+    @apply text-secondary ml-[20px];
+  }
+
+  & img {
+    @apply w-[60px] rounded-full shadow-xl;
+  }
+}
+
+.album-right__img {
+  @apply w-[400px] h-fit rounded-lg shadow-2xl;
 }

@@ -1,97 +1,72 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { Album } from '../../../shared/interfaces/album.interface';
+import { Component, OnInit, effect } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { Playlist } from '../../../shared/interfaces/playlist.interface';
-import { Artist } from '../../../shared/interfaces/artist.interface';
-import { Collection } from '../../../shared/interfaces/collection.interface';
-import { UserMusicService } from '../../services/user-music.service';
+import { User } from '../../../shared/interfaces/auth.interface';
+import { fadeFromTop } from '../../../shared/animations/fadeFromTop';
+import { fadeToTop } from '../../../shared/animations/fadeToTop';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Location, LocationStrategy } from '@angular/common';
+import { first } from 'rxjs';
+import { sideBarLinks } from '../../../shared/interfaces/app.interface';
+
+interface sideBarItem {
+  icon: string,
+  path: string,
+  title: string
+}
 
 @Component({
   selector: 'app-user-music',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, DragDropModule],
   templateUrl: './user-music.component.html',
   styleUrls: ['./user-music.component.css', '../nav/nav.component.css'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  animations: [fadeFromTop, fadeToTop]
 })
-export class UserMusicComponent {
-  public isShort: boolean = true;
-  public userMusic: (Album | Playlist | Artist | Collection)[] = [];
+export class UserMusicComponent implements OnInit {
+  public user: User | null = null;
+  public isPlaylistsOpen: boolean = false
+  public isPinsOpen: boolean = false
+  public currentPath!: string
+  public sideBarItems: sideBarItem[] = []
+
+  get isSideBarActive() {
+    return sideBarLinks.find(el => el.path === this.currentPath) || this.currentPath === '/library'
+  }
 
   constructor(
     private router: Router,
     private userService: UserService,
-    private userMusicService: UserMusicService
-  ) {}
+  ) {
+    effect(() => {
+      this.user = this.userService.getUser()
+    })
+  }
 
   ngOnInit(): void {
-    this.userService.changes.subscribe(() => {
-      const user = this.userService.getUser();
-      if (!user) return;
-      const favoriteCollection: Collection = {
-        id: 'songs',
-        title: 'Favorite songs',
-        songs: user.favoriteSongs,
-        type: 'collection',
-      };
+    const localSideBar = localStorage.getItem('sideBar')
+    this.sideBarItems = localSideBar ? JSON.parse(localSideBar) : sideBarLinks
 
-      this.userMusic = [
-        favoriteCollection,
-        ...user.favoritePlaylists,
-        ...user.favoriteAlbums,
-        ...user.favoriteArtists,
-      ];
-      this.userMusicService.setMusic(this.userMusic);
-    });
-
-    this.userMusicService.getMusic().subscribe((value) => {
-      this.userMusic = value;
+    this.router.events.subscribe((val: any) => {
+      this.currentPath = val.url
     });
   }
 
-  routeToPlaylist(id: number | string, type: string) {
-    const url = type + '/' + id;
+  routeToPlaylist(id: number | string) {
+    const url = 'playlist/' + id;
     this.router.navigate([url]);
   }
 
-  toggleShort() {
-    this.isShort = !this.isShort;
+  togglePlaylists() {
+    this.isPlaylistsOpen = !this.isPlaylistsOpen
   }
 
-  getBorderRadius(el: Album | Playlist | Artist | Collection): string {
-    if (el.type === 'artist') {
-      return 'rounded-full';
-    } else {
-      return 'rounded';
-    }
+  togglePins() {
+    this.isPinsOpen = !this.isPinsOpen
   }
 
-  getCover(el: Album | Playlist | Artist | Collection): string {
-    if ('cover_small' in el) {
-      return el.cover_small ?? '../../assets/placeholder.jpg';
-    } else if ('picture_small' in el) {
-      return el.picture_small;
-    } else if (el.type === 'collection') {
-      return 'https://misc.scdn.co/liked-songs/liked-songs-300.png';
-    } else {
-      return '../../assets/placeholder.jpg';
-    }
-  }
-
-  getTitle(el: Album | Playlist | Artist | Collection): string {
-    if ('title' in el) {
-      return el.title;
-    } else {
-      return el.name;
-    }
-  }
-
-  getSecondaryText(el: Album | Playlist | Artist | Collection): string {
-    if ('artist' in el) {
-      return `${el.type} • ${el.artist.name}`;
-    } else {
-      return el.type;
-    }
+  onDrop(event: CdkDragDrop<any>) {
+    moveItemInArray(this.sideBarItems, event.previousIndex, event.currentIndex);
+    localStorage.setItem('sideBar', JSON.stringify(this.sideBarItems))
   }
 }

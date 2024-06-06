@@ -1,8 +1,16 @@
-<div class="slider-container">
-  <div class="slider">
-    <div class="loader" [style.width]="currentPercentage"></div>
-    <div class="loader-circle" [style.left]="currentPercentage"></div>
-    <input class="slider-input" type="range" [ngModel]="currentTime" (ngModelChange)="handleChange($event)"
-      (mousedown)="disableTimeChange()" (mouseup)="changeTime()" />
+<div class="asd">
+  <span class="text-xs text-center min-w-8">
+    {{ currentTime | time }}
+  </span>
+  <div class="slider-container">
+    <div class="slider">
+      <div class="loader" [style.width]="currentPercentage"></div>
+      <div class="loader-circle" [style.left]="currentPercentage"></div>
+      <input class="slider-input" type="range" [ngModel]="currentTime" (ngModelChange)="handleChange($event)"
+        (mousedown)="disableTimeChange()" (mouseup)="changeTime()" />
+    </div>
   </div>
+  <span class="text-xs text-center min-w-8">
+    {{ duration | time }}
+  </span>
 </div>

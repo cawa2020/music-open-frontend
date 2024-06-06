@@ -26,7 +26,7 @@ export interface Album {
   explicit_content_cover: number
   contributors: Contributor[]
   artist: Artist
-  type: string
+  type: 'album'
   tracks: { data: Song[] }
 }
 
@@ -40,6 +40,7 @@ export interface AlbumBrief {
   cover_big: string
   cover_xl: string
   md5_image: string
+  nb_tracks: number
   genre_id: number
   fans: number
   release_date: string

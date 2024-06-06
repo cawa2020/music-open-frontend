@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../core/services/api.service';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime } from 'rxjs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SongComponent } from "../../shared/components/song/song.component";
-import { PlayerService } from '../../core/services/audio.service';
+import { AudioService } from '../../core/services/audio.service';
 import { LoaderComponent } from "../../shared/components/loader/loader.component";
 import { Song } from '../../shared/interfaces/song.interface';
 
@@ -16,12 +16,13 @@ import { Song } from '../../shared/interfaces/song.interface';
   imports: [FormsModule, RouterLink, SongComponent, LoaderComponent]
 })
 export class SearchComponent implements OnInit {
+  @ViewChild('input') input!: ElementRef
   private timeout!: any
   public search: string = ''
   public findedSongs!: Song[]
   public loading: boolean = false
 
-  constructor(private api: ApiService, private player: PlayerService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private api: ApiService, private player: AudioService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params: any) => {
@@ -30,6 +31,10 @@ export class SearchComponent implements OnInit {
       this.getBySearch(this.search)
       console.log(1)
     });
+  }
+
+  ngAfterViewChecked(): void {
+    this.input.nativeElement.focus()
   }
 
   handleSearch(value: string) {

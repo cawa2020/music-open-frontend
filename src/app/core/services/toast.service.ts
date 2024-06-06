@@ -1,5 +1,4 @@
-import { ObserversModule } from '@angular/cdk/observers';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
   Message,
@@ -10,26 +9,28 @@ import {
   providedIn: 'root',
 })
 export class ToastService {
-  private messages: Message[] = [];
-  public changes$ = new Subject<Message>();
+  private messages = signal<Message[]>([]);
 
-  constructor() {}
+  constructor() { }
 
-  success(text: string) {
+  getMessages(): Message[] {
+    return this.messages()
+  }
+
+  success(text: string): void {
     this.addMessage(text, 'success');
   }
 
-  info(text: string) {
+  info(text: string): void {
     this.addMessage(text, 'info');
   }
 
-  error(text: string) {
+  error(text: string): void {
     this.addMessage(text, 'error');
   }
 
-  private addMessage(text: string, type: MessageType) {
-    const message: Message = { info: text, type: type };
-    this.messages.push(message);
-    this.changes$.next(message);
+  private addMessage(text: string, type: MessageType): void {
+    const message = { info: text, type: type };
+    this.messages.update(prev => prev.concat(message));
   }
 }

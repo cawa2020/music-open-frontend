@@ -18,6 +18,7 @@ export interface Artist {
   nb_fan: number
   nb_album: number
   id: number
+  record_type: 'album' | 'ep' | 'single'
   name: string
   picture: string
   picture_small: string
@@ -25,7 +26,7 @@ export interface Artist {
   picture_big: string
   picture_xl: string
   tracklist: string
-  type: string
+  type: 'artist'
 }
 
 

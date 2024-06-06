@@ -13,3 +13,7 @@
 .album__img {
   @apply rounded w-full aspect-square bg-cover transition-default shadow;
 }
+
+svg {
+  @apply fill-white stroke-none;
+}

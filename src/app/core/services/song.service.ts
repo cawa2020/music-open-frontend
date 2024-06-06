@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
 import { Song } from '../../shared/interfaces/song.interface';
 import { Repeat } from '../../shared/interfaces/app.interface';
 
@@ -7,70 +6,70 @@ import { Repeat } from '../../shared/interfaces/app.interface';
   providedIn: 'root'
 })
 export class SongService {
-  private queue!: Song[]
-  private unshuffledQueue!: Song[]
-  private song: Song | null = null
-  private repeat: Repeat = 'none'
-  private isShuffled: boolean = false
-  public readonly changes = new BehaviorSubject<'song' | 'repeat' | 'queue' | 'shuffle' | null>(null)
+  private song = signal<Song | null>(null)
+  private repeat = signal<Repeat>('none')
+  private isShuffled = signal<boolean>(false)
+  private queue = signal<Song[]>([])
+  private unshuffledQueue: Song[] = []
 
   getSong(): Song | null {
-    return this.song
+    return this.song()
   }
 
-  setSong(value: Song) {
-    this.song = value
-    this.changes.next('song')
+  setSong(value: Song): void {
+    this.song.set(value)
   }
 
   getRepeat(): Repeat {
-    return this.repeat
+    return this.repeat()
   }
 
-  setRepeat(value: Repeat) {
-    this.repeat = value
-    this.changes.next('repeat')
-  }
-
-  getUnshQueue(): Song[] {
-    return this.unshuffledQueue
-  }
-
-  setUnshQueue(newQueue: Song[]) {
-    this.unshuffledQueue = newQueue
+  setRepeat(value: Repeat): void {
+    this.repeat.set(value)
   }
 
   getShuffle(): boolean {
-    return this.isShuffled
+    return this.isShuffled()
   }
 
   setShuffle(value: boolean) {
-    this.isShuffled = value
-    this.changes.next('shuffle')
+    this.isShuffled.set(value)
+    if (value) {
+      this.unshuffledQueue = this.queue()
+      this.setQueue(this.shuffleSongs(this.queue()))
+    } else {
+      this.setQueue(this.unshuffledQueue)
+    }
   }
 
-  setQueue(tracks: Song[]) {
-    this.queue = tracks
-    this.changes.next('queue')
+  setQueue(tracks: Song[]): void {
+    this.queue.set(tracks)
   }
 
   getQueue(): Song[] {
-    return this.queue
+    return this.queue()
   }
 
-  compareQueues(diffQueue: Song[]): boolean {
-    if (!this.queue) return false
-    const queue = JSON.parse(JSON.stringify(this.queue))
-    const newQueue = JSON.parse(JSON.stringify(diffQueue))
-    if (this.isShuffled) {
-      newQueue.sort((a: Song, b: Song) => a.id - b.id)
-      queue.sort((a: Song, b: Song) => a.id - b.id)
-    }
+  compareQueues(newQueue: Song[]): boolean {
+    if (!this.queue()) return false
+    const sortedQueue = JSON.parse(JSON.stringify(this.queue())).sort((a: Song, b: Song) => a.id - b.id)
+    const sortedNewQueue = JSON.parse(JSON.stringify(newQueue)).sort((a: Song, b: Song) => a.id - b.id)
 
-    for (let i = 0; i <= queue.length; i++) {
-      if (newQueue[i]?.id !== queue[i]?.id) { return false }
+    for (let i = 0; i <= sortedQueue.length; i++) {
+      if (sortedNewQueue[i]?.id !== sortedQueue[i]?.id) { return false }
     }
 
     return true
+  }
+
+  private shuffleSongs(queue: Song[]): Song[] {
+    const arr = JSON.parse(JSON.stringify(queue))
+
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+
+    return arr
   }
 }

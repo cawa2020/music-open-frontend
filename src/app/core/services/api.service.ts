@@ -25,7 +25,7 @@ export class ApiService {
     let url = `artist/${id}/top?`;
     if (limit) url += 'limit=' + limit;
     if (index) url += '&index=' + index;
-    return this._requestAPI('GET', url);
+    return this._requestPrivateAPI('GET', url);
   }
 
   getArtistAlbums(
@@ -40,7 +40,7 @@ export class ApiService {
     if (index) {
       url += '?index=' + index;
     }
-    return this._requestAPI('GET', url);
+    return this._requestPrivateAPI('GET', url);
   }
 
   getArtistRelated(id: number, limit?: number): Observable<{ data: Artist[] }> {
@@ -48,11 +48,11 @@ export class ApiService {
     if (limit) {
       url += '?limit=' + limit;
     }
-    return this._requestAPI('GET', url);
+    return this._requestPrivateAPI('GET', url);
   }
 
   getPlaylistsWithArtist(id: number): Observable<{ data: Playlist[] }> {
-    return this._requestAPI('GET', `artist/${id}/playlists`);
+    return this._requestPrivateAPI('GET', `artist/${id}/playlists`);
   }
 
   getAlbum(id: number) {
@@ -60,7 +60,7 @@ export class ApiService {
   }
 
   getAlbumTracks(id: number): Observable<{ data: SongBrief[] }> {
-    return this._requestAPI('GET', 'album/' + id + '/tracks');
+    return this._requestPrivateAPI('GET', 'album/' + id + '/tracks');
   }
 
   getBySearch(word: string): Observable<any> {
@@ -108,7 +108,7 @@ export class ApiService {
     return this.http.request(method, url, options);
   }
 
-  private _requestAPI(
+  private _requestPrivateAPI(
     method: Method,
     path: string,
     body?: any

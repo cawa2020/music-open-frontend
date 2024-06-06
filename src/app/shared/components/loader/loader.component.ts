@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatIconModule],
   templateUrl: './loader.component.html',
-  styleUrl: './loader.component.css'
+  styleUrl: './loader.component.css',
 })
 export class LoaderComponent {
   @Input() size?: 'big' | 'medium' | 'small' = 'medium'

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
-import { Error, Token } from '../../../shared/interfaces/auth.interface';
 import { CookieService } from '../../services/cookie.service';
 import { UserService } from '../../services/user.service';
+import { scaleIn } from '../../../shared/animations/scaleIn';
+import { scaleOut } from '../../../shared/animations/scaleOut';
 
 @Component({
   selector: 'app-auth-modal',
@@ -12,6 +12,7 @@ import { UserService } from '../../services/user.service';
   imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './auth-modal.component.html',
   styleUrl: './auth-modal.component.css',
+  animations: [scaleIn, scaleOut],
 })
 export class AuthModalComponent implements OnInit {
   @Input({ required: true }) type!: "login" | "registration"

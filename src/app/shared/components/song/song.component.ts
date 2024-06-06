@@ -1,11 +1,10 @@
 import {
-  CUSTOM_ELEMENTS_SCHEMA,
   Component,
   Input,
   OnInit,
-  SimpleChanges,
+  effect,
 } from '@angular/core';
-import { PlayerService } from '../../../core/services/audio.service';
+import { AudioService } from '../../../core/services/audio.service';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { SongService } from '../../../core/services/song.service';
@@ -15,7 +14,6 @@ import { TimePipe } from '../../pipes/time.pipe';
 import { TooltipDirective } from '../../directives/tooltip.directive';
 import { Song } from '../../interfaces/song.interface';
 import { UserService } from '../../../core/services/user.service';
-import { CookieService } from '../../../core/services/cookie.service';
 import { LoaderComponent } from '../loader/loader.component';
 import { ToastService } from '../../../core/services/toast.service';
 
@@ -32,7 +30,6 @@ import { ToastService } from '../../../core/services/toast.service';
     TooltipDirective,
     LoaderComponent,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SongComponent implements OnInit {
   @Input({ required: true }) song!: Song;
@@ -43,46 +40,37 @@ export class SongComponent implements OnInit {
   @Input() hideArtist?: boolean;
   @Input() hideIndex?: boolean;
   public isPlaying$!: Observable<boolean>;
-  public isCurrentSong$!: Observable<boolean>;
+  public isCurrentSong: boolean = false;
   public isFavorite: boolean = false;
   public isFavotiteLoading: boolean = false;
 
   constructor(
-    private player: PlayerService,
+    private audio: AudioService,
     private songData: SongService,
     private userService: UserService,
-    private cookie: CookieService,
     private toast: ToastService
-  ) {}
+  ) {
+    effect(() => {
+      this.isCurrentSong = this.checkIsCurrentSong()
+      const user = this.userService.getUser()
+      this.isFavorite = user?.favoriteSongs.some((el: Song) => el.id === this.song.id) ?? false
+    })
+  }
 
   ngOnInit(): void {
-    this.isPlaying$ = this.player.audioChanges.pipe(
+    this.isPlaying$ = this.audio.audioChanges.pipe(
       filter((el) => el.type === 'time'),
       map((el) => el.data)
     );
-    this.isCurrentSong$ = this.songData.changes.pipe(
-      filter((el) => el === 'song'),
-      map((el) => this.isCurrentSong())
-    );
-    this.userService.changes.pipe(take(1)).subscribe(() => {
-      const user = this.userService.getUser();
-      if (user?.favoriteSongs.find((el: Song) => el.id === this.song.id)) {
-        this.isFavorite = true;
-      }
-    });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.isCurrentSong();
   }
 
   setTrack() {
-    if (this.isCurrentSong()) {
-      const isPlaying = !this.player.getAudio().paused;
+    if (this.checkIsCurrentSong()) {
+      const isPlaying = !this.audio.getAudio().paused;
       if (isPlaying) {
-        this.player.pauseSong();
+        this.audio.pauseSong();
       } else {
-        this.player.playSong();
+        this.audio.playSong();
       }
     } else {
       if (!this.songData.compareQueues(this.queue)) {
@@ -90,13 +78,9 @@ export class SongComponent implements OnInit {
       }
 
       const song = this.queue[this.index];
-      this.player.setSong(song);
-      this.player.playSong();
+      this.audio.setSong(song);
+      this.audio.playSong();
     }
-  }
-
-  get favoriteIcon(): string {
-    return this.isFavorite ? 'heart' : 'heart-outline';
   }
 
   isLastSong(index: number): boolean {
@@ -105,8 +89,7 @@ export class SongComponent implements OnInit {
 
   toggleFavorite() {
     this.isFavotiteLoading = true;
-    const token = this.cookie.get('access_token');
-    this.userService.addToFavotiteSong(this.song, token).subscribe((res) => {
+    this.userService.addToFavotiteSong(this.song).subscribe((res) => {
       if (res?.id) {
         this.userService.setUser(res);
         this.isFavorite = !this.isFavorite;
@@ -122,7 +105,7 @@ export class SongComponent implements OnInit {
     });
   }
 
-  private isCurrentSong() {
+  private checkIsCurrentSong() {
     const isSameSong = this.song.id === this.songData.getSong()?.id;
     if (!isSameSong) return false;
     return this.songData.compareQueues(this.queue);

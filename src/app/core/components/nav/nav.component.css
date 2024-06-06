@@ -1,20 +1,29 @@
-.nav {
-  @apply flex gap-2 w-full p-3 justify-between relative;
+nav {
+  @apply flex gap-2 w-full py-1 justify-between relative items-center;
 }
 
-.nav-item {
-  @apply flex h-fit opacity-80 hover:opacity-100 hover:no-underline;
+.main-link {
+  @apply first:w-[var(--user-music-width)] w-52 px-[15px] py-[3px] text-secondary hover:text-default;
 }
 
-.icon {
-  @apply text-[24px] p-[6px];
-}
-
-.icon-button {
-  @apply bg-default border border-default rounded-full w-9 h-9 flex justify-center items-center
+.profile-icon {
+  @apply rounded-full w-8 h-8 bg-main flex justify-center items-center font-medium text-white;
 }
 
 .menu {
-  @apply right-0 top-[110%] z-[3] rounded border border-default absolute px-4 py-3 bg-default grid
+  @apply right-0 top-[110%] z-[3] rounded border border-default absolute px-4 py-3 bg-default grid gap-3
 }
 
+.menu-item {
+  @apply h-10;
+}
+
+.active-link {
+  & span {
+    @apply text-default
+  }
+
+  & svg {
+    @apply stroke-[var(--text-color)]
+  }
+}

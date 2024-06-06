@@ -1,5 +1,5 @@
-import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, ElementRef, HostListener, Input, OnInit, ViewChild, effect } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { PlayerComponent } from '../player/player.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ThemeService } from './services/theme.service';
@@ -11,7 +11,9 @@ import { AuthModalComponent } from '../auth-modal/auth-modal.component';
 import { User } from '../../../shared/interfaces/auth.interface';
 import { fadeIn } from '../../../shared/animations/fadeIn';
 import { fadeOut } from '../../../shared/animations/fadeOut';
-import { ToastService } from '../../services/toast.service';
+import { scaleIn } from '../../../shared/animations/scaleIn';
+import { scaleOut } from '../../../shared/animations/scaleOut';
+import { sideBarLinks } from '../../../shared/interfaces/app.interface';
 
 @Component({
   selector: 'app-nav',
@@ -19,8 +21,7 @@ import { ToastService } from '../../services/toast.service';
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
   imports: [RouterLink, PlayerComponent, MatIconModule, FormsModule, AuthModalComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  animations: [fadeIn, fadeOut],
+  animations: [fadeIn, fadeOut, scaleIn, scaleOut],
 })
 export class NavComponent {
   public color: string = localStorage.getItem('mainColor') ?? '#3b82f6'
@@ -28,20 +29,34 @@ export class NavComponent {
   public index: number = 0
   public modal: 'registration' | 'login' | null = null
   public user: null | User = null
+  public currentPath: string | null = null
   @ViewChild('menu') menu: ElementRef | undefined
   @ViewChild('menuIcon') menuIcon!: ElementRef
 
-  constructor(private theme: ThemeService, private location: Location, private auth: AuthService, private userService: UserService) { }
+  get currentTheme() {
+    return this.theme.getMode()
+  }
+
+  get userFirstLetter() {
+    return this.user?.username.at(0)
+  }
+
+  constructor(private theme: ThemeService, private auth: AuthService, private userService: UserService, private router: Router) {
+    effect(() => {
+      this.user = this.userService.getUser()
+    })
+  }
 
   ngOnInit() {
+    this.router.events.subscribe((val: any) => {
+      const path: string = val.url
+      if (!path) return
+      this.currentPath = val.url
+    });
+
     const isThemeDark = localStorage.getItem('themeMode') === 'dark'
     if (isThemeDark) { this.theme.toggleMode() }
     this.changeColor(this.color)
-
-    this.userService.changes.subscribe(() => {
-      const user = this.userService.getUser()
-      this.user = user
-    })
   }
 
   @HostListener('document:mousedown', ['$event'])
@@ -66,16 +81,6 @@ export class NavComponent {
     localStorage.setItem('mainColor', newColor)
   }
 
-  move(direction: 'next' | 'prev') {
-    if (direction == 'next') {
-      this.location.forward()
-      this.index++
-    } else {
-      this.location.back()
-      this.index--
-    }
-  }
-
   setModal(type: 'registration' | 'login' | null) {
     this.modal = type
   }
@@ -84,11 +89,7 @@ export class NavComponent {
     this.auth.logout()
   }
 
-  get themeIcon() {
-    return this.theme.getMode() === 'light' ? 'sunny' : 'moon'
-  }
-
-  get currentTheme() {
-    return this.theme.getMode()
+  isCurrentPath(path: string): boolean {
+    return this.currentPath?.includes(path) ?? false
   }
 }

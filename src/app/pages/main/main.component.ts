@@ -21,10 +21,10 @@ export class MainComponent {
 
   ngOnInit() {
     this.loading = true
-    this.userService.changes.subscribe(() => {
-      const user = this.userService.getUser()
-      if (!user) return
-      this.recently_played = user.recently_played
-    })
+    // this.userService.changes.subscribe(() => {
+    //   const user = this.userService.getUser()
+    //   if (!user) return
+    //   this.recently_played = user.recently_played
+    // })
   }
 }

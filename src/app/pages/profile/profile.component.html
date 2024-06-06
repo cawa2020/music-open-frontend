@@ -8,7 +8,7 @@
 
   <div class="adaptive-margin">
     <h5 class="mb-3">Ваши плейлисты</h5>
-    @for (playlist of user.created_playlists; track playlist.id) {
+    @for (playlist of user.createdPlaylists; track playlist.id) {
     <app-playlist-card [playlist]="playlist"></app-playlist-card>
     } @empty {
     <p class="text-secondary">Пусто :(</p>

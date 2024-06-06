@@ -10,11 +10,15 @@ import { QueueComponent } from './pages/queue/queue.component';
 import { ArtistTopComponent } from './pages/artist-top/artist-top.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { authGuard } from './core/guards/auth.guard';
-import { CollectionComponent } from './pages/collection/collection.component';
+import { LibraryComponent } from './pages/library/library.component';
+import { FavoriteArtistsComponent } from './pages/favorite-artists/favorite-artists.component';
+import { FavoritePlaylistsComponent } from './pages/favorite-playlists/favorite-playlists.component';
+import { FavoriteSongsComponent } from './pages/favorite-songs/favorite-songs.component';
+import { FavoriteAlbumsComponent } from './pages/favorite-albums/favorite-albums.component';
 
 export const routes: Routes = [
   {
-    path: '', component: MainComponent, pathMatch: 'full'
+    path: 'home', component: MainComponent, pathMatch: 'full'
   },
   {
     path: 'search', component: SearchComponent
@@ -38,7 +42,19 @@ export const routes: Routes = [
     path: 'queue', component: QueueComponent
   },
   {
-    path: 'collection/:type', component: CollectionComponent, canActivate: [authGuard]
+    path: 'favorite/albums', component: FavoriteAlbumsComponent, canActivate: [authGuard]
+  },
+  {
+    path: 'favorite/artists', component: FavoriteArtistsComponent, canActivate: [authGuard]
+  },
+  {
+    path: 'favorite/playlists', component: FavoritePlaylistsComponent, canActivate: [authGuard]
+  },
+  {
+    path: 'favorite/songs', component: FavoriteSongsComponent, canActivate: [authGuard]
+  },
+  {
+    path: 'library', component: LibraryComponent, canActivate: [authGuard]
   },
   {
     path: 'profile/:id', component: ProfileComponent, canActivate: [authGuard]

@@ -1,9 +1,17 @@
 .player {
-  @apply flex items-center justify-between w-full p-3;
+  @apply flex items-center justify-between w-full p-[15px] gap-3 rounded-default bg-default;
+}
+
+.player__controllers {
+  @apply hidden lg:flex gap-1 justify-center items-center min-w-fit;
 }
 
 .player__info {
-  @apply flex gap-2 items-center w-[80%] lg:w-[30%];
+  @apply flex gap-2 items-center min-w-0 w-full;
+}
+
+.player__buttons {
+  @apply hidden lg:flex items-center justify-end w-fit;
 }
 
 .player__info-text {
@@ -11,21 +19,13 @@
 }
 
 .player__info-title {
-  @apply text-lg lg:text-base w-fit whitespace-nowrap;
+  @apply lg:leading-tight leading-tight text-lg lg:text-base whitespace-nowrap;
 }
 
 .player__info-artist {
-  @apply leading-none truncate text-secondary flex text-lg lg:text-base;
+  @apply lg:leading-tight leading-tight truncate text-secondary flex text-lg lg:text-base;
 }
 
-.player__controllers {
-  @apply hidden lg:flex gap-2 justify-center flex-col items-center w-[40%] px-5;
-}
-
-.player__buttons {
-  @apply hidden lg:flex items-center justify-end w-[30%];
-}
-
-.player__time-container {
-  @apply flex gap-2 items-center w-full justify-center;
+.player__controllers-time-container {
+  @apply flex gap-2 items-center min-w-[320px] justify-center;
 }

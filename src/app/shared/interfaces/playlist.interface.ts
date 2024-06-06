@@ -9,5 +9,5 @@ export interface Playlist {
   creation_date: string
   md5_image: string
   userId: string
-  type: string
+  type: 'playlist'
 }
