@@ -1,15 +1,9 @@
 <section class="container section-adaptive">
   @for (item of utilities; track $index) {
   @switch (item.type) {
-  @case ('artist') {
-  <app-artist-card [artist]="item" />
-  }
-  @case ('playlist') {
-  <app-playlist-card [playlist]="item" />
-  }
-  @case ('album') {
-  <app-album-card [album]="item" />
-  }
+  @case ('artist') {<app-artist-card [artist]="item" />}
+  @case ('playlist') {<app-playlist-card [playlist]="item" />}
+  @case ('album') {<app-album-card [album]="item" />}
   }
   }
 </section>

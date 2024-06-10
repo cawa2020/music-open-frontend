@@ -11,6 +11,14 @@
   font-family: "Jost";
   color: var(--text-color);
   scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    @apply w-3 bg-default;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply w-3 bg-[var(--border-color)];
+  }
 }
 
 :root {
@@ -33,14 +41,6 @@
   --side-margin-x: 7px;
   --side-margin-y: 4px;
   --user-music-width: 240px;
-}
-
-div::-webkit-scrollbar {
-  @apply h-3 bg-default;
-}
-
-div::-webkit-scrollbar-thumb {
-  @apply h-3 bg-secondary;
 }
 
 html {
@@ -268,7 +268,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .container {
-  @apply grid grid-cols-6 4xl:grid-cols-8 gap-x-[10px] gap-y-[20px]
+  @apply grid grid-cols-6 4xl:grid-cols-8 gap-x-[10px] gap-y-[20px] h-fit
 }
 
 .cdk-drop-list-dragging .cdk-drag:not(.cdk-drag-preview) {

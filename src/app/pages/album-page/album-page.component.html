@@ -48,7 +48,6 @@
           <span class="w-full">Title</span>
           <span>Duration</span>
         </div>
-        <hr>
         <div class="grid gap-1">
           @for (song of album.tracks.data; track song.id) {
           <app-song [index]="$index" [hideImg]="true" [queue]="album.tracks.data" [hideAlbum]="true"

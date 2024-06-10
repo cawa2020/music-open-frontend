@@ -11,7 +11,7 @@
 }
 
 .table-header {
-  @apply flex mb-3 ml-2 mr-7;
+  @apply flex pb-3 pl-2 pr-7 mb-3 border-b border-b-[var(--border-color)];
 
   & span {
     @apply text-secondary;

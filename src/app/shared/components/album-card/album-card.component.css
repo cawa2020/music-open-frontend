@@ -8,12 +8,41 @@
   &:hover .play-button {
     @apply visible opacity-100;
   }
+
+  &:hover .back-cover:nth-child(1) {
+    @apply left-[12px] right-[12px] top-[-8px]
+  }
+
+  &:hover .back-cover:nth-child(2) {
+    @apply left-[26px] right-[26px] top-[-12px]
+  }
 }
 
 .album__img {
-  @apply rounded w-full aspect-square bg-cover transition-default shadow;
+  @apply rounded w-full aspect-square bg-cover transition-all border-t border-[var(--bg-color-secondary)];
 }
 
 svg {
   @apply fill-white stroke-none;
+}
+
+.back-cover {
+  @apply absolute rounded-t-default transition-all border-t border-[var(--bg-color-secondary)];
+  transition: .15s
+}
+
+.back-cover:nth-child(1) {
+  @apply left-2 right-2 top-[-7px] -z-10 h-[6px];
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.2)),
+    var(--text-color-secondary);
+}
+
+.back-cover:nth-child(2) {
+  @apply left-[18px] right-[18px] top-[-10px] -z-20 h-[3px] delay-75;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.4)),
+    var(--text-color-secondary);
 }
