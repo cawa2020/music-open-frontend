@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../core/services/api.service';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime } from 'rxjs';
@@ -15,7 +15,7 @@ import { Song } from '../../shared/interfaces/song.interface';
   styleUrl: './search.component.css',
   imports: [FormsModule, RouterLink, SongComponent, LoaderComponent]
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
   @ViewChild('input') input!: ElementRef
   private timeout!: any
   public search: string = ''
@@ -29,11 +29,10 @@ export class SearchComponent implements OnInit {
       if (!params.q?.length) return
       this.search = params.q;
       this.getBySearch(this.search)
-      console.log(1)
     });
   }
 
-  ngAfterViewChecked(): void {
+  ngAfterViewInit(): void {
     this.input.nativeElement.focus()
   }
 

@@ -51,8 +51,9 @@ export class PlayerComponent {
 
   addToFavorite() {
     if (!this.song) return
-    this.userService.addToFavotiteSong(this.song).subscribe((res) => {
-      this.userService.setUser(res)
+    this.userService.addToFavotiteSong(this.song).subscribe((user) => {
+      if (!user) return
+      this.userService.setUser(user)
     })
   }
 }

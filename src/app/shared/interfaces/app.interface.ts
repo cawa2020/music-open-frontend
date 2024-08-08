@@ -7,7 +7,7 @@ export const sideBarLinks = [
   { icon: 'Playlist', path: '/favorite/playlits', title: 'Плейлисты' },
   { icon: 'Album', path: '/favorite/albums', title: 'Альбомы' },
   { icon: 'Artist', path: '/favorite/artists', title: 'Артисты' },
-  { icon: 'Folder', path: '/floders', title: 'Папки' },
+  { icon: 'Folder', path: '/folders', title: 'Папки' },
 ]
 
 export type ArtistTab = 'home' | 'single' | 'album' | 'related'

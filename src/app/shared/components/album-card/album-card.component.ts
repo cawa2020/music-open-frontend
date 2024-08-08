@@ -21,7 +21,8 @@ import { scaleOut } from '../../animations/scaleOut';
 
 export class AlbumCardComponent {
   @Input({ required: true }) album!: Album | AlbumBrief
-  public showButtons: boolean = false
+  public isFavotiteLoading = false
+  public isFavorite = false
 
   constructor(private player: AudioService, private api: ApiService, private songData: SongService) { }
 
@@ -37,13 +38,7 @@ export class AlbumCardComponent {
     })
   }
 
-  @HostListener('mouseenter')
-  onHover() {
-    this.showButtons = true
-  }
+  toggleFavorite() {
 
-  @HostListener('mouseleave')
-  onLeave() {
-    this.showButtons = false
   }
 }

@@ -7,7 +7,6 @@ import { UserService } from './core/services/user.service';
 import { CookieService } from './core/services/cookie.service';
 import { UserMusicComponent } from './core/components/user-music/user-music.component';
 import { ToastsComponent } from './core/components/toasts/toasts.component';
-import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -26,13 +25,16 @@ import { AuthService } from './core/services/auth.service';
 export class AppComponent implements OnInit {
   constructor(
     private userService: UserService,
-    private authService: AuthService,
     private cookie: CookieService
   ) { }
 
   ngOnInit(): void {
     const token = this.cookie.get('access_token');
-    if (!token) return;
+
+    if (!token) {
+      this.userService.setUser(null)
+      return
+    };
 
     this.userService.fetchUserData(token).subscribe((user) => {
       this.userService.setUser(user);

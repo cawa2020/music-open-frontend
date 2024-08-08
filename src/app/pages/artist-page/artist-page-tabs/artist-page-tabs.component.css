@@ -1,0 +1,15 @@
+.tab-content {
+  @apply mx-[25px] my-[40px]
+}
+
+.tabs {
+  @apply px-[25px] flex gap-[50px] border-b border-b-[var(--border-color)];
+
+  & .active-tab {
+    @apply text-default border-b-2 border-[var(--main-color)]
+  }
+}
+
+.tab {
+  @apply text-secondary h-[60px] border-b-2 border-b-transparent
+}

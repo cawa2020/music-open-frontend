@@ -54,6 +54,7 @@ export class AuthModalComponent implements OnInit {
     const token = res.access_token
     this.cookieService.set('access_token', token)
     this.userService.fetchUserData(token).subscribe(user => {
+      if (!user) return
       this.userService.setUser(user)
       location.reload()
     })

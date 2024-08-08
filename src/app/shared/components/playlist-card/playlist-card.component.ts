@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Playlist } from '../../interfaces/playlist.interface';
 import { Song } from '../../interfaces/song.interface';
 import { AudioService } from '../../../core/services/audio.service';

@@ -94,9 +94,9 @@ export class SongComponent implements OnInit {
         this.userService.setUser(res);
         this.isFavorite = !this.isFavorite;
         if (this.isFavorite) {
-          this.toast.success('Песня добавлена в "Favorite tracks"');
+          this.toast.success('Песня добавлена в "Избранные треки"');
         } else {
-          this.toast.success('Песня убрана из "Favorite tracks"');
+          this.toast.success('Песня убрана из "Избранные треки"');
         }
       } else if (res !== null) {
         this.toast.error('Что-то пошло не так...');

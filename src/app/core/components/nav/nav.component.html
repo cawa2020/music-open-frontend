@@ -93,8 +93,8 @@
       <!-- <img src="../../../../assets/icons/Name=User, Filled=No.svg" alt="like"> -->
     </a>
     } @else {
-    <button class="px-2" (click)="setModal('registration')">sign up</button>
-    <button class="button" (click)="setModal('login')">login</button>
+    <button class="secondary-button" (click)="setModal('registration')">Регистрация</button>
+    <button class="button" (click)="setModal('login')">Вход</button>
     }
   </div>
   @if (isMenuOpen) {
@@ -116,7 +116,7 @@
     <hr class="w-full" />
     <button class="menu-item flex items-center gap-3" (click)="logout()">
       <!-- <ion-icon name="log-out-outline" /> -->
-      <span>logout</span>
+      <span>выйти</span>
     </button>
     }
   </div>

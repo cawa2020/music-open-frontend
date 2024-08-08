@@ -31,6 +31,4 @@ export class PlayButtonComponent {
       this.audio.playSong()
     }
   }
-
-
 }

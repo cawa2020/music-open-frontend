@@ -1,11 +1,10 @@
-import { Component, ElementRef, HostListener, Input, OnInit, ViewChild, effect } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { PlayerComponent } from '../player/player.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ThemeService } from './services/theme.service';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
-import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthModalComponent } from '../auth-modal/auth-modal.component';
 import { User } from '../../../shared/interfaces/auth.interface';
@@ -13,7 +12,6 @@ import { fadeIn } from '../../../shared/animations/fadeIn';
 import { fadeOut } from '../../../shared/animations/fadeOut';
 import { scaleIn } from '../../../shared/animations/scaleIn';
 import { scaleOut } from '../../../shared/animations/scaleOut';
-import { sideBarLinks } from '../../../shared/interfaces/app.interface';
 
 @Component({
   selector: 'app-nav',
@@ -41,13 +39,14 @@ export class NavComponent {
     return this.user?.username.at(0)
   }
 
-  constructor(private theme: ThemeService, private auth: AuthService, private userService: UserService, private router: Router) {
-    effect(() => {
-      this.user = this.userService.getUser()
-    })
-  }
+  constructor(private theme: ThemeService, private auth: AuthService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    this.userService.user$.subscribe(user => {
+      if (user === undefined) return
+      this.user = user;
+    });
+
     this.router.events.subscribe((val: any) => {
       const path: string = val.url
       if (!path) return

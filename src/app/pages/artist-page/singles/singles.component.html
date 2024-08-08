@@ -1,13 +1,13 @@
+@if (!singles) {
+<div class="flex justify-center items-center w-full h-full">
+  <app-loader />
+</div>
+} @else {
 <div class="container">
-  @if (!singles) {
-  <div class="flex justify-center items-center w-full h-full">
-    <app-loader />
-  </div>
-  } @else {
   @for(signle of singles; track signle.id) {
   <app-album-card [album]="signle" />
   } @empty {
   <p class="text-secondary">Пусто :(</p>
   }
-  }
 </div>
+}

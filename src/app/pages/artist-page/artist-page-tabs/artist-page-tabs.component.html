@@ -1,0 +1,16 @@
+<div class="tabs">
+  @for (tab of tabs; track tab.title) {
+  <button class="tab" [class.active-tab]="tab.value === currentTab" (click)="changeTab(tab.value)">
+    {{tab.title}}
+  </button>
+  }
+</div>
+
+<div class="tab-content">
+  @switch (currentTab) {
+  @case ('home') {<app-home />}
+  @case ('album') {<app-albums />}
+  @case ('single') {<app-singles /> }
+  @case ('related') {<app-related />}
+  }
+</div>

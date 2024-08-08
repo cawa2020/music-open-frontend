@@ -1,11 +1,3 @@
-.album-left {
-  @apply flex-col flex gap-5 mb-[30px];
-}
-
-.album-left__buttons {
-  @apply flex items-center gap-3 w-full;
-}
-
 .section-adaptive {
   @apply pl-[37px] pt-[22px] pr-[50px]
 }
@@ -48,4 +40,8 @@
 
 .album-right__img {
   @apply w-[400px] h-fit rounded-lg shadow-2xl;
+}
+
+.full-cover {
+  @apply max-w-[80%] max-h-[60%] aspect-square rounded;
 }

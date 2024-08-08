@@ -1,0 +1,11 @@
+.active {
+  @apply bg-[var(--border-color)] rounded-default;
+
+  & svg {
+    @apply stroke-[var(--text-color)]
+  }
+
+  & span {
+    @apply text-default
+  }
+}

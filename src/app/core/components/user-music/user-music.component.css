@@ -17,14 +17,6 @@
   content: '';
 }
 
-.active {
-  @apply bg-[var(--border-color)] rounded-default;
-
-  & svg {
-    @apply stroke-[var(--text-color)]
-  }
-
-  & span {
-    @apply text-default
-  }
+.not-login-message {
+  @apply grid gap-4 bg-default p-5 rounded bg-default;
 }
