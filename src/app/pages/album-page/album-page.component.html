@@ -1,0 +1,52 @@
+<section class="h-full overflow-auto section-adaptive">
+  @if (!album) {
+  <div class="flex justify-center items-center w-full h-full">
+    <app-loader />
+  </div>
+  } @else {
+  <div class="flex gap-[38px]">
+    <div class="w-full">
+      <app-album-page-header [album]="album" />
+
+      <div>
+        <div class="table-header">
+          <span class="min-w-[42px] text-center">#</span>
+          <span class="w-full">Title</span>
+          <span>Duration</span>
+        </div>
+        <div class="grid gap-1">
+          @for (song of album.tracks.data; track song.id) {
+          <app-song [index]="$index" [hideImg]="true" [queue]="album.tracks.data" [hideAlbum]="true" [song]="song" />
+          }
+        </div>
+      </div>
+    </div>
+    <div class="album-right">
+      <img class="album-right__img" [src]="album.cover_big" alt="cover" (click)="toggleFullCover()" />
+      <div class="album-right__genres">
+        @for (genre of album.genres?.data; track $index) {
+        <a [routerLink]="['/genre/' + genre.id]" class="genre">
+          {{genre.name}}
+        </a>
+        }
+      </div>
+      <div class="album-right__artists">
+        @for (artist of album.contributors; track artist.id) {
+        <a class="album-right__artists-item" [routerLink]="['/artist', artist.id]">
+          <img [src]="artist.picture_small" alt="ava">
+          <span>{{ artist.name }}</span>
+        </a>
+        }
+      </div>
+    </div>
+  </div>
+  }
+</section>
+
+@if (isFullCoverOpen) {
+<div class="bg-shadow" (click)="toggleFullCover()"></div>
+<div class="absolute flex justify-center items-center z-[9999]">
+  <img [src]="album!.cover_xl" class="full-cover">
+  <button (click)="toggleFullCover()" class="mt-6 text-lg font-medium">Close</button>
+</div>
+}

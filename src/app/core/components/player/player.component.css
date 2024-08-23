@@ -1,0 +1,31 @@
+.player {
+  @apply flex items-center justify-between w-full p-[15px] gap-3 rounded-default bg-default;
+}
+
+.player__controllers {
+  @apply hidden lg:flex gap-1 justify-center items-center min-w-fit;
+}
+
+.player__info {
+  @apply flex gap-2 items-center min-w-0 w-full;
+}
+
+.player__buttons {
+  @apply hidden lg:flex items-center justify-end w-fit;
+}
+
+.player__info-text {
+  @apply flex flex-col justify-center truncate;
+}
+
+.player__info-title {
+  @apply lg:leading-tight leading-tight text-lg lg:text-base whitespace-nowrap;
+}
+
+.player__info-artist {
+  @apply lg:leading-tight leading-tight truncate text-secondary flex text-lg lg:text-base;
+}
+
+.player__controllers-time-container {
+  @apply flex gap-2 items-center min-w-[320px] justify-center;
+}

@@ -1,0 +1,19 @@
+.text-icon {
+  @apply flex gap-2 items-center;
+}
+
+.contributor {
+  @apply flex items-center;
+
+  & .contributor-text {
+    @apply ml-[20px];
+  }
+
+  & span:first-child {
+    @apply mb-[10px];
+  }
+
+  & img {
+    @apply w-[60px] rounded-full shadow-xl;
+  }
+}

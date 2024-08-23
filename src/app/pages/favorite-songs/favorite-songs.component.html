@@ -1,0 +1,9 @@
+<section class="section-adaptive">
+  @if (songs) {
+  @for (song of songs; track $index) {
+  <app-song [song]="song" [queue]="songs" [index]="$index" />
+  }
+  }@else {
+  <app-loader />
+  }
+</section>

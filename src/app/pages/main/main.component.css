@@ -1,0 +1,4 @@
+.section {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) var(--bg-color-main);
+}

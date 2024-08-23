@@ -1,0 +1,10 @@
+<section class="w-full overflow-auto h-full">
+  @if (!artist) {
+  <div class="flex justify-center items-center w-full h-full">
+    <app-loader />
+  </div>
+  } @else {
+  <app-artist-page-header [queue]="songs" [artist]="artist"/>
+  <app-artist-page-tabs />
+  }
+</section>

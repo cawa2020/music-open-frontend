@@ -1,0 +1,22 @@
+.hidden-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.user-music {
+  @apply hidden lg:flex flex-col h-full p-[10px] gap-[10px] w-[var(--user-music-width)] rounded-default;
+}
+
+.active-side-bar {
+  @apply relative;
+}
+
+.active-side-bar::after {
+  --nav-height-minus: -56px;
+  @apply bg-default absolute rounded-default left-0 right-0 bottom-0 z-[-1];
+  top: calc(var(--nav-height-minus));
+  content: '';
+}
+
+.not-login-message {
+  @apply grid gap-4 bg-default p-5 rounded bg-default;
+}

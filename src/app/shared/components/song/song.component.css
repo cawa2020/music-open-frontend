@@ -1,0 +1,48 @@
+.favorite-button,
+.more-button {
+  visibility: hidden;
+}
+
+.song {
+  @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-default;
+
+  &:hover .favorite-button {
+    @apply visible
+  }
+
+  &:hover .more-button {
+    @apply visible
+  }
+
+  &:hover .equalizer {
+    @apply hidden
+  }
+
+  &:hover .song__start-index {
+    @apply hidden
+  }
+
+  &:hover .song__start-icon {
+    @apply block
+  }
+}
+
+.song__start {
+  @apply min-w-[42px] h-[42px] flex justify-center items-center;
+}
+
+.song__start-icon {
+  @apply hidden text-main
+}
+
+.song__content {
+  @apply flex justify-between w-full items-center gap-2;
+}
+
+.song__content-artist {
+  @apply text-secondary leading-none w-fit;
+}
+
+svg {
+  @apply w-8 h-8
+}

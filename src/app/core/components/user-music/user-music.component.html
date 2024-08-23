@@ -1,0 +1,20 @@
+<div class="user-music" [class.active-side-bar]="isSideBarActive" cdkDropList (cdkDropListDropped)="onDrop($event)">
+  @if (isLoading) {
+  <div class="flex justify-center">
+    <app-loader />
+  </div>
+  } @else {
+  @if (isAuth) {
+  @for (item of sideBarItems; track $index) {
+  <app-user-music-item cdkDrag [item]="item" [currentPath]="currentPath" />
+  }
+  } @else {
+  <div class="not-login-message">
+    <h5>Создайте ваш первый плейлист</h5>
+    <p class="text-secondary">Начните кайфовать с музыки, создав аккаунт или войдите в уже существующий</p>
+    <button class="button w-full">Войти</button>
+    <button class="secondary-button w-full">Зарегестрироваться</button>
+  </div>
+  }
+  }
+</div>

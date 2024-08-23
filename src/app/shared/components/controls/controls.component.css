@@ -1,0 +1,7 @@
+.icon-button {
+  @apply p-0
+}
+
+.svg-contrast circle {
+  @apply fill-[var(--main-color)]
+}

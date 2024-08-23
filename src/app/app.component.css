@@ -1,0 +1,22 @@
+.content-container {
+  --player-height: 82px;
+  --nav-height: 56px;
+  @apply relative min-h-full grid p-[7px] pt-[3px] gap-x-[var(--side-margin-x)] gap-y-[var(--side-margin-y)];
+  grid-template-columns: auto 1fr;
+  grid-template-rows: min-content calc(100vh - var(--side-margin-y) * 4 - var(--player-height) - var(--nav-height)) min-content;
+  grid-template-areas:
+    "nav nav nav"
+    "sidebar main-view main-view"
+    "sidebar now-playing-bar now-playing-bar";
+}
+
+@media (max-width: 800px) {
+  .content-container {
+    grid-template-rows: auto calc(100vh - var(--side-margin-x) * 4 - 90px - auto) auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "nav"
+      "main-view"
+      "now-playing-bar";
+  }
+}

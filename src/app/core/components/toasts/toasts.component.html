@@ -1,0 +1,7 @@
+@for (message of messages; track $index) {
+<div @fadeIn @fadeOut class="toast" [style]="getStyles($index, message.type)">
+  <!-- <img src="../../../../assets/icons/" alt="like"> -->
+  <!-- нужна иконка ???? !!!!!-->
+  {{ message.info }}
+</div>
+}
