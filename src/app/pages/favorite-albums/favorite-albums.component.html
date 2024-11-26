@@ -1,5 +1,5 @@
 <section class="container section-adaptive">
-  @for (album of albums; track album.id) {
+  @for (album of albums(); track album.id) {
   <app-album-card [album]="album" />
   }
 </section>

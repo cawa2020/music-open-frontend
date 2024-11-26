@@ -15,6 +15,7 @@ import { FavoriteArtistsComponent } from './pages/favorite-artists/favorite-arti
 import { FavoritePlaylistsComponent } from './pages/favorite-playlists/favorite-playlists.component';
 import { FavoriteSongsComponent } from './pages/favorite-songs/favorite-songs.component';
 import { FavoriteAlbumsComponent } from './pages/favorite-albums/favorite-albums.component';
+import { GenreComponent } from './pages/genre/genre.component';
 
 export const routes: Routes = [
   {
@@ -60,6 +61,9 @@ export const routes: Routes = [
     path: 'profile/:id', component: ProfileComponent, canActivate: [authGuard]
   },
   {
-    path: '**', component: NotFoundComponent
+    path: 'genre/:id', component: GenreComponent, canActivate: [authGuard]
+  },
+  {
+    path: '**', redirectTo: 'home'
   },
 ];

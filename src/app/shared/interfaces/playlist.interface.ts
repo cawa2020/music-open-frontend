@@ -1,11 +1,12 @@
-import { Album } from "./album.interface"
-import { Artist } from "./artist.interface"
 import { Song } from "./song.interface"
 
-export interface Playlist {
-  id: number
+export interface CreatePlaylist {
   title: string
   songs: Song[]
+}
+
+export interface Playlist extends CreatePlaylist {
+  id: number
   creation_date: string
   md5_image: string
   userId: string

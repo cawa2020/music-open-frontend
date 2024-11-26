@@ -1,10 +1,9 @@
-<div class="bg-shadow" (click)="hideModal()"></div>
-<form @scaleIn @scaleOut (ngSubmit)="submit()" [formGroup]="form">
+<form (ngSubmit)="submit()" [formGroup]="form">
   <h4>
     @if (type === 'login') {
-      Вход
+    Вход
     } @else {
-      Регистрация
+    Регистрация
     }
   </h4>
   @if (type === 'registration') {

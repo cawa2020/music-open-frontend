@@ -44,8 +44,8 @@
 </section>
 
 @if (isFullCoverOpen) {
-<div class="bg-shadow" (click)="toggleFullCover()"></div>
-<div class="absolute flex justify-center items-center z-[9999]">
+<div class="modal-shadow" (click)="toggleFullCover()"></div>
+<div @scaleInOut class="full-cover-container">
   <img [src]="album!.cover_xl" class="full-cover">
   <button (click)="toggleFullCover()" class="mt-6 text-lg font-medium">Close</button>
 </div>

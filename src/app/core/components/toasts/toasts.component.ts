@@ -2,15 +2,14 @@ import { CUSTOM_ELEMENTS_SCHEMA, Component, effect } from '@angular/core';
 import { toastLifeTime } from '../../../shared/constants/toast.constant';
 import { Message, MessageType } from '../../../shared/interfaces/message.interface';
 import { ToastService } from '../../services/toast.service';
-import { fadeIn } from '../../../shared/animations/fadeIn';
-import { fadeOut } from '../../../shared/animations/fadeOut';
+import { fadeInOut } from '../../../shared/animations/fadeInOut';
 
 @Component({
   selector: 'app-toasts',
   standalone: true,
   templateUrl: './toasts.component.html',
   styleUrl: './toasts.component.css',
-  animations: [fadeIn, fadeOut]
+  animations: [fadeInOut]
 })
 export class ToastsComponent {
   public messages: Message[] = [];

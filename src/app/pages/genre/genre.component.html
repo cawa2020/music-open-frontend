@@ -1,0 +1,18 @@
+<section class="h-full overflow-auto section-adaptive">
+  @if (!genre || !genreArtist) {
+  <div class="flex justify-center items-center w-full h-full">
+    <app-loader />
+  </div>
+  } @else {
+  <div class="flex items-end mb-4 gap-2">
+    <img class="rounded-default" src={{genre.picture_medium}} alt="">
+    <h2>{{genre.name}}</h2>
+  </div>
+  <h5 class="mb-4">Artists you may like</h5>
+  <div class="container">
+    @for (artist of genreArtist; track artist.id) {
+    <app-artist-card [artist]="artist" />
+    }
+  </div>
+  }
+</section>

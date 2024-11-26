@@ -1,6 +1,6 @@
 <section class="h-full section-adaptive overflow-auto">
   <h5 class="mb-4 leading-none"> Недавно игравшие </h5>
-  @for (item of recently_played; track item.id) {
+  @for (item of recently_played(); track item.id) {
   @if(item.type === 'album') {
   <app-album-card [album]="item" />
   } @else if(item.type === 'playlist') {

@@ -8,11 +8,8 @@ import { CommonModule } from '@angular/common';
 import { SongComponent } from '../../shared/components/song/song.component';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { Album } from '../../shared/interfaces/album.interface';
-import { fadeFromTop } from '../../shared/animations/fadeFromTop';
-import { fadeToTop } from '../../shared/animations/fadeToTop';
-import { scaleIn } from '../../shared/animations/scaleIn';
-import { scaleOut } from '../../shared/animations/scaleOut';
 import { AlbumPageHeaderComponent } from './album-page-header/album-page-header.component';
+import { scaleInOut } from '../../shared/animations/scaleInOut';
 
 @Component({
   selector: 'app-album-page',
@@ -26,7 +23,7 @@ import { AlbumPageHeaderComponent } from './album-page-header/album-page-header.
     LoaderComponent,
     AlbumPageHeaderComponent
   ],
-  animations: [fadeFromTop, fadeToTop, scaleIn, scaleOut]
+  animations: [scaleInOut]
 })
 export class AlbumPageComponent implements OnInit {
   public album: Album | null = null;

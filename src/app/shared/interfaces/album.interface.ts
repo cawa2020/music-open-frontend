@@ -54,5 +54,7 @@ export interface Genres {
   id: number
   name: string
   picture: string
+  picture_big: string
+  picture_medium: string
   type: string
 }

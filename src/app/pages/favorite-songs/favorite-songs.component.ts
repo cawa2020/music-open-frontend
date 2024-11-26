@@ -1,4 +1,4 @@
-import { Component, effect, OnInit } from '@angular/core';
+import { Component, effect, OnInit, Signal } from '@angular/core';
 import { Song } from '../../shared/interfaces/song.interface';
 import { UserService } from '../../core/services/user.service';
 import { LoaderComponent } from "../../shared/components/loader/loader.component";
@@ -13,20 +13,10 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [LoaderComponent, SongComponent]
 })
 export class FavoriteSongsComponent implements OnInit {
-  private ngUnsubscribe = new Subject<void>();
-  public songs: Song[] | undefined
+  public songs: Signal<Song[]> = this.userService.select('favoriteSongs')
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.user$.pipe(takeUntil(this.ngUnsubscribe)).subscribe((user) => {
-      if (!user) return
-      this.songs = user.favoriteSongs
-    })
-  }
-
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next()
-    this.ngUnsubscribe.complete()
   }
 }

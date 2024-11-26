@@ -6,7 +6,7 @@
       <app-play-button class="artist-header__info-button" [isPlaying]="isPlaying" [queue]="queue" />
       <button class="button !bg-[var(--border-color)] !text-default" (click)="addToFavorite()"
         [disabled]="isFavoriteLoading">
-        @if (isFavorite) {
+        @if (isFavorite()) {
         Подписан
         } @else {
         Подписаться

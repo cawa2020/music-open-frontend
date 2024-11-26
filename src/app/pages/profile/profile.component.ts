@@ -1,39 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, OnInit, Signal, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from '../../core/services/user.service';
 import { LoaderComponent } from "../../shared/components/loader/loader.component";
 import { ArtistComponent } from "../../shared/components/artist-card/artist-card.component";
 import { PlaylistCardComponent } from "../../shared/components/playlist-card/playlist-card.component";
 import { User } from '../../shared/interfaces/auth.interface';
+import { UserApiService } from '../../core/services/user-api.service';
 
 @Component({
-    selector: 'app-profile',
-    standalone: true,
-    templateUrl: './profile.component.html',
-    styleUrl: './profile.component.css',
-    imports: [LoaderComponent, ArtistComponent, PlaylistCardComponent]
+  selector: 'app-profile',
+  standalone: true,
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.css',
+  imports: [LoaderComponent, ArtistComponent, PlaylistCardComponent]
 })
 export class ProfileComponent implements OnInit {
-  public loading: boolean = true
-  public user!: User
+  public user = signal<User | null>(null)
+  public loading = computed<boolean>(() => !this.user())
 
-  constructor(private activateRoute: ActivatedRoute, private userService: UserService) { }
+  constructor(private activateRoute: ActivatedRoute, private userApiService: UserApiService) { }
 
   ngOnInit(): void {
     this.activateRoute.params.subscribe(params => {
-      this.loading = true
+      this.user.set(null)
       const id = params["id"]
-
-      if (id === 'me') {
-        // this.userService.changes.subscribe(() => {
-        //   const newUser = this.userService.getUser()
-        //   if (!newUser) return
-        //   this.user = newUser
-        //   this.loading = false
-        // })
-      } else {
-
-      }
+      this.userApiService.fetchUser(id).subscribe((user) => {
+        if (!user) return
+        this.user.set(user)
+      })
     })
   }
+
 }

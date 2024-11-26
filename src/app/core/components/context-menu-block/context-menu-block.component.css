@@ -1,0 +1,7 @@
+.context-menu-block {
+  @apply absolute p-1 rounded-default bg-default text-default space-y-2 shadow-lg;
+}
+
+.context-menu-item {
+  @apply p-2 hover:bg-[var(--bg-slider-color)] rounded-md;
+}

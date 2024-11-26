@@ -1,5 +1,5 @@
 <section class="container section-adaptive">
-  @for (item of utilities; track $index) {
+  @for (item of utilities(); track $index) {
   @switch (item.type) {
   @case ('artist') {<app-artist-card [artist]="item" />}
   @case ('collection') {<app-collection-card [collection]="item" />}

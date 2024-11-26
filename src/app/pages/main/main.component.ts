@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { Playlist } from '../../shared/interfaces/playlist.interface';
 import { Album } from '../../shared/interfaces/album.interface';
 import { UserService } from '../../core/services/user.service';
@@ -13,18 +13,12 @@ import { PlaylistCardComponent } from '../../shared/components/playlist-card/pla
   imports: [AlbumCardComponent, PlaylistCardComponent]
 })
 export class MainComponent {
-  public recently_played: any[] = []
-  // public recently_played: (Album | Playlist)[] = [] !!!!!!!!!!!!!!!!!!!
+  public recently_played: Signal<(Album | Playlist)[]> = this.userService.select('recently_played')
   public loading: boolean = false
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.loading = true
-    // this.userService.changes.subscribe(() => {
-    //   const user = this.userService.getUser()
-    //   if (!user) return
-    //   this.recently_played = user.recently_played
-    // })
   }
 }

@@ -39,9 +39,13 @@
 }
 
 .album-right__img {
-  @apply w-[400px] h-fit rounded-lg shadow-2xl;
+  @apply w-[400px] h-fit rounded-lg shadow-2xl cursor-pointer;
+}
+
+.full-cover-container {
+  @apply absolute max-h-[80vh] m-auto top-0 left-0 right-0 bottom-0 z-[9999] flex flex-col items-center w-fit;
 }
 
 .full-cover {
-  @apply max-w-[80%] max-h-[60%] aspect-square rounded;
+  @apply h-full aspect-square rounded;
 }

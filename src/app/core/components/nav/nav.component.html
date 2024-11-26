@@ -53,7 +53,8 @@
     </a>
   </div>
   <div class="flex gap-2 items-center">
-    @if (user) {
+    @if (!isLoading()) {
+    @if (user()) {
     <button>
       <svg width="42" height="41" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -88,13 +89,14 @@
         <circle cx="21.2379" cy="21.0002" r="3.34783" stroke-width="1.6" />
       </svg>
     </button>
-    <a class="profile-icon" [routerLink]="['profile/me']">
+    <a class="profile-icon" [routerLink]="['profile/', user()?.id]">
       {{userFirstLetter}}
       <!-- <img src="../../../../assets/icons/Name=User, Filled=No.svg" alt="like"> -->
     </a>
     } @else {
     <button class="secondary-button" (click)="setModal('registration')">Регистрация</button>
     <button class="button" (click)="setModal('login')">Вход</button>
+    }
     }
   </div>
   @if (isMenuOpen) {
@@ -112,7 +114,7 @@
           (ngModelChange)="changeColor($event)" />
       </div>
     </div>
-    @if (user) {
+    @if (user()) {
     <hr class="w-full" />
     <button class="menu-item flex items-center gap-3" (click)="logout()">
       <!-- <ion-icon name="log-out-outline" /> -->
@@ -123,6 +125,6 @@
   }
 </nav>
 
-@if (modal) {
-<app-auth-modal @scaleIn @scaleOut (modalClose)="setModal($event)" [type]="modal" />
-}
+<app-modal [triggerOpen]="triggerModal">
+  <app-auth-form [type]="modal" />
+</app-modal>

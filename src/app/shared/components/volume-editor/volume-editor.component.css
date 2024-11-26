@@ -1,0 +1,13 @@
+.slider-container {
+  @apply absolute right-1/2 top-[-100%] bg-default p-2 py-3 shadow-lg invisible opacity-0 transition-default;
+  transform: translate(50%) rotate(270deg);
+  box-shadow: 0 0 2px white;
+}
+
+.volume-editor {
+  @apply flex items-center relative;
+
+  &:hover .slider-container {
+    @apply visible opacity-100;
+  }
+}

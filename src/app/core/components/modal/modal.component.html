@@ -1,0 +1,6 @@
+@if (isOpen) {
+<div class="modal-shadow" (click)="hideModal()"></div>
+<div [@scaleInOut] class="modal-container">
+  <ng-content />
+</div>
+}

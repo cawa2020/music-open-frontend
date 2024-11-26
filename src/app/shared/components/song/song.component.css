@@ -1,18 +1,36 @@
 .favorite-button,
 .more-button {
-  visibility: hidden;
+  @apply invisible;
+}
+
+.favorite-button {
+  @apply w-fit flex justify-end items-center;
+}
+
+.daun {
+  @apply invisible
+}
+
+.song:hover .daun {
+  @apply visible;
+}
+
+.song:hover .favorite-button {
+  @apply visible;
+}
+
+.song:hover .more-button {
+  @apply visible;
 }
 
 .song {
-  @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-default;
+  @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-default transition-none;
 
-  &:hover .favorite-button {
-    @apply visible
-  }
+  /* &:hover .favorite-button {}
 
   &:hover .more-button {
     @apply visible
-  }
+  } */
 
   &:hover .equalizer {
     @apply hidden
@@ -25,6 +43,10 @@
   &:hover .song__start-icon {
     @apply block
   }
+}
+
+.song-duration {
+  @apply flex items-center text-sm text-right font-normal
 }
 
 .song__start {

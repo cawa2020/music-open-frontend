@@ -7,8 +7,7 @@ import { filter, map, take } from 'rxjs';
 import { SongService } from '../../../core/services/song.service';
 import { Album, AlbumBrief } from '../../interfaces/album.interface';
 import { Song } from '../../interfaces/song.interface';
-import { scaleIn } from '../../animations/scaleIn';
-import { scaleOut } from '../../animations/scaleOut';
+import { ContextMenuService } from '../../../core/services/context-menu.service';
 
 @Component({
   selector: 'app-album-card',
@@ -16,7 +15,7 @@ import { scaleOut } from '../../animations/scaleOut';
   imports: [RouterLink, CommonModule],
   templateUrl: './album-card.component.html',
   styleUrl: './album-card.component.css',
-  animations: [scaleIn, scaleOut]
+  animations: []
 })
 
 export class AlbumCardComponent {
@@ -24,7 +23,7 @@ export class AlbumCardComponent {
   public isFavotiteLoading = false
   public isFavorite = false
 
-  constructor(private player: AudioService, private api: ApiService, private songData: SongService) { }
+  constructor(private player: AudioService, private api: ApiService, private songData: SongService, private contextMenu: ContextMenuService) { }
 
   playAlbum() {
     this.api.getAlbumTracks(this.album.id).pipe(map(res => res.data), take(1)).subscribe(tracks => {
@@ -40,5 +39,14 @@ export class AlbumCardComponent {
 
   toggleFavorite() {
 
+  }
+
+  pinAlbum(): void {
+    console.log('pinned!')
+  }
+
+  onRightClick(event: MouseEvent) {
+    event.preventDefault()
+    this.contextMenu.open({ items: [{ event: this.pinAlbum, title: 'pin album' }], position: [event.clientX, event.clientY] })
   }
 }

@@ -7,6 +7,9 @@ import { UserService } from './core/services/user.service';
 import { CookieService } from './core/services/cookie.service';
 import { UserMusicComponent } from './core/components/user-music/user-music.component';
 import { ToastsComponent } from './core/components/toasts/toasts.component';
+import { ContextMenuBlockComponent } from "./core/components/context-menu-block/context-menu-block.component";
+import { UserApiService } from './core/services/user-api.service';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -20,11 +23,14 @@ import { ToastsComponent } from './core/components/toasts/toasts.component';
     NavComponent,
     PlayerComponent,
     UserMusicComponent,
-  ],
+    ContextMenuBlockComponent
+],
 })
 export class AppComponent implements OnInit {
   constructor(
+    private auth: AuthService,
     private userService: UserService,
+    private userApiService: UserApiService,
     private cookie: CookieService
   ) { }
 
@@ -32,11 +38,12 @@ export class AppComponent implements OnInit {
     const token = this.cookie.get('access_token');
 
     if (!token) {
-      this.userService.setUser(null)
+      this.auth.setIsAuth(false)
       return
     };
 
-    this.userService.fetchUserData(token).subscribe((user) => {
+    this.userApiService.fetchUserDataByToken(token).subscribe((user) => {
+      this.auth.setIsAuth(true)
       this.userService.setUser(user);
     });
   }

@@ -120,7 +120,7 @@ a:hover {
 }
 
 button {
-  @apply w-fit h-fit flex justify-center items-center transition-default;
+  @apply w-fit h-fit flex justify-center items-center ;
 }
 
 button:disabled {
@@ -129,7 +129,7 @@ button:disabled {
 
 .button,
 .secondary-button {
-  @apply px-4 h-10 transition-default text-white rounded-full;
+  @apply px-4 h-10 text-white rounded-full;
 }
 
 .button {
@@ -285,7 +285,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .container {
-  @apply grid grid-cols-6 4xl:grid-cols-8 gap-x-[10px] gap-y-[20px] h-fit
+  @apply grid grid-cols-6 4xl:grid-cols-8 gap-x-[10px] gap-y-[20px];
+  grid-template-rows: min-content;
 }
 
 .cdk-drop-list-dragging .cdk-drag:not(.cdk-drag-preview) {
@@ -346,8 +347,12 @@ input[type="range"]::-webkit-slider-thumb {
   box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, .5);
 }
 
-.bg-shadow {
+.modal-shadow {
   @apply opacity-50 bg-black backdrop-blur absolute left-0 right-0 top-0 bottom-0 z-[9998];
+}
+
+.modal-container {
+  @apply absolute m-auto top-0 left-0 right-0 bottom-0 w-fit h-fit z-[9999];
 }
 
 .spinner {
@@ -402,13 +407,13 @@ input[type="range"]::-webkit-slider-thumb {
     @apply visible opacity-100;
   }
 
-  &:hover .back-cover:nth-child(1) {
+  /* &:hover .back-cover:nth-child(1) {
     @apply left-[12px] right-[12px] top-[-8px]
   }
 
   &:hover .back-cover:nth-child(2) {
     @apply left-[26px] right-[26px] top-[-12px]
-  }
+  } */
 }
 
 .card__img {

@@ -1,25 +1,24 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CookieService } from '../../services/cookie.service';
+import { UserApiService } from '../../services/user-api.service';
 import { UserService } from '../../services/user.service';
-import { scaleIn } from '../../../shared/animations/scaleIn';
-import { scaleOut } from '../../../shared/animations/scaleOut';
 
 @Component({
-  selector: 'app-auth-modal',
+  selector: 'app-auth-form',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule],
-  templateUrl: './auth-modal.component.html',
-  styleUrl: './auth-modal.component.css',
-  animations: [scaleIn, scaleOut],
+  templateUrl: './auth-form.component.html',
+  styleUrl: './auth-form.component.css'
 })
-export class AuthModalComponent implements OnInit {
+export class AuthFormComponent {
   @Input({ required: true }) type!: "login" | "registration"
-  @Output() modalClose = new EventEmitter()
   public form!: FormGroup
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private cookieService: CookieService, private userService: UserService) { }
+  constructor(
+    private userApiService: UserApiService,
+    private fb: FormBuilder, private auth: AuthService, private cookieService: CookieService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -41,10 +40,6 @@ export class AuthModalComponent implements OnInit {
     }
   }
 
-  hideModal() {
-    this.modalClose.next(null)
-  }
-
   private handleRes(res: any) {
     if (res?.statusCode) {
       console.log('error')
@@ -53,7 +48,7 @@ export class AuthModalComponent implements OnInit {
 
     const token = res.access_token
     this.cookieService.set('access_token', token)
-    this.userService.fetchUserData(token).subscribe(user => {
+    this.userApiService.fetchUserDataByToken(token).subscribe(user => {
       if (!user) return
       this.userService.setUser(user)
       location.reload()

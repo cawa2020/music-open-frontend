@@ -1,0 +1,9 @@
+@if (contextMenuEvent()) {
+<div class="context-menu-block" #contextMenuBlock [style.left]="contextMenuEvent().position[0] + 'px'" [style.top]="contextMenuEvent().position[1] + 'px'">
+  @for (item of contextMenuEvent().items; track $index) {
+  <button class="context-menu-item" (click)="item.event()">
+    {{item.title}}
+  </button>
+  }
+</div>
+}

@@ -1,1 +1,5 @@
-<p>favorite-playlists works!</p>
+<section class="container section-adaptive" (contextmenu)="onRightClick($event)">
+  @for (playlist of playlists(); track playlist.id) {
+  <app-playlist-card [playlist]="playlist" />
+  }
+</section>

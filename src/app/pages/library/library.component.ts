@@ -1,4 +1,4 @@
-import { Component, OnInit, effect } from '@angular/core';
+import { Component, OnInit, Signal, computed, effect } from '@angular/core';
 import { Album } from '../../shared/interfaces/album.interface';
 import { Playlist } from '../../shared/interfaces/playlist.interface';
 import { Artist } from '../../shared/interfaces/artist.interface';
@@ -17,21 +17,19 @@ import { CollectionCardComponent } from "../../shared/components/collection-card
   imports: [ArtistComponent, PlaylistCardComponent, AlbumCardComponent, CollectionCardComponent]
 })
 export class LibraryComponent implements OnInit {
-  public utilities: (Album | Playlist | Artist | Collection)[] = []
+  public utilities: Signal<(Album | Playlist | Artist | Collection)[]> = computed(() => {
+    const user = this.userService.user()
+    if (!user) return []
+    const collection: Collection = {
+      songs: user.favoriteSongs,
+      publish_date: '',
+      type: 'collection'
+    }
+    return [collection, ...user.favoriteAlbums, ...user.favoriteArtists, ...user.favoritePlaylists]
+  })
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.user$.subscribe((user) => {
-      if (!user) return
-      const collection: Collection = {
-        songs: user.favoriteSongs,
-        publish_date: '',
-        type: 'collection'
-      }
-      this.utilities = [collection, ...user.favoriteAlbums, ...user.favoriteArtists, ...user.favoritePlaylists]
-    });
   }
-
-
 }

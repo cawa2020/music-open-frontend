@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, computed, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AudioService } from '../../../core/services/audio.service';
@@ -7,6 +7,7 @@ import { SongService } from '../../../core/services/song.service';
 import { UserService } from '../../../core/services/user.service';
 import { PlayButtonComponent } from '../../../shared/components/play-button/play-button.component';
 import { Album } from '../../../shared/interfaces/album.interface';
+import { UserApiService } from '../../../core/services/user-api.service';
 
 @Component({
   selector: 'app-album-page-header',
@@ -18,21 +19,27 @@ import { Album } from '../../../shared/interfaces/album.interface';
 export class AlbumPageHeaderComponent implements OnChanges {
   @Input() album!: Album
   public isPlaying: boolean = false;
-  public isFavorite: boolean = false;
   public isFavoriteLoading: boolean = false;
+  public isFavorite = computed(() => {
+    const userAlbums = this.userService.user()?.favoriteAlbums ?? []
+    return userAlbums.some(album => album.id === this.album.id);
+  });
 
-  constructor(private audio: AudioService, private songData: SongService, private userService: UserService) { }
+  constructor(
+    private audio: AudioService,
+    private songData: SongService,
+    private userService: UserService,
+    private userApiService: UserApiService,
+  ) { }
 
   ngOnChanges(): void {
     this.initIsPlaying()
-    this.initIsFavorite()
   }
 
   addToFavorite() {
     this.isFavoriteLoading = true
-    this.userService.addToFavotiteAlbum(this.album).subscribe((user) => {
+    this.userApiService.addToFavotiteAlbum(this.album).subscribe((user) => {
       if (!user) return;
-      this.isFavorite = !this.isFavorite;
       this.userService.setUser(user)
       this.isFavoriteLoading = false
     });
@@ -49,10 +56,5 @@ export class AlbumPageHeaderComponent implements OnChanges {
     this.audio.audioChanges
       .pipe(filter((el) => el.type === 'time'))
       .subscribe((el) => this.isPlaying = el.data && this.songData.compareQueues(this.album.tracks.data));
-  }
-
-  private initIsFavorite() {
-    const userAlbums = this.userService.getUser()?.favoriteAlbums ?? []
-    this.isFavorite = userAlbums.some((e) => e.id === this.album.id);
   }
 }

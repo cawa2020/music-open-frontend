@@ -1,10 +1,10 @@
 <div class="user-music" [class.active-side-bar]="isSideBarActive" cdkDropList (cdkDropListDropped)="onDrop($event)">
-  @if (isLoading) {
+  @if (isLoading()) {
   <div class="flex justify-center">
     <app-loader />
   </div>
   } @else {
-  @if (isAuth) {
+  @if (isAuth()) {
   @for (item of sideBarItems; track $index) {
   <app-user-music-item cdkDrag [item]="item" [currentPath]="currentPath" />
   }
@@ -12,9 +12,13 @@
   <div class="not-login-message">
     <h5>Создайте ваш первый плейлист</h5>
     <p class="text-secondary">Начните кайфовать с музыки, создав аккаунт или войдите в уже существующий</p>
-    <button class="button w-full">Войти</button>
-    <button class="secondary-button w-full">Зарегестрироваться</button>
+    <button class="button w-full" (click)="setModal('login')">Войти</button>
+    <button class="secondary-button w-full" (click)="setModal('registration')">Зарегестрироваться</button>
   </div>
   }
   }
 </div>
+
+<app-modal [triggerOpen]="triggerModal">
+  <app-auth-form [type]="modal" />
+</app-modal>

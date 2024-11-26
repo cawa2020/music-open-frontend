@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { AlbumBrief } from '../../shared/interfaces/album.interface';
+import { AlbumBrief, Genres } from '../../shared/interfaces/album.interface';
 import { Artist } from '../../shared/interfaces/artist.interface';
-import { Playlist } from '../../shared/interfaces/playlist.interface';
+import { CreatePlaylist, Playlist } from '../../shared/interfaces/playlist.interface';
 import { Method } from '../../shared/interfaces/app.interface';
 import { Song, SongBrief } from '../../shared/interfaces/song.interface';
 
@@ -11,7 +11,7 @@ import { Song, SongBrief } from '../../shared/interfaces/song.interface';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getArtist(id: number): Observable<Artist> {
     return this._request('GET', 'artist/' + id);
@@ -72,9 +72,14 @@ export class ApiService {
     return this._requestLocal('GET', 'playlist/' + id);
   }
 
-  createPlaylist(token: string | undefined, body: Playlist) {
+  createPlaylist(token: string | undefined, body: CreatePlaylist) {
     const url = `playlist/?token=${token}`;
     return this._requestLocal('POST', url, body);
+  }
+
+  addTrackToPlaylist(token: string | undefined, body: Song[], id: number) {
+    const url = `playlist/${id}/songs?token=${token}`;
+    return this._requestLocal('PATCH', url, body);
   }
 
   updatePlaylist(token: string | undefined, id: string, body: Playlist) {
@@ -85,6 +90,14 @@ export class ApiService {
   deletePlaylist(token: string | undefined, id: string) {
     const url = `playlist/${id}?token=${token}`;
     return this._requestLocal('DELETE', url);
+  }
+
+  getGenre(id: string): Observable<Genres> {
+    return this._requestPrivateAPI('GET', 'genre/' + id);
+  }
+
+  getGenreArtists(id: string): Observable<{ data: Artist[] }> {
+    return this._requestPrivateAPI('GET', `genre/${id}/artists`);
   }
 
   private _request(method: Method, path: string, body?: any): Observable<any> {
@@ -125,8 +138,14 @@ export class ApiService {
     path: string,
     body?: any
   ): Observable<any> {
-    const url = `localhost:3000` + path;
+    let headers = new HttpHeaders();
+    const url = `http://localhost:3000/` + path;
 
-    return this.http.request(method, url);
+    const options = {
+      headers: headers,
+      body: body,
+    };
+
+    return this.http.request(method, url, options);
   }
 }

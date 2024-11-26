@@ -16,6 +16,9 @@ import { Song } from '../../interfaces/song.interface';
 import { UserService } from '../../../core/services/user.service';
 import { LoaderComponent } from '../loader/loader.component';
 import { ToastService } from '../../../core/services/toast.service';
+import { ApiService } from '../../../core/services/api.service';
+import { CookieService } from '../../../core/services/cookie.service';
+import { UserApiService } from '../../../core/services/user-api.service';
 
 @Component({
   selector: 'app-song',
@@ -48,16 +51,20 @@ export class SongComponent implements OnInit {
     private audio: AudioService,
     private songData: SongService,
     private userService: UserService,
-    private toast: ToastService
+    private toast: ToastService,
+    private api: ApiService,
+    private cookie: CookieService,
+    private userApiService: UserApiService
   ) {
     effect(() => {
       this.isCurrentSong = this.checkIsCurrentSong()
-      const user = this.userService.getUser()
-      this.isFavorite = user?.favoriteSongs.some((el: Song) => el.id === this.song.id) ?? false
     })
   }
 
   ngOnInit(): void {
+    const favoriteSongs = this.userService.select('favoriteSongs')
+    this.isFavorite = favoriteSongs()?.some((el: Song) => el.id === this.song.id) ?? false
+
     this.isPlaying$ = this.audio.audioChanges.pipe(
       filter((el) => el.type === 'time'),
       map((el) => el.data)
@@ -87,9 +94,14 @@ export class SongComponent implements OnInit {
     return index === (this.song.contributors?.length ?? 1) - 1;
   }
 
+  addToAlbum() {
+    const token = this.cookie.get('access_token')
+    this.api.addTrackToPlaylist(token, [this.song], 11).subscribe((el: any) => console.log(el))
+  }
+
   toggleFavorite() {
     this.isFavotiteLoading = true;
-    this.userService.addToFavotiteSong(this.song).subscribe((res) => {
+    this.userApiService.addToFavotiteSong(this.song).subscribe((res) => {
       if (res?.id) {
         this.userService.setUser(res);
         this.isFavorite = !this.isFavorite;
