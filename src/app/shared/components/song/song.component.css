@@ -23,8 +23,12 @@
   @apply visible;
 }
 
+:host .hover-song {
+  @apply bg-[var(--border-color)] hover:bg-[var(--border-color)];
+}
+
 .song {
-  @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-default transition-none;
+  @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-default transition-none relative;
 
   /* &:hover .favorite-button {}
 
@@ -67,4 +71,8 @@
 
 svg {
   @apply w-8 h-8
+}
+
+.more-button {
+  position: relative;
 }

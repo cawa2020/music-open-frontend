@@ -100,7 +100,7 @@
     }
   </div>
   @if (isMenuOpen) {
-  <div #menu @fadeIn @fadeOut class="left-hidden-block menu">
+  <div #menu @fadeInOut class="left-hidden-block menu">
     <button class="menu-item flex items-center gap-3 hover:underline" (click)="toggleMode()">
       <!-- <ion-icon [name]="themeIcon" /> -->
       <p>{{currentTheme}} mode</p>

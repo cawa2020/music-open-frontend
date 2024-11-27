@@ -42,7 +42,7 @@ export class FavoritePlaylistsComponent {
 
   onRightClick(event: MouseEvent) {
     event.preventDefault()
-    this.contextMenu.open({ items: [{ event: () => this.createPlaylist(this.cookie, this.api, this.userService), title: 'Create playlist' }], position: [event.clientX, event.clientY] })
+    this.contextMenu.open({ id: 'favorite-playlists', items: [{ event: () => this.createPlaylist(this.cookie, this.api, this.userService), title: 'Create playlist' }], position: [event.clientX, event.clientY] })
   }
 
   ngOnDestroy(): void { }

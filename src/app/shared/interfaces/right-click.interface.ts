@@ -4,6 +4,8 @@ export type ContextMenuItems = {
 }
 
 export interface ContextMenuEvent {
+  id: string;
   items: ContextMenuItems[],
   position: number[]
+  parent?: HTMLElement;
 }

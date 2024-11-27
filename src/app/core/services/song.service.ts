@@ -46,6 +46,13 @@ export class SongService {
     this.queue.set(tracks)
   }
 
+  addToQueue(tracks: Song[]): void {
+    const queue = this.queue()
+    const currentSongIndex = queue.findIndex(song => song.id === this.song()?.id)
+    queue.splice(currentSongIndex + 1, 0, ...tracks)
+    this.queue.set(queue)
+  }
+
   getQueue(): Song[] {
     return this.queue()
   }

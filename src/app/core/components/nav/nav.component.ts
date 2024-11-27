@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { User } from '../../../shared/interfaces/auth.interface';
 import { ModalComponent } from "../modal/modal.component";
 import { AuthFormComponent } from '../auth-form/auth-form.component';
-import { scaleInOut } from '../../../shared/animations/scaleInOut';
+import { fadeInOut } from '../../../shared/animations/fadeInOut';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
   imports: [RouterLink, MatIconModule, FormsModule, AuthFormComponent, ModalComponent],
-  animations: [scaleInOut],
+  animations: [fadeInOut],
 })
 export class NavComponent {
   public color: string = localStorage.getItem('mainColor') ?? '#3b82f6'

@@ -3,7 +3,7 @@
 }
 
 .user-music {
-  @apply hidden lg:flex flex-col h-full p-[10px] gap-[10px] w-[var(--user-music-width)] rounded-default;
+  @apply hidden lg:flex flex-col h-full px-[10px] gap-[10px] w-[var(--user-music-width)] rounded-default;
 }
 
 .active-side-bar {
@@ -18,5 +18,5 @@
 }
 
 .not-login-message {
-  @apply grid gap-4 bg-default p-5 rounded bg-default;
+  @apply grid gap-4 bg-[var(--border-color)] p-5 rounded;
 }

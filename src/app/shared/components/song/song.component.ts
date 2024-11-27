@@ -6,19 +6,16 @@ import {
 } from '@angular/core';
 import { AudioService } from '../../../core/services/audio.service';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SongService } from '../../../core/services/song.service';
 import { Observable, filter, map, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TimePipe } from '../../pipes/time.pipe';
-import { TooltipDirective } from '../../directives/tooltip.directive';
 import { Song } from '../../interfaces/song.interface';
 import { UserService } from '../../../core/services/user.service';
-import { LoaderComponent } from '../loader/loader.component';
 import { ToastService } from '../../../core/services/toast.service';
-import { ApiService } from '../../../core/services/api.service';
-import { CookieService } from '../../../core/services/cookie.service';
 import { UserApiService } from '../../../core/services/user-api.service';
+import { ContextMenuService } from '../../../core/services/context-menu.service';
 
 @Component({
   selector: 'app-song',
@@ -30,8 +27,6 @@ import { UserApiService } from '../../../core/services/user-api.service';
     RouterLink,
     CommonModule,
     TimePipe,
-    TooltipDirective,
-    LoaderComponent,
   ],
 })
 export class SongComponent implements OnInit {
@@ -52,9 +47,9 @@ export class SongComponent implements OnInit {
     private songData: SongService,
     private userService: UserService,
     private toast: ToastService,
-    private api: ApiService,
-    private cookie: CookieService,
-    private userApiService: UserApiService
+    private contextMenuService: ContextMenuService,
+    private userApiService: UserApiService,
+    private router: Router
   ) {
     effect(() => {
       this.isCurrentSong = this.checkIsCurrentSong()
@@ -94,9 +89,30 @@ export class SongComponent implements OnInit {
     return index === (this.song.contributors?.length ?? 1) - 1;
   }
 
-  addToAlbum() {
-    const token = this.cookie.get('access_token')
-    this.api.addTrackToPlaylist(token, [this.song], 11).subscribe((el: any) => console.log(el))
+  toggleActions(event: MouseEvent) {
+    event.preventDefault()
+    const parent = (event.target as HTMLElement).parentElement
+    const height = parent?.clientHeight ?? 0
+    const coords = parent?.getBoundingClientRect() ?? { x: 0, y: 0 }
+    const items = [
+      { title: 'Добавить в очередь', event: () => { this.songData.addToQueue([this.song]) } },
+      { title: 'Добавить в избранное', event: () => { this.toggleFavorite() } },
+      { title: 'Перейти к артисту', event: () => { this.router.navigate(['/artist', this.song.artist.id]) } },
+      { title: 'Перейти к альбому', event: () => { this.router.navigate(['/album', this.song.album.id]) } }
+    ]
+
+    console.log(this.contextMenuService.getEvent().id, this.song.id.toString())
+    if (this.contextMenuService.getEvent().id === this.song.id.toString()) {
+      this.contextMenuService.close()
+      return
+    }
+
+    this.contextMenuService.open({
+      parent: parent ?? undefined,
+      id: this.song.id.toString(),
+      items: items,
+      position: [coords.x, coords.y + height + 20]
+    })
   }
 
   toggleFavorite() {

@@ -47,6 +47,6 @@ export class AlbumCardComponent {
 
   onRightClick(event: MouseEvent) {
     event.preventDefault()
-    this.contextMenu.open({ items: [{ event: this.pinAlbum, title: 'pin album' }], position: [event.clientX, event.clientY] })
+    this.contextMenu.open({ id: this.album.id.toString(), items: [{ event: this.pinAlbum, title: 'pin album' }], position: [event.clientX, event.clientY] })
   }
 }
