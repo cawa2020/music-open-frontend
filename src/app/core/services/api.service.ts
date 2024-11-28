@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { AlbumBrief, Genres } from '../../shared/interfaces/album.interface';
+import { Album, AlbumBrief, Genres } from '../../shared/interfaces/album.interface';
 import { Artist } from '../../shared/interfaces/artist.interface';
 import { CreatePlaylist, Playlist } from '../../shared/interfaces/playlist.interface';
 import { Method } from '../../shared/interfaces/app.interface';
@@ -55,12 +55,16 @@ export class ApiService {
     return this._requestPrivateAPI('GET', `artist/${id}/playlists`);
   }
 
-  getAlbum(id: number) {
+  getAlbum(id: number): Observable<Album> {
     return this._request('GET', 'album/' + id);
   }
 
   getAlbumTracks(id: number): Observable<{ data: SongBrief[] }> {
     return this._requestPrivateAPI('GET', 'album/' + id + '/tracks');
+  }
+
+  getSong(id: number): Observable<Song> {
+    return this._request('GET', 'track/' + id);
   }
 
   getBySearch(word: string): Observable<any> {

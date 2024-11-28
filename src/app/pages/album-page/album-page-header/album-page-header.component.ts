@@ -8,53 +8,27 @@ import { UserService } from '../../../core/services/user.service';
 import { PlayButtonComponent } from '../../../shared/components/play-button/play-button.component';
 import { Album } from '../../../shared/interfaces/album.interface';
 import { UserApiService } from '../../../core/services/user-api.service';
+import { FavoriteButtonComponent } from "../../../shared/components/favorite-button/favorite-button.component";
 
 @Component({
   selector: 'app-album-page-header',
   standalone: true,
-  imports: [RouterLink, CommonModule, PlayButtonComponent],
+  imports: [RouterLink, CommonModule, PlayButtonComponent, FavoriteButtonComponent],
   templateUrl: './album-page-header.component.html',
   styleUrl: './album-page-header.component.css'
 })
-export class AlbumPageHeaderComponent implements OnChanges {
+export class AlbumPageHeaderComponent {
   @Input() album!: Album
-  public isPlaying: boolean = false;
-  public isFavoriteLoading: boolean = false;
-  public isFavorite = computed(() => {
-    const userAlbums = this.userService.user()?.favoriteAlbums ?? []
-    return userAlbums.some(album => album.id === this.album.id);
-  });
 
   constructor(
     private audio: AudioService,
     private songData: SongService,
-    private userService: UserService,
-    private userApiService: UserApiService,
   ) { }
-
-  ngOnChanges(): void {
-    this.initIsPlaying()
-  }
-
-  addToFavorite() {
-    this.isFavoriteLoading = true
-    this.userApiService.addToFavotiteAlbum(this.album).subscribe((user) => {
-      if (!user) return;
-      this.userService.setUser(user)
-      this.isFavoriteLoading = false
-    });
-  }
 
   playShuffle() {
     this.songData.setQueue(this.album.tracks.data)
     this.songData.setShuffle(true)
     this.audio.setSong(this.songData.getQueue()[0])
     this.audio.playSong()
-  }
-
-  private initIsPlaying() {
-    this.audio.audioChanges
-      .pipe(filter((el) => el.type === 'time'))
-      .subscribe((el) => this.isPlaying = el.data && this.songData.compareQueues(this.album.tracks.data));
   }
 }

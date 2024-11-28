@@ -4,11 +4,8 @@
     <app-loader />
   </div>
   } @else {
-  <div class="flex items-end mb-4 gap-2">
-    <img class="rounded-default" src={{genre.picture_medium}} alt="">
-    <h2>{{genre.name}}</h2>
-  </div>
-  <h5 class="mb-4">Artists you may like</h5>
+  <h3 class="mb-1">{{genre.name}}</h3>
+  <p class="sub-text mb-4">Artists you may like</p>
   <div class="container">
     @for (artist of genreArtist; track artist.id) {
     <app-artist-card [artist]="artist" />

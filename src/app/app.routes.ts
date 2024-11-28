@@ -16,6 +16,7 @@ import { FavoritePlaylistsComponent } from './pages/favorite-playlists/favorite-
 import { FavoriteSongsComponent } from './pages/favorite-songs/favorite-songs.component';
 import { FavoriteAlbumsComponent } from './pages/favorite-albums/favorite-albums.component';
 import { GenreComponent } from './pages/genre/genre.component';
+import { SongPageComponent } from './pages/song-page/song-page.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,9 @@ export const routes: Routes = [
   },
   {
     path: 'album/:id', component: AlbumPageComponent
+  },
+  {
+    path: 'song/:id', component: SongPageComponent
   },
   {
     path: 'playlist/:id', component: PlaylistComponent

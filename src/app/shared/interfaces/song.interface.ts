@@ -17,8 +17,8 @@ export interface Song {
   md5_image: string
   artist: ArtistBrief
   album: Album | AlbumBrief
-  type: string
   contributors?: Artist[]
+  type: 'track'
 }
 
 export interface SongBrief {
@@ -39,5 +39,5 @@ export interface SongBrief {
   preview: string
   md5_image: string
   artist: ArtistBrief
-  type: string
+  type: 'track'
 }

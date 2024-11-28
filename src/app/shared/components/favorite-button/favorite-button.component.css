@@ -1,0 +1,7 @@
+button.text-button {
+  @apply bg-[var(--border-color)] text-default;
+}
+
+button {
+  @apply w-[inherit] h-[inherit];
+}

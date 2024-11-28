@@ -15,6 +15,7 @@ import { Song } from '../../../shared/interfaces/song.interface';
 import { UserService } from '../../services/user.service';
 import { ToastService } from '../../services/toast.service';
 import { UserApiService } from '../../services/user-api.service';
+import { FavoriteButtonComponent } from "../../../shared/components/favorite-button/favorite-button.component";
 
 @Component({
   selector: 'app-player',
@@ -22,50 +23,16 @@ import { UserApiService } from '../../services/user-api.service';
   templateUrl: './player.component.html',
   styleUrl: './player.component.css',
   providers: [HttpClientModule],
-  imports: [TooltipDirective, SlidingTextDirective, RouterLink, FormsModule, HttpClientModule, ZenComponent, ControlsComponent, SliderTimeComponent, VolumeEditorComponent, TimePipe]
+  imports: [TooltipDirective, SlidingTextDirective, RouterLink, FormsModule, HttpClientModule, ZenComponent, ControlsComponent, SliderTimeComponent, VolumeEditorComponent, TimePipe, FavoriteButtonComponent]
 })
-export class PlayerComponent implements OnInit {
+export class PlayerComponent {
   public zen: boolean = false
   public song: Signal<Song | null> = computed(() => this.songData.getSong())
-  public isFavorite: Signal<boolean> = computed(() => {
-    const songs = this.userService.select('favoriteSongs')
-    return songs().some((el: Song) => el.id === this.song()?.id) ?? false
-  })
-  public isFavotiteLoading: boolean = false;
 
   constructor(
     private audioService: AudioService,
     private songData: SongService,
-    private userService: UserService,
-    private userApiService: UserApiService,
-    private toast: ToastService
   ) { }
-
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-
-  }
-
-  toggleFavorite() {
-    const song = this.song()
-    if (!song) return
-    this.isFavotiteLoading = true;
-    this.userApiService.addToFavotiteSong(song).subscribe((res) => {
-      if (res?.id) {
-        this.userService.setUser(res);
-        // !!!!!!!!!
-        if (this.isFavorite()) {
-          this.toast.success('Песня добавлена в "Избранные треки"');
-        } else {
-          this.toast.success('Песня убрана из "Избранные треки"');
-        }
-      } else if (res !== null) {
-        this.toast.error('Что-то пошло не так...');
-      }
-      this.isFavotiteLoading = false;
-    });
-  }
 
   onToggleZen(newValue?: boolean) {
     if (!this.audioService.getAudio().src.length) return
@@ -78,14 +45,5 @@ export class PlayerComponent implements OnInit {
 
   isLastElement(index: number): boolean {
     return index === (this.song()?.contributors?.length ?? 1) - 1
-  }
-
-  addToFavorite() {
-    const song = this.song()
-    if (!song) return
-    this.userApiService.addToFavotiteSong(song).subscribe((user) => {
-      if (!user) return
-      this.userService.setUser(user)
-    })
   }
 }

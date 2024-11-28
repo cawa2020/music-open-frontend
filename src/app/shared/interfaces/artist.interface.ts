@@ -26,6 +26,7 @@ export interface Artist {
   picture_xl: string
   tracklist: string
   type: 'artist'
+  role: string
 }
 
 

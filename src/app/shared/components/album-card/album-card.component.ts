@@ -8,11 +8,13 @@ import { SongService } from '../../../core/services/song.service';
 import { Album, AlbumBrief } from '../../interfaces/album.interface';
 import { Song } from '../../interfaces/song.interface';
 import { ContextMenuService } from '../../../core/services/context-menu.service';
+import { PlayButtonComponent } from "../play-button/play-button.component";
+import { FavoriteButtonComponent } from "../favorite-button/favorite-button.component";
 
 @Component({
   selector: 'app-album-card',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, PlayButtonComponent, FavoriteButtonComponent],
   templateUrl: './album-card.component.html',
   styleUrl: './album-card.component.css',
   animations: []
@@ -20,26 +22,8 @@ import { ContextMenuService } from '../../../core/services/context-menu.service'
 
 export class AlbumCardComponent {
   @Input({ required: true }) album!: Album | AlbumBrief
-  public isFavotiteLoading = false
-  public isFavorite = false
 
-  constructor(private player: AudioService, private api: ApiService, private songData: SongService, private contextMenu: ContextMenuService) { }
-
-  playAlbum() {
-    this.api.getAlbumTracks(this.album.id).pipe(map(res => res.data), take(1)).subscribe(tracks => {
-      const queue: Song[] = tracks.map((el) => {
-        return { ...el, album: this.album }
-      })
-
-      this.songData.setQueue(queue)
-      this.player.setSong(queue[0])
-      this.player.playSong()
-    })
-  }
-
-  toggleFavorite() {
-
-  }
+  constructor(private contextMenu: ContextMenuService) { }
 
   pinAlbum(): void {
     console.log('pinned!')

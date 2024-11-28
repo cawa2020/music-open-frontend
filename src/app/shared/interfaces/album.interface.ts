@@ -47,7 +47,7 @@ export interface AlbumBrief {
   record_type: string
   tracklist: string
   explicit_lyrics: boolean
-  type: string
+  type: 'album'
 }
 
 export interface Genres {

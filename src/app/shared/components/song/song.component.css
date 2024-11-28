@@ -4,7 +4,7 @@
 }
 
 .favorite-button {
-  @apply w-fit flex justify-end items-center;
+  @apply w-[32px] h-[32px] flex justify-end items-center;
 }
 
 .daun {

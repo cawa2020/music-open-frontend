@@ -1,0 +1,75 @@
+<section class="h-full overflow-auto section-adaptive">
+  @if (!song) {
+  <div class="flex justify-center items-center w-full h-full">
+    <app-loader />
+  </div>
+  } @else {
+  <div class="flex gap-[60px]">
+    <img class="song-img" [src]="song.album.cover_big" alt="cover" (click)="toggleFullCover()" />
+    <!-- <div class="album-right__genres">
+        @for (genre of song.genres?.data; track $index) {
+        <a [routerLink]="['/genre/' + genre.id]" class="genre">
+          {{genre.name}}
+        </a>
+        }
+      </div> -->
+    <div class="song-info">
+      <h3>{{ song.title }}</h3>
+
+      <div class="flex items-center gap-[5px]">
+        <a [routerLink]="['/album', song.album.id]">{{ song.album.title }}</a>
+        &nbsp;·&nbsp;<span class="sub-text"> {{ song.album.release_date | date: 'YYYY' }}</span>
+        &nbsp;·&nbsp;<span class="sub-text"> {{ song.duration | time }}</span>
+      </div>
+
+      <div class="flex items-center gap-[14px]">
+        <app-play-button [queue]="[song]" />
+        <app-favorite-button [data]="song" />
+        <button>
+          <svg width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="20" height="20" rx="3" transform="matrix(1 0 0 -1 10.2487 32.248)" stroke="#888888"
+              stroke-width="2" stroke-linejoin="round" />
+            <path
+              d="M12.2487 12.248H28.2487V12.248C28.2487 10.5912 26.9055 9.24805 25.2487 9.24805H15.2487C13.5918 9.24805 12.2487 10.5912 12.2487 12.248V12.248Z"
+              stroke="#888888" stroke-width="1.5" stroke-linejoin="round" />
+            <path d="M16.2487 22.248H20.2487M24.2487 22.248H20.2487M20.2487 22.248V18.248M20.2487 22.248V26.248"
+              stroke="#888888" stroke-width="2.02054" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <button>
+          <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M19.5312 11.9609H14.7604C13.2106 11.9609 11.9541 13.2174 11.9541 14.7672V14.7672C11.9541 16.3171 13.2106 17.5736 14.7604 17.5736H19.5312"
+              stroke="#888888" stroke-width="2.3573" stroke-linecap="round" />
+            <path d="M11.9541 23.1855L28.792 23.1855" stroke="#888888" stroke-width="2.3573" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M11.9541 28.7988L28.792 28.7988" stroke="#888888" stroke-width="2.3573" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M23.7406 14.4866H26.2663M28.792 14.4866H26.2663M26.2663 14.4866V11.9609M26.2663 14.4866V17.0123"
+              stroke="#888888" stroke-width="2.02054" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="song-artists">
+        @for (artist of song.contributors; track artist.id) {
+        <a class="song-artists-item" [routerLink]="['/artist', artist.id]">
+          <img [src]="artist.picture_small" alt="ava">
+          <div class="song-artists-item__info">
+            <span>{{ artist.name }}</span>
+            <span class="sub-text">{{ artist.role }}</span>
+          </div>
+        </a>
+        }
+      </div>
+    </div>
+  </div>
+  }
+</section>
+
+<app-modal [triggerOpen]="triggerModal">
+  <div class="full-cover-container">
+    <img [src]="song?.album?.cover_xl" class="full-cover">
+    <button (click)="toggleFullCover()" class="mt-6 text-lg font-medium">Close</button>
+  </div>
+</app-modal>

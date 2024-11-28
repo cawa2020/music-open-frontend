@@ -16,6 +16,7 @@ import { UserService } from '../../../core/services/user.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { UserApiService } from '../../../core/services/user-api.service';
 import { ContextMenuService } from '../../../core/services/context-menu.service';
+import { FavoriteButtonComponent } from "../favorite-button/favorite-button.component";
 
 @Component({
   selector: 'app-song',
@@ -27,7 +28,8 @@ import { ContextMenuService } from '../../../core/services/context-menu.service'
     RouterLink,
     CommonModule,
     TimePipe,
-  ],
+    FavoriteButtonComponent
+],
 })
 export class SongComponent implements OnInit {
   @Input({ required: true }) song!: Song;
@@ -39,8 +41,6 @@ export class SongComponent implements OnInit {
   @Input() hideIndex?: boolean;
   public isPlaying$!: Observable<boolean>;
   public isCurrentSong: boolean = false;
-  public isFavorite: boolean = false;
-  public isFavotiteLoading: boolean = false;
 
   constructor(
     private audio: AudioService,
@@ -57,9 +57,6 @@ export class SongComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const favoriteSongs = this.userService.select('favoriteSongs')
-    this.isFavorite = favoriteSongs()?.some((el: Song) => el.id === this.song.id) ?? false
-
     this.isPlaying$ = this.audio.audioChanges.pipe(
       filter((el) => el.type === 'time'),
       map((el) => el.data)
@@ -115,21 +112,13 @@ export class SongComponent implements OnInit {
     })
   }
 
-  toggleFavorite() {
-    this.isFavotiteLoading = true;
+  private toggleFavorite() {
     this.userApiService.addToFavotiteSong(this.song).subscribe((res) => {
       if (res?.id) {
         this.userService.setUser(res);
-        this.isFavorite = !this.isFavorite;
-        if (this.isFavorite) {
-          this.toast.success('Песня добавлена в "Избранные треки"');
-        } else {
-          this.toast.success('Песня убрана из "Избранные треки"');
-        }
       } else if (res !== null) {
         this.toast.error('Что-то пошло не так...');
       }
-      this.isFavotiteLoading = false;
     });
   }
 
