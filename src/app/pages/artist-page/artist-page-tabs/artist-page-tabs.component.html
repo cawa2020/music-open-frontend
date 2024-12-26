@@ -8,7 +8,7 @@
 
 <div class="tab-content">
   @switch (currentTab) {
-  @case ('home') {<app-home />}
+  @case ('home') {<app-home [id$]="id$" />}
   @case ('album') {<app-albums />}
   @case ('single') {<app-singles /> }
   @case ('related') {<app-related />}

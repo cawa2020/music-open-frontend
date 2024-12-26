@@ -1,11 +1,10 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AudioService } from '../../../core/services/audio.service';
 import { SongService } from '../../../core/services/song.service';
 import { MatIconModule } from '@angular/material/icon';
 import { Song } from '../../interfaces/song.interface';
-import { filter, map, take, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../../core/services/api.service';
-import { Album } from '../../interfaces/album.interface';
 
 @Component({
   selector: 'app-play-button',

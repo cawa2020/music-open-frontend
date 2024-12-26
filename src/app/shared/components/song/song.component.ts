@@ -2,13 +2,16 @@ import {
   Component,
   Input,
   OnInit,
+  Signal,
+  computed,
   effect,
+  signal,
 } from '@angular/core';
 import { AudioService } from '../../../core/services/audio.service';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
 import { SongService } from '../../../core/services/song.service';
-import { Observable, filter, map, take } from 'rxjs';
+import { Observable, filter, map, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TimePipe } from '../../pipes/time.pipe';
 import { Song } from '../../interfaces/song.interface';
@@ -17,6 +20,9 @@ import { ToastService } from '../../../core/services/toast.service';
 import { UserApiService } from '../../../core/services/user-api.service';
 import { ContextMenuService } from '../../../core/services/context-menu.service';
 import { FavoriteButtonComponent } from "../favorite-button/favorite-button.component";
+import { ModalComponent } from "../../../core/components/modal/modal.component";
+import { Playlist } from '../../interfaces/playlist.interface';
+import { SongFormSaveToPlaylistComponent } from "./components/song-form-save-to-playlist/song-form-save-to-playlist.component";
 
 @Component({
   selector: 'app-song',
@@ -28,7 +34,9 @@ import { FavoriteButtonComponent } from "../favorite-button/favorite-button.comp
     RouterLink,
     CommonModule,
     TimePipe,
-    FavoriteButtonComponent
+    FavoriteButtonComponent,
+    ModalComponent,
+    SongFormSaveToPlaylistComponent
 ],
 })
 export class SongComponent implements OnInit {
@@ -40,6 +48,7 @@ export class SongComponent implements OnInit {
   @Input() hideArtist?: boolean;
   @Input() hideIndex?: boolean;
   public isPlaying$!: Observable<boolean>;
+  public triggerModal = new Subject<boolean>();
   public isCurrentSong: boolean = false;
 
   constructor(
@@ -86,6 +95,10 @@ export class SongComponent implements OnInit {
     return index === (this.song.contributors?.length ?? 1) - 1;
   }
 
+  hideModal() {
+    this.triggerModal.next(false)
+  }
+
   toggleActions(event: MouseEvent) {
     event.preventDefault()
     const parent = (event.target as HTMLElement).parentElement
@@ -95,10 +108,10 @@ export class SongComponent implements OnInit {
       { title: 'Добавить в очередь', event: () => { this.songData.addToQueue([this.song]) } },
       { title: 'Добавить в избранное', event: () => { this.toggleFavorite() } },
       { title: 'Перейти к артисту', event: () => { this.router.navigate(['/artist', this.song.artist.id]) } },
-      { title: 'Перейти к альбому', event: () => { this.router.navigate(['/album', this.song.album.id]) } }
+      { title: 'Перейти к альбому', event: () => { this.router.navigate(['/album', this.song.album.id]) } },
+      { title: 'Добавить в плейлист', event: () => { this.addToPlaylist() } }
     ]
 
-    console.log(this.contextMenuService.getEvent().id, this.song.id.toString())
     if (this.contextMenuService.getEvent().id === this.song.id.toString()) {
       this.contextMenuService.close()
       return
@@ -126,5 +139,9 @@ export class SongComponent implements OnInit {
     const isSameSong = this.song.id === this.songData.getSong()?.id;
     if (!isSameSong) return false;
     return this.songData.compareQueues(this.queue);
+  }
+
+  private addToPlaylist() {
+    this.triggerModal.next(true)
   }
 }

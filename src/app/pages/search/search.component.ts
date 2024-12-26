@@ -1,19 +1,19 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../core/services/api.service';
 import { FormsModule } from '@angular/forms';
-import { Subject, debounceTime } from 'rxjs';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SongComponent } from "../../shared/components/song/song.component";
 import { AudioService } from '../../core/services/audio.service';
 import { LoaderComponent } from "../../shared/components/loader/loader.component";
 import { Song } from '../../shared/interfaces/song.interface';
+import { Artist } from '../../shared/interfaces/artist.interface';
 
 @Component({
   selector: 'app-search',
   standalone: true,
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
-  imports: [FormsModule, RouterLink, SongComponent, LoaderComponent]
+  imports: [FormsModule, SongComponent, LoaderComponent]
 })
 export class SearchComponent implements OnInit, AfterViewInit {
   @ViewChild('input') input!: ElementRef
@@ -54,5 +54,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.findedSongs = res.data
       this.loading = false
     })
+
+    // this.api.getByArtistSearch(search).subscribe((res: { data: Artist[] }) => {
+    //   console.log(res)
+    //   // this.findedArtists = res.data
+    // })
   }
 }

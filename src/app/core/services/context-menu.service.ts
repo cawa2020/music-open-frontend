@@ -5,10 +5,11 @@ import { ContextMenuEvent } from '../../shared/interfaces/right-click.interface'
   providedIn: 'root'
 })
 export class ContextMenuService {
-  private event = signal<ContextMenuEvent>({ id: '', items: [], position: [0, 0] });
+  private event = signal<ContextMenuEvent | null>(null);
 
   getEvent(): ContextMenuEvent {
-    return this.event()
+    const emptyEvent = { id: '', items: [], position: [0, 0] }
+    return this.event() ?? emptyEvent
   }
 
   open(info: ContextMenuEvent): void {
@@ -16,7 +17,6 @@ export class ContextMenuService {
   }
 
   close(): void {
-    console.log(1)
-    this.event.set({ id: '', items: [], position: [0, 0] })
+    this.event.set(null)
   }
 }

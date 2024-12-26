@@ -1,11 +1,11 @@
 import { Component, computed, inject, Signal } from '@angular/core';
 import { Playlist } from '../../shared/interfaces/playlist.interface';
 import { UserService } from '../../core/services/user.service';
-import { Subject, takeUntil } from 'rxjs';
 import { PlaylistCardComponent } from "../../shared/components/playlist-card/playlist-card.component";
 import { ContextMenuService } from '../../core/services/context-menu.service';
 import { ApiService } from '../../core/services/api.service';
 import { CookieService } from '../../core/services/cookie.service';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-favorite-playlists',
@@ -20,29 +20,24 @@ export class FavoritePlaylistsComponent {
     if (!user) return []
     // !!!!!!!!!!!!!!! createdPlaylists netu polya
     // return [...user?.favoritePlaylists, ...user?.createdPlaylists]
-    return [...user?.favoritePlaylists]
+    return [...user?.favoritePlaylists, ...user?.playlists]
   })
 
-  constructor(private userService: UserService, private contextMenu: ContextMenuService, private cookie: CookieService, private api: ApiService) { }
+  constructor(private userService: UserService, private contextMenu: ContextMenuService, private api: ApiService, private toastService: ToastService) { }
 
-  ngOnInit(): void {
-  }
-
-  createPlaylist(cookie: any, api: any, user: any) {
-    const token = cookie.get('access_token');
-    if (!token) return
-    const createdPlaylists = user.getUser()?.createdPlaylists
+  createPlaylist(api: ApiService, user: UserService) {
+    const createdPlaylists = user.user()?.playlists
     if (!createdPlaylists) return
 
-    api.createPlaylist(token, {
+    api.createPlaylist({
       title: `My Playlist #${createdPlaylists.length}`,
       songs: []
-    }).subscribe((el: any) => console.log(el))
+    }).subscribe((el: any) => this.toastService.success('Плейлист успешно создан!'))
   }
 
   onRightClick(event: MouseEvent) {
     event.preventDefault()
-    this.contextMenu.open({ id: 'favorite-playlists', items: [{ event: () => this.createPlaylist(this.cookie, this.api, this.userService), title: 'Create playlist' }], position: [event.clientX, event.clientY] })
+    this.contextMenu.open({ id: 'favorite-playlists', items: [{ event: () => this.createPlaylist(this.api, this.userService), title: 'Create playlist' }], position: [event.clientX, event.clientY] })
   }
 
   ngOnDestroy(): void { }

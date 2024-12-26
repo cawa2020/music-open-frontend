@@ -1,17 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Album, AlbumBrief, Genres } from '../../shared/interfaces/album.interface';
 import { Artist } from '../../shared/interfaces/artist.interface';
 import { CreatePlaylist, Playlist } from '../../shared/interfaces/playlist.interface';
 import { Method } from '../../shared/interfaces/app.interface';
 import { Song, SongBrief } from '../../shared/interfaces/song.interface';
+import { CookieService } from './cookie.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private http: HttpClient) { }
+  private cookieService = inject(CookieService)
+  private http = inject(HttpClient)
+
+  private token = this.cookieService.get('access_token')
 
   getArtist(id: number): Observable<Artist> {
     return this._request('GET', 'artist/' + id);
@@ -68,31 +72,36 @@ export class ApiService {
   }
 
   getBySearch(word: string): Observable<any> {
-    const path = 'search?q=' + word;
+    const path = `search?q=${word}`;
     return this._request('GET', path);
   }
 
-  getPlaylist(id: number) {
+  getByArtistSearch(word: string): Observable<any> {
+    const path = `search?q=artist:${word}`;
+    return this._request('GET', path);
+  }
+
+  getPlaylist(id: number): Observable<Playlist> {
     return this._requestLocal('GET', 'playlist/' + id);
   }
 
-  createPlaylist(token: string | undefined, body: CreatePlaylist) {
-    const url = `playlist/?token=${token}`;
+  createPlaylist(body: CreatePlaylist) {
+    const url = `playlist?token=${this.token}`;
     return this._requestLocal('POST', url, body);
   }
 
-  addTrackToPlaylist(token: string | undefined, body: Song[], id: number) {
-    const url = `playlist/${id}/songs?token=${token}`;
+  addTrackToPlaylist(body: Song[], id: number) {
+    const url = `playlist/${id}/songs?token=${this.token}`;
     return this._requestLocal('PATCH', url, body);
   }
 
-  updatePlaylist(token: string | undefined, id: string, body: Playlist) {
-    const url = `playlist/${id}?token=${token}`;
+  updatePlaylist(id: string, body: Playlist) {
+    const url = `playlist/${id}?token=${this.token}`;
     return this._requestLocal('PUT', url, body);
   }
 
-  deletePlaylist(token: string | undefined, id: string) {
-    const url = `playlist/${id}?token=${token}`;
+  deletePlaylist(id: string) {
+    const url = `playlist/${id}?token=${this.token}`;
     return this._requestLocal('DELETE', url);
   }
 

@@ -28,7 +28,6 @@ export interface User {
   favoriteArtists: Artist[]
   favoritePlaylists: Playlist[]
   favoriteAlbums: Album[]
-  createdPlaylists: Playlist[]
   recently_played: (Playlist | Album)[]
   playlists: Playlist[]
 }

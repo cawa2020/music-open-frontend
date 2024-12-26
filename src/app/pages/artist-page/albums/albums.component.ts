@@ -1,36 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AlbumBrief } from '../../../shared/interfaces/album.interface';
 import { ApiService } from '../../../core/services/api.service';
 import { AlbumCardComponent } from "../../../shared/components/album-card/album-card.component";
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderComponent } from "../../../shared/components/loader/loader.component";
+import { filter, map, switchMap } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-albums',
-    standalone: true,
-    templateUrl: './albums.component.html',
-    styleUrl: './albums.component.css',
-    imports: [AlbumCardComponent, LoaderComponent]
+  selector: 'app-albums',
+  standalone: true,
+  templateUrl: './albums.component.html',
+  styleUrl: './albums.component.css',
+  imports: [AlbumCardComponent, LoaderComponent, CommonModule]
 })
-export class AlbumsComponent implements OnInit {
-  public albums: AlbumBrief[] | null = null
+export class AlbumsComponent {
+  private api = inject(ApiService)
+  private router = inject(ActivatedRoute)
 
-  constructor(private api: ApiService, private router: ActivatedRoute) { }
+  private id$ = this.router.params.pipe(map(params => params['id']));
+  public albums$ = this.id$.pipe(
+    switchMap(id => this.api.getArtistAlbums(id)),
+    map(res => this.sortByDate(res.data),
+      filter((record: any) => record.record_type == 'album'))
+  );
 
-  ngOnInit(): void {
-    this.router.params.subscribe((params) => {
-      this.albums = null
-      const artistId = Number(params['id']);
-      this.initAlbums(artistId)
-    });
-  }
-
-  private initAlbums(artistId: number) {
-    this.api.getArtistAlbums(artistId).subscribe((res) => {
-      const sortedAlbums = this.sortByDate(res.data)
-      this.albums = sortedAlbums.filter(album => album.record_type == 'album');
-    })
-  }
 
   private sortByDate(arr: AlbumBrief[]): AlbumBrief[] {
     return arr.sort((a, b) => {

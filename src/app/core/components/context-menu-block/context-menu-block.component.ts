@@ -18,6 +18,7 @@ const block_width = 240
 export class ContextMenuBlockComponent {
   public contextMenuEvent: Signal<ContextMenuEvent> = computed(() => {
     const event = this.contextMenuService.getEvent()
+    if (!event) return event
     if (event.position[0] + block_width > window.innerWidth) {
       event.position[0] = event.position[0] - block_width / 1.5
     }

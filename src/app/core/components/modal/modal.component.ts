@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { scaleInOut } from '../../../shared/animations/scaleInOut';
 import { Subject } from 'rxjs';
 
@@ -11,13 +11,13 @@ import { Subject } from 'rxjs';
   animations: [scaleInOut]
 })
 export class ModalComponent {
-  @Input({required: true}) triggerOpen!: Subject<boolean>
+  @Input({ required: true }) triggerOpen!: Subject<boolean>
   public isOpen = false
 
   constructor() { }
 
   ngOnInit() {
-    this.triggerOpen.subscribe(() => this.isOpen = true)
+    this.triggerOpen.subscribe((el) => this.isOpen = el)
   }
 
   hideModal() {

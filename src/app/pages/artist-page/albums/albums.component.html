@@ -1,3 +1,5 @@
+@let albums= albums$ | async;
+
 @if (!albums) {
 <div class="flex justify-center items-center w-full h-full">
   <app-loader />

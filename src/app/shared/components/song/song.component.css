@@ -1,3 +1,63 @@
+:host {
+  --img-width: 40px;
+}
+
+.song {
+  @apply rounded-lg cursor-pointer flex items-center gap-[10px] p-2 hover:bg-default transition-none relative;
+
+  &:hover .equalizer {
+    @apply hidden;
+  }
+
+  &:hover .song__index {
+    @apply invisible;
+  }
+
+  &:hover .song__start-icon {
+    @apply block;
+  }
+
+  &:hover .darkened {
+    @apply brightness-50;
+  }
+
+  & svg {
+    @apply w-8 h-8;
+  }
+}
+
+.song__index {
+  @apply min-w-[var(--img-width)] text-center;
+}
+
+.song__start {
+  @apply min-w-[var(--img-width)] h-[42px] absolute left-2 flex justify-center items-center z-10;
+}
+
+.song__start-icon {
+  @apply hidden;
+}
+
+.song__artist {
+  @apply text-secondary leading-none w-fit;
+}
+
+.song__duration {
+  @apply flex items-center text-sm text-right font-normal;
+}
+
+.song__img {
+  @apply min-w-[var(--img-width)] min-h-[var(--img-width)] w-[var(--img-width)] rounded;
+}
+
+.song .song__info {
+  @apply flex flex-col justify-center w-full;
+}
+
+.more-button {
+  @apply relative;
+}
+
 .favorite-button,
 .more-button {
   @apply invisible;
@@ -5,14 +65,6 @@
 
 .favorite-button {
   @apply w-[32px] h-[32px] flex justify-end items-center;
-}
-
-.daun {
-  @apply invisible
-}
-
-.song:hover .daun {
-  @apply visible;
 }
 
 .song:hover .favorite-button {
@@ -25,54 +77,4 @@
 
 :host .hover-song {
   @apply bg-[var(--border-color)] hover:bg-[var(--border-color)];
-}
-
-.song {
-  @apply rounded-lg cursor-pointer flex items-center gap-2 p-2 hover:bg-default transition-none relative;
-
-  /* &:hover .favorite-button {}
-
-  &:hover .more-button {
-    @apply visible
-  } */
-
-  &:hover .equalizer {
-    @apply hidden
-  }
-
-  &:hover .song__start-index {
-    @apply hidden
-  }
-
-  &:hover .song__start-icon {
-    @apply block
-  }
-}
-
-.song-duration {
-  @apply flex items-center text-sm text-right font-normal
-}
-
-.song__start {
-  @apply min-w-[42px] h-[42px] flex justify-center items-center;
-}
-
-.song__start-icon {
-  @apply hidden text-main
-}
-
-.song__content {
-  @apply flex justify-between w-full items-center gap-2;
-}
-
-.song__content-artist {
-  @apply text-secondary leading-none w-fit;
-}
-
-svg {
-  @apply w-8 h-8
-}
-
-.more-button {
-  position: relative;
 }

@@ -8,7 +8,7 @@
   } @else {
   @if (findedSongs) {
   @for (song of findedSongs; track song.id) {
-  <app-song [index]="$index" [queue]="findedSongs" [song]="song"></app-song>
+  <app-song [hideIndex]="true" [index]="$index" [queue]="findedSongs" [song]="song"></app-song>
   } @empty {
   <div class="flex justify-center items-center w-full h-full">
     <h5 class="text-xl text-default">К сожалению по запросу "{{search}}" ничего не найдено :(</h5>

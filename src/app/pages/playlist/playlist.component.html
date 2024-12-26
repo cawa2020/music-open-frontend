@@ -1,1 +1,10 @@
-<p>playlist works!</p>
+@let playlist = playlist$ | async;
+
+@if (playlist) {
+<div>
+    {{playlist.title}}
+    @for (song of playlist.songs; track song.id) {
+        <app-song [song]="song" [queue]="playlist.songs" [index]="$index"/>
+    }
+</div>
+}
