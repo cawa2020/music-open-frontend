@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="album-right">
-      <img class="album-right__img" [src]="album.cover_big" alt="cover" (click)="toggleFullCover()" />
+      <img class="album-right__img" [src]="album.cover_big" alt="cover" (click)="openFullCover()" />
       <div class="album-right__genres">
         @for (genre of album.genres?.data; track $index) {
         <a [routerLink]="['/genre/' + genre.id]" class="genre">
@@ -42,11 +42,3 @@
   </div>
   }
 </section>
-
-@if (isFullCoverOpen) {
-<div class="modal-shadow" (click)="toggleFullCover()"></div>
-<div @scaleInOut class="full-cover-container">
-  <img [src]="album!.cover_xl" class="full-cover">
-  <button (click)="toggleFullCover()" class="mt-6 text-lg font-medium">Close</button>
-</div>
-}

@@ -1,10 +1,12 @@
-@if (!singles) {
+@let singles_data = singles() | async;
+
+@if (!singles_data) {
 <div class="flex justify-center items-center w-full h-full">
   <app-loader />
 </div>
 } @else {
 <div class="container">
-  @for(signle of singles; track signle.id) {
+  @for(signle of singles_data; track signle.id) {
   <app-album-card [album]="signle" />
   } @empty {
   <p class="text-secondary">Пусто :(</p>

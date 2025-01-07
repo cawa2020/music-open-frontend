@@ -1,8 +1,9 @@
 @let isPlaying = isPlaying$ | async;
+@let isThisSong = isCurrentSong();
 
 <div class="song">
   <div class="song__start" (click)="setTrack()">
-    @if (isCurrentSong && isPlaying) {
+    @if (isThisSong && isPlaying) {
     @if (!hideIndex) {
     <div class="equalizer">
       <div></div>
@@ -27,7 +28,7 @@
   </div>
 
   @if (!hideIndex) {
-  <p [class.invisible]="(isCurrentSong && isPlaying)" [class.text-main]="isCurrentSong" class="song__index">
+  <p [class.invisible]="(isThisSong && isPlaying)" [class.text-main]="isThisSong" class="song__index">
     {{ index + 1 }}</p>
   }
 
@@ -36,7 +37,7 @@
   }
 
   <div class="song__info">
-    <a [routerLink]="['/song', song.id]" class="one-stroke-text w-fit" [class.text-main]="isCurrentSong">
+    <a [routerLink]="['/song', song.id]" class="one-stroke-text w-fit" [class.text-main]="isThisSong">
       {{ song.title }}
     </a>
     @if (!hideArtist) {
@@ -73,6 +74,6 @@
   </button>
 </div>
 
-<app-modal [triggerOpen]="triggerModal">
+<!-- <app-modal [triggerOpen]="triggerModal">
   <app-song-form-save-to-playlist [song]="song" (closeModal)="hideModal()" />
-</app-modal>
+</app-modal> -->

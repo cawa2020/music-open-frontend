@@ -1,1 +1,1 @@
-export const toastLifeTime = 4000;
+export const TOAST_LIFE_TIME = 4000;

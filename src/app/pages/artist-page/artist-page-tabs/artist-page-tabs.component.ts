@@ -16,13 +16,14 @@ import { map } from 'rxjs';
   styleUrl: './artist-page-tabs.component.css'
 })
 export class ArtistPageTabsComponent implements OnInit {
-  public id$ = this.activatedRoute.params.pipe(map(params => params['id']));
+  public id!: number
   public tabs: { value: ArtistTab, title: string }[] = artistTabs
   public currentTab: ArtistTab = 'home'
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((params) => this.id = params['id'])
     this.activatedRoute.queryParams.subscribe((query: any) => {
       this.currentTab = query.tab ?? 'home'
     })

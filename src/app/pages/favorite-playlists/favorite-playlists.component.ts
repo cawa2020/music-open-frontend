@@ -1,10 +1,9 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, Signal } from '@angular/core';
 import { Playlist } from '../../shared/interfaces/playlist.interface';
 import { UserService } from '../../core/services/user.service';
 import { PlaylistCardComponent } from "../../shared/components/playlist-card/playlist-card.component";
 import { ContextMenuService } from '../../core/services/context-menu.service';
 import { ApiService } from '../../core/services/api.service';
-import { CookieService } from '../../core/services/cookie.service';
 import { ToastService } from '../../core/services/toast.service';
 
 @Component({
@@ -18,8 +17,6 @@ export class FavoritePlaylistsComponent {
   public playlists: Signal<Playlist[]> = computed(() => {
     const user = this.userService.user()
     if (!user) return []
-    // !!!!!!!!!!!!!!! createdPlaylists netu polya
-    // return [...user?.favoritePlaylists, ...user?.createdPlaylists]
     return [...user?.favoritePlaylists, ...user?.playlists]
   })
 
@@ -32,7 +29,7 @@ export class FavoritePlaylistsComponent {
     api.createPlaylist({
       title: `My Playlist #${createdPlaylists.length}`,
       songs: []
-    }).subscribe((el: any) => this.toastService.success('Плейлист успешно создан!'))
+    }).subscribe(() => this.toastService.success('Плейлист успешно создан!'))
   }
 
   onRightClick(event: MouseEvent) {

@@ -1,9 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Subject } from 'rxjs';
-import {
-  Message,
-  MessageType,
-} from '../../shared/interfaces/message.interface';
+import { Message, MessageType } from '../../shared/interfaces/message.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +7,12 @@ import {
 export class ToastService {
   private messages = signal<Message[]>([]);
 
-  constructor() { }
-
   getMessages(): Message[] {
     return this.messages()
+  }
+
+  removeLastMessage(): void {
+    this.messages.update(messages => messages.slice(0, -1));
   }
 
   success(text: string): void {

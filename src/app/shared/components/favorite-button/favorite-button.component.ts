@@ -1,4 +1,4 @@
-import { Component, computed, Input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, Input, signal } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
 import { Artist } from '../../interfaces/artist.interface';
 import { Album, AlbumBrief } from '../../interfaces/album.interface';
@@ -13,6 +13,7 @@ import { ToastService } from '../../../core/services/toast.service';
   imports: [],
   templateUrl: './favorite-button.component.html',
   styleUrl: './favorite-button.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FavoriteButtonComponent {
   @Input({ required: true }) data: Song | Album | AlbumBrief | Artist | null = null;
@@ -55,7 +56,7 @@ export class FavoriteButtonComponent {
 
   private setUser(user: User | null): void {
     if (!user) return;
-    this.userService.setUser(user)
+    this.userService.updateUser(user)
     this.isFavoriteLoading.set(false)
     this.toast.success(`${this.getTitle()} ${this.isUserContainData() ? 'добавлен в' : 'удален из'} Избранное`);
   }

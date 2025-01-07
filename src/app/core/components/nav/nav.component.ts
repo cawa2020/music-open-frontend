@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, HostListener, Signal, ViewChild } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, Signal, ViewChild, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ThemeService } from './services/theme.service';
@@ -10,6 +10,7 @@ import { ModalComponent } from "../modal/modal.component";
 import { AuthFormComponent } from '../auth-form/auth-form.component';
 import { fadeInOut } from '../../../shared/animations/fadeInOut';
 import { Subject } from 'rxjs';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-nav',
@@ -20,36 +21,38 @@ import { Subject } from 'rxjs';
   animations: [fadeInOut],
 })
 export class NavComponent {
+  private themeService = inject(ThemeService);
+  private authService = inject(AuthService);
+  private userService = inject(UserService);
+  private routerService = inject(Router);
+  private modalService = inject(ModalService);
+
   public color: string = localStorage.getItem('mainColor') ?? '#3b82f6'
   public isMenuOpen: boolean = false
   public index: number = 0
-  public modal: 'registration' | 'login' = 'registration'
   public user: Signal<User | null> = computed(() => this.userService.user())
-  public isLoading = computed(() => (this.auth.getIsAuth()() === null))
+  public isLoading = computed(() => (this.authService.getIsAuth()() === null))
   public currentPath: string | null = null
-  public triggerModal = new Subject<boolean>()
   @ViewChild('menu') menu: ElementRef | undefined
   @ViewChild('menuIcon') menuIcon!: ElementRef
 
   get currentTheme() {
-    return this.theme.getMode()
+    return this.themeService.getMode()
   }
 
   get userFirstLetter() {
     return this.user()?.username.at(0)
   }
 
-  constructor(private theme: ThemeService, private auth: AuthService, private userService: UserService, private router: Router) { }
-
   ngOnInit() {
-    this.router.events.subscribe((val: any) => {
+    this.routerService.events.subscribe((val: any) => {
       const path: string = val.url
       if (!path) return
       this.currentPath = val.url
     });
 
     const isThemeDark = localStorage.getItem('themeMode') === 'dark'
-    if (isThemeDark) { this.theme.toggleMode() }
+    if (isThemeDark) { this.themeService.toggleMode() }
     this.changeColor(this.color)
   }
 
@@ -66,22 +69,21 @@ export class NavComponent {
   }
 
   toggleMode() {
-    this.theme.toggleMode()
+    this.themeService.toggleMode()
   }
 
   changeColor(newColor: string) {
     this.color = newColor
-    this.theme.changeMainColor(newColor)
+    this.themeService.changeMainColor(newColor)
     localStorage.setItem('mainColor', newColor)
   }
 
-  setModal(type: 'registration' | 'login') {
-    this.triggerModal.next(true)
-    this.modal = type
+  openModal(type: 'registration' | 'login') {
+    this.modalService.openModal(AuthFormComponent, { type: type })
   }
 
   logout() {
-    this.auth.logout()
+    this.authService.logout()
   }
 
   isCurrentPath(path: string): boolean {

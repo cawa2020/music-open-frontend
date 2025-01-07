@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, computed, effect } from '@angular/core';
+import { Component, OnInit, Signal, computed } from '@angular/core';
 import { Album } from '../../shared/interfaces/album.interface';
 import { Playlist } from '../../shared/interfaces/playlist.interface';
 import { Artist } from '../../shared/interfaces/artist.interface';

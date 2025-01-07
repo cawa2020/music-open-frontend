@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, computed, effect } from '@angular/core';
+import { Component, Signal, computed } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';

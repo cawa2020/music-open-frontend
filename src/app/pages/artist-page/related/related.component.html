@@ -1,10 +1,12 @@
-@if (!related) {
+@let related_data = related() | async;
+
+@if (!related_data) {
 <div class="flex justify-center items-center w-full h-full">
   <app-loader />
 </div>
 } @else {
 <div class="container">
-  @for(artist of related; track artist.id) {
+  @for(artist of related_data; track artist.id) {
   <app-artist-card [artist]="artist" />
   } @empty {
   <p class="text-secondary">Пусто :(</p>

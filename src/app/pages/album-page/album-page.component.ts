@@ -8,8 +8,10 @@ import { CommonModule } from '@angular/common';
 import { SongComponent } from '../../shared/components/song/song.component';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { Album } from '../../shared/interfaces/album.interface';
-import { AlbumPageHeaderComponent } from './album-page-header/album-page-header.component';
 import { scaleInOut } from '../../shared/animations/scaleInOut';
+import { AlbumPageHeaderComponent } from './components/album-page-header/album-page-header.component';
+import { ModalService } from '../../core/services/modal.service';
+import { FullCoverComponent } from '../../shared/components/full-cover/full-cover.component';
 
 @Component({
   selector: 'app-album-page',
@@ -27,19 +29,19 @@ import { scaleInOut } from '../../shared/animations/scaleInOut';
 })
 export class AlbumPageComponent implements OnInit {
   public album: Album | null = null;
-  public isFullCoverOpen = false
 
   constructor(
     private route: ActivatedRoute,
     private api: ApiService,
+    private modal: ModalService
   ) { }
 
   ngOnInit() {
     this.initAlbum()
   }
 
-  toggleFullCover() {
-    this.isFullCoverOpen = !this.isFullCoverOpen
+  openFullCover() {
+    this.modal.openModal(FullCoverComponent, { img: this.album?.cover_xl })
   }
 
   private initAlbum() {

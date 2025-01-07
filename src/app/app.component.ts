@@ -10,6 +10,7 @@ import { ToastsComponent } from './core/components/toasts/toasts.component';
 import { ContextMenuBlockComponent } from "./core/components/context-menu-block/context-menu-block.component";
 import { UserApiService } from './core/services/user-api.service';
 import { AuthService } from './core/services/auth.service';
+import { ModalComponent } from "./core/components/modal/modal.component";
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ import { AuthService } from './core/services/auth.service';
     NavComponent,
     PlayerComponent,
     UserMusicComponent,
-    ContextMenuBlockComponent
+    ContextMenuBlockComponent,
+    ModalComponent
 ],
 })
 export class AppComponent implements OnInit {

@@ -49,7 +49,7 @@ export class UserApiService {
     const token = this.cookieService.get('access_token') ?? (isRequestWithToken ? 'NO_TOKEN' : null)
 
     if (token === 'NO_TOKEN') {
-      this.toast.info('Войдите в аккаунт для действия');
+      this.auth.showInfoAboutLogging()
       throw new Error('no token')
     }
 

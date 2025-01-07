@@ -1,8 +1,7 @@
 .toast {
-    @apply absolute left-0 right-0 flex gap-2 items-center p-3 rounded-default border w-fit text-[15px] mx-auto cursor-pointer bottom-28;
-  }
-  
-  .icon {
-    @apply text-[24px];
-  }
-  
+  @apply absolute left-0 right-0 flex gap-2 items-center p-3 rounded-default border w-fit text-[15px] mx-auto cursor-pointer;
+}
+
+.icon {
+  @apply text-[24px];
+}

@@ -5,7 +5,7 @@
   </div>
   } @else {
   <div class="flex gap-[60px]">
-    <img class="song-img" [src]="song.album.cover_big" alt="cover" (click)="toggleFullCover()" />
+    <img class="song-img" [src]="song.album.cover_big" alt="cover" (click)="openFullCover()" />
     <!-- <div class="album-right__genres">
         @for (genre of song.genres?.data; track $index) {
         <a [routerLink]="['/genre/' + genre.id]" class="genre">
@@ -66,10 +66,3 @@
   </div>
   }
 </section>
-
-<app-modal [triggerOpen]="triggerModal">
-  <div class="full-cover-container">
-    <img [src]="song?.album?.cover_xl" class="full-cover">
-    <button (click)="toggleFullCover()" class="mt-6 text-lg font-medium">Close</button>
-  </div>
-</app-modal>

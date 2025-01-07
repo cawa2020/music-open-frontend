@@ -45,11 +45,3 @@
 .song-img {
   @apply w-[400px] h-fit rounded-lg shadow-2xl cursor-pointer;
 }
-
-.full-cover-container {
-  @apply max-h-[80vh] flex flex-col items-center w-fit;
-}
-
-.full-cover {
-  @apply max-h-[inherit] aspect-square rounded;
-}

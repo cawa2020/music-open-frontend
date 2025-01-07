@@ -85,7 +85,7 @@ export class ApiService {
     return this._requestLocal('GET', 'playlist/' + id);
   }
 
-  createPlaylist(body: CreatePlaylist) {
+  createPlaylist(body: CreatePlaylist): Observable<Playlist> {
     const url = `playlist?token=${this.token}`;
     return this._requestLocal('POST', url, body);
   }

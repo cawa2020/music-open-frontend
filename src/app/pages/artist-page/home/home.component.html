@@ -1,6 +1,6 @@
-@let songs = songs$ | async;
+@let songs_data = songs() | async;
 
-@if (!songs) {
+@if (!songs_data) {
 <div class="flex justify-center items-center w-full h-full">
   <app-loader />
 </div>
@@ -16,8 +16,8 @@
     </svg>
   </a>
   <div>
-    @for(song of songs; track song.id) {
-    <app-song [index]="$index" [hideArtist]="true" [queue]="songs" [song]="song" />
+    @for(song of songs_data; track song.id) {
+    <app-song [index]="$index" [hideArtist]="true" [queue]="songs_data" [song]="song" />
     }@empty {
     <p class="text-secondary">Пусто :(</p>
     }

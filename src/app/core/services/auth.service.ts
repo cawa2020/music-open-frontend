@@ -1,10 +1,10 @@
-import { Injectable, OnInit, Signal, signal } from '@angular/core';
-import { Method } from '../../shared/interfaces/app.interface';
-import { Observable, of, tap } from 'rxjs';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Error, Login, Registration, Token } from '../../shared/interfaces/auth.interface';
+import { Injectable, Signal, signal } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Login, Registration, Token } from '../../shared/interfaces/auth.interface';
 import { CookieService } from './cookie.service';
 import { Router } from '@angular/router';
+import { ToastService } from './toast.service';
 
 const AUTH_API_ENDPOINT = 'http://localhost:3000/auth/'
 
@@ -14,7 +14,7 @@ const AUTH_API_ENDPOINT = 'http://localhost:3000/auth/'
 export class AuthService {
   private isAuth = signal<boolean | null>(null)
 
-  constructor(private route: Router, private http: HttpClient, private cookie: CookieService) { }
+  constructor(private route: Router, private http: HttpClient, private cookie: CookieService, private toast: ToastService) { }
 
   getIsAuth(): Signal<boolean | null> {
     return this.isAuth
@@ -36,5 +36,9 @@ export class AuthService {
     this.cookie.delete('access_token')
     this.route.navigate(['/home'])
     location.reload()
+  }
+
+  showInfoAboutLogging() {
+    this.toast.info('Войдите в аккаунт для действия');
   }
 }

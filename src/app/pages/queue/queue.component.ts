@@ -1,4 +1,4 @@
-import { Component, OnInit, effect } from '@angular/core';
+import { Component, OnInit, Signal, computed, effect } from '@angular/core';
 import { SongService } from '../../core/services/song.service';
 import { filter } from 'rxjs';
 import { SongComponent } from "../../shared/components/song/song.component";
@@ -14,16 +14,12 @@ import { Song } from '../../shared/interfaces/song.interface';
   imports: [SongComponent, DragDropModule]
 })
 export class QueueComponent {
-  public queue: Song[] = []
+  public queue: Signal<Song[]> = computed(() => this.songData.getQueue())
 
-  constructor(private songData: SongService) {
-    effect(() => {
-      this.queue = this.songData.getQueue()
-    })
-  }
+  constructor(private songData: SongService) { }
 
   onDrop(event: CdkDragDrop<Song[]>) {
-    moveItemInArray(this.queue, event.previousIndex, event.currentIndex);
-    this.songData.setQueue(this.queue)
+    moveItemInArray(this.queue(), event.previousIndex, event.currentIndex);
+    this.songData.setQueue(this.queue())
   }
 }

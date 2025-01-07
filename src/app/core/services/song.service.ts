@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, Signal, signal } from '@angular/core';
 import { Song } from '../../shared/interfaces/song.interface';
 import { Repeat } from '../../shared/interfaces/app.interface';
 
@@ -20,16 +20,16 @@ export class SongService {
     this.song.set(value)
   }
 
-  getRepeat(): Repeat {
-    return this.repeat()
+  getRepeat(): Signal<Repeat> {
+    return this.repeat
   }
 
   setRepeat(value: Repeat): void {
     this.repeat.set(value)
   }
 
-  getShuffle(): boolean {
-    return this.isShuffled()
+  getShuffle(): Signal<boolean> {
+    return this.isShuffled
   }
 
   setShuffle(value: boolean) {

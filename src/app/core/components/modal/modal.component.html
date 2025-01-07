@@ -1,6 +1,6 @@
-@if (isOpen) {
-<div class="modal-shadow" (click)="hideModal()"></div>
-<div [@scaleInOut] class="modal-container">
-  <ng-content />
+<div [class.hidden]="(isHidden$ | async)">
+  <div class="modal-shadow" (click)="hideModal()"></div>
+  <div [@manualSclaeInOut]="!modalContent ? 'open' : 'closed'" class="modal-container">
+    <ng-container #modalContainer />
+  </div>
 </div>
-}

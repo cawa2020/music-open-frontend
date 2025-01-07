@@ -94,8 +94,8 @@
       <!-- <img src="../../../../assets/icons/Name=User, Filled=No.svg" alt="like"> -->
     </a>
     } @else {
-    <button class="secondary-button" (click)="setModal('registration')">Регистрация</button>
-    <button class="button" (click)="setModal('login')">Вход</button>
+    <button class="secondary-button" (click)="openModal('registration')">Регистрация</button>
+    <button class="button" (click)="openModal('login')">Вход</button>
     }
     }
   </div>
@@ -125,6 +125,6 @@
   }
 </nav>
 
-<app-modal [triggerOpen]="triggerModal">
+<!-- <app-modal [triggerModalChange]="triggerModal">
   <app-auth-form [type]="modal" />
-</app-modal>
+</app-modal> -->

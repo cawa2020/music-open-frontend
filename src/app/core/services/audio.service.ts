@@ -65,13 +65,14 @@ export class AudioService {
     const index = queue?.findIndex(el => el.id === this.songData.getSong()?.id) ?? 0
     const isLastSong = index === (queue?.length ?? 9999) - 1
     const isFirstSong = index === 0
+    const repeatType = this.songData.getRepeat()()
 
     let newIndex
     if (isFirstSong && direction == 'prev') {
       newIndex = index
-    } else if ((this.songData.getRepeat() === 'playlist' && isLastSong && direction === 'next') || (isLastSong && direction === 'next' && !isEndedByItself)) {
+    } else if ((repeatType === 'playlist' && isLastSong && direction === 'next') || (isLastSong && direction === 'next' && !isEndedByItself)) {
       newIndex = 0
-    } else if (this.songData.getRepeat() === 'song' && this.audio.duration >= this.audio.currentTime && isEndedByItself) {
+    } else if (repeatType === 'song' && this.audio.duration >= this.audio.currentTime && isEndedByItself) {
       newIndex = index
     } else if (isLastSong && direction === 'next' && isEndedByItself) {
       newIndex = null

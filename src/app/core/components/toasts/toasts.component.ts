@@ -1,5 +1,5 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, effect } from '@angular/core';
-import { toastLifeTime } from '../../../shared/constants/toast.constant';
+import { Component, effect } from '@angular/core';
+import { TOAST_LIFE_TIME } from '../../../shared/constants/toast.constant';
 import { Message, MessageType } from '../../../shared/interfaces/message.interface';
 import { ToastService } from '../../services/toast.service';
 import { fadeInOut } from '../../../shared/animations/fadeInOut';
@@ -20,7 +20,7 @@ export class ToastsComponent {
       if (!this.messages.length) return
       setTimeout(() => {
         this.messages.shift();
-      }, toastLifeTime);
+      }, TOAST_LIFE_TIME);
     })
   }
 
@@ -44,7 +44,11 @@ export class ToastsComponent {
         break;
       default:
     }
-    styles.bottom = `${index * 55 + 112}px`;
+
+    const TOAST_ITEM_HEIGHT = 55
+    const BOTTOM_MARGIN = 82 + 4 + 4 + 4
+
+    styles.bottom = `${index * TOAST_ITEM_HEIGHT + BOTTOM_MARGIN}px`;
     return styles;
   }
 }

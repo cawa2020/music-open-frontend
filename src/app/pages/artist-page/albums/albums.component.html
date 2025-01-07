@@ -1,12 +1,12 @@
-@let albums= albums$ | async;
+@let albums_data = albums() | async;
 
-@if (!albums) {
+@if (!albums_data) {
 <div class="flex justify-center items-center w-full h-full">
   <app-loader />
 </div>
 } @else {
 <div class="container">
-  @for(album of albums; track album.id) {
+  @for(album of albums_data; track album.id) {
   <app-album-card [album]="album" />
   } @empty {
   <p class="text-secondary">Пусто :(</p>

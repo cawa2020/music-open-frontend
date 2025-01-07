@@ -1,11 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, input, OnInit } from '@angular/core';
 import { AlbumBrief } from '../../../shared/interfaces/album.interface';
 import { ApiService } from '../../../core/services/api.service';
 import { AlbumCardComponent } from "../../../shared/components/album-card/album-card.component";
-import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderComponent } from "../../../shared/components/loader/loader.component";
-import { filter, map, switchMap } from 'rxjs';
+import { filter, map, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { SortService } from '../../../core/services/sort.service';
 
 @Component({
   selector: 'app-albums',
@@ -16,23 +16,13 @@ import { CommonModule } from '@angular/common';
 })
 export class AlbumsComponent {
   private api = inject(ApiService)
-  private router = inject(ActivatedRoute)
-
-  private id$ = this.router.params.pipe(map(params => params['id']));
-  public albums$ = this.id$.pipe(
-    switchMap(id => this.api.getArtistAlbums(id)),
-    map(res => this.sortByDate(res.data),
-      filter((record: any) => record.record_type == 'album'))
-  );
-
-
-  private sortByDate(arr: AlbumBrief[]): AlbumBrief[] {
-    return arr.sort((a, b) => {
-      const date1 = new Date(a.release_date);
-      const date2 = new Date(b.release_date);
-      if (date1 > date2) return -1;
-      else if (date1 < date2) return 1;
-      else return 0;
-    });
-  }
+  private sortService = inject(SortService)
+  public id = input<number>()
+  public albums = computed(() => {
+    const id = this.id()
+    if (!id) return of(null)
+    return this.api.getArtistAlbums(id).pipe(
+      map((res) => this.sortService.sortAlbumByDate(res.data).filter((record: AlbumBrief) => record.record_type == 'album'))
+    )
+  })
 }
