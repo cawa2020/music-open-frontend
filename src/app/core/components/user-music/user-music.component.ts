@@ -32,8 +32,8 @@ export class UserMusicComponent implements OnInit {
   private modalService = inject(ModalService)
 
   public user: Signal<User | null> = computed(() => this.userService.user())
-  public isLoading = computed(() => (this.authService.getIsAuth()() === null))
-  public isAuth = this.authService.getIsAuth()
+  public isLoading = computed(() => this.authService.getIsAuth()() === null)
+  public isAuth = computed(() => this.authService.getIsAuth()())
   public isPinsOpen = false
   public currentPath!: string
   public sideBarItems: sideBarItem[] = []

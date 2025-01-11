@@ -1,28 +1,26 @@
 @let isPlaying = isPlaying$ | async;
 @let isThisSong = isCurrentSong();
 
-<div class="song">
+<div class="song" (contextmenu)="toggleActions($event)">
   <div class="song__start" (click)="setTrack()">
     @if (isThisSong && isPlaying) {
     @if (!hideIndex) {
-    <div class="equalizer">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <ul class="equalizer">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
     }
-    <svg class="song__start-icon" width="41" height="42" viewBox="0 0 41 42" fill="none"
-      xmlns="http://www.w3.org/2000/svg">
-      <path d="M16.6262 14.9707V27.5439" stroke="var(--text-color)" stroke-width="4.19106" stroke-linecap="round" />
-      <path d="M25.0084 14.9707V27.5439" stroke="var(--text-color)" stroke-width="4.19106" stroke-linecap="round" />
+    <svg class="song__start-icon" width="41" height="42" viewBox="0 0 41 42" fill="none">
+      <path d="M16.6262 14.9707V27.5439" [attr.stroke]="hideImg ? 'var(--text-color)' : '#eee'" stroke-width="4.19106" stroke-linecap="round" />
+      <path d="M25.0084 14.9707V27.5439" [attr.stroke]="hideImg ? 'var(--text-color)' : '#eee'" stroke-width="4.19106" stroke-linecap="round" />
     </svg>
     } @else {
-    <svg class="song__start-icon" width="42" height="42" viewBox="0 0 42 42" fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+    <svg class="song__start-icon" width="42" height="42" viewBox="0 0 42 42" fill="none">
       <path
         d="M29.0185 18.9101C30.2754 19.6357 30.2754 21.4498 29.0185 22.1754L19.1209 27.8898C17.8641 28.6155 16.293 27.7084 16.293 26.2572L16.293 14.8284C16.293 13.3771 17.8641 12.47 19.1209 13.1957L29.0185 18.9101Z"
-        fill="var(--text-color)" stroke="none" />
+        [attr.fill]="hideImg ? 'var(--text-color)' : '#eee'" stroke="none" />
     </svg>
     }
   </div>
@@ -47,7 +45,7 @@
       <a [routerLink]="['/artist', artist.id]" class="song__artist one-stroke-text">
         {{ artist.name }}
       </a>
-      @if (!isLastSong($index)) {<span class="song__artist">,&nbsp;</span>}}
+      @if (!$last) {<span class="song__artist">,&nbsp;</span>}}
       } @else {
       <a [routerLink]="['/artist', song.artist.id]" class="song__artist one-stroke-text">
         {{ song.artist.name }}
@@ -65,7 +63,7 @@
 
   <app-favorite-button class="favorite-button" [data]="song" />
   <p class="song__duration">{{ song.duration | time }}</p>
-  <button class="more-button relative" (click)="toggleActions($event)">
+  <button class="more-button relative" (click)="toggleActions($event, true)">
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="12.7001" cy="20.8771" r="1.68378" fill="var(--text-color)" />
       <circle cx="21.119" cy="20.8771" r="1.68378" fill="var(--text-color)" />

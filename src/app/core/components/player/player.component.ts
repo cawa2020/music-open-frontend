@@ -22,7 +22,7 @@ import { FavoriteButtonComponent } from "../../../shared/components/favorite-but
 })
 export class PlayerComponent {
   public zen: boolean = false
-  public song: Signal<Song | null> = computed(() => this.songData.getSong())
+  public song_data: Signal<Song | null> = computed(() => this.songData.getSong())
 
   constructor(
     private audioService: AudioService,
@@ -39,6 +39,6 @@ export class PlayerComponent {
   }
 
   isLastElement(index: number): boolean {
-    return index === (this.song()?.contributors?.length ?? 1) - 1
+    return index === (this.song_data()?.contributors?.length ?? 1) - 1
   }
 }

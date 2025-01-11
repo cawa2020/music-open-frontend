@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, Input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, Input, Signal, signal } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
 import { Artist } from '../../interfaces/artist.interface';
 import { Album, AlbumBrief } from '../../interfaces/album.interface';
@@ -6,6 +6,7 @@ import { Song } from '../../interfaces/song.interface';
 import { UserApiService } from '../../../core/services/user-api.service';
 import { User } from '../../interfaces/auth.interface';
 import { ToastService } from '../../../core/services/toast.service';
+import { Playlist } from '../../interfaces/playlist.interface';
 
 @Component({
   selector: 'app-favorite-button',
@@ -16,16 +17,17 @@ import { ToastService } from '../../../core/services/toast.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FavoriteButtonComponent {
-  @Input({ required: true }) data: Song | Album | AlbumBrief | Artist | null = null;
+  public data = input.required<Song | Album | AlbumBrief | Artist | Playlist | null>();
   @Input() type: 'text' | 'icon' = 'icon';
   public isFavoriteLoading = signal(false);
   public isFavorite = computed(() => {
     const user = this.userService.user();
     if (!user) return false;
-    switch (this.data?.type) {
-      case 'track': return user.favoriteSongs.some(track => track.id === this.data?.id);
-      case 'album': return user.favoriteAlbums.some(album => album.id === this.data?.id);
-      case 'artist': return user.favoriteArtists.some(artist => artist.id === this.data?.id);
+    const data = this.data()
+    switch (data?.type) {
+      case 'track': return user.favoriteSongs.some(track => track.id === data?.id);
+      case 'album': return user.favoriteAlbums.some(album => album.id === data?.id);
+      case 'artist': return user.favoriteArtists.some(artist => artist.id === data?.id);
       default: return false;
     }
   });
@@ -37,18 +39,19 @@ export class FavoriteButtonComponent {
   ) { }
 
   addToFavorite() {
+    const data = this.data()
     this.isFavoriteLoading.set(true);
-    switch (this.data?.type) {
+    switch (data?.type) {
       case 'track':
-        this.userApiService.addToFavotiteSong(this.data as Song)
+        this.userApiService.addToFavotiteSong(data as Song)
           .subscribe(user => this.setUser(user));
         break;
       case 'album':
-        this.userApiService.addToFavotiteAlbum(this.data as Album)
+        this.userApiService.addToFavotiteAlbum(data as Album)
           .subscribe(user => this.setUser(user));
         break;
       case 'artist':
-        this.userApiService.addToFavotiteArtist(this.data as Artist)
+        this.userApiService.addToFavotiteArtist(data as Artist)
           .subscribe(user => this.setUser(user));
         break;
     }
@@ -62,10 +65,11 @@ export class FavoriteButtonComponent {
   }
 
   private getTitle(): string {
-    switch (this.data?.type) {
-      case 'track': return this.data.title;
-      case 'album': return this.data.title;
-      case 'artist': return this.data.name;
+    const data = this.data()
+    switch (data?.type) {
+      case 'track': return data.title;
+      case 'album': return data.title;
+      case 'artist': return data.name;
       default: return '';
     }
   }
@@ -73,10 +77,11 @@ export class FavoriteButtonComponent {
   private isUserContainData(): boolean {
     const user = this.userService.user();
     if (!user) return false;
-    switch (this.data?.type) {
-      case 'track': return user.favoriteSongs.some(track => track.id === this.data?.id);
-      case 'album': return user.favoriteAlbums.some(album => album.id === this.data?.id);
-      case 'artist': return user.favoriteArtists.some(artist => artist.id === this.data?.id);
+    const data = this.data()
+    switch (data?.type) {
+      case 'track': return user.favoriteSongs.some(track => track.id === data?.id);
+      case 'album': return user.favoriteAlbums.some(album => album.id === data?.id);
+      case 'artist': return user.favoriteArtists.some(artist => artist.id === data?.id);
       default: return false;
     }
   }

@@ -6,16 +6,18 @@
   } @else {
   <h3>Wassup! {{ user()?.username }}</h3>
 
-  <div class="adaptive-margin">
+  <div>
     <h5 class="mb-3">Ваши плейлисты</h5>
-    @for (playlist of user()?.playlists; track playlist.id) {
-    <app-playlist-card [playlist]="playlist"></app-playlist-card>
-    } @empty {
-    <p class="text-secondary">Пусто :(</p>
-    }
+    <div class="grid-container">
+      @for (playlist of user()?.playlists; track playlist.id) {
+      <app-playlist-card [playlist]="playlist"></app-playlist-card>
+      } @empty {
+      <p class="text-secondary">Пусто :(</p>
+      }
+    </div>
   </div>
 
-  <div class="adaptive-margin">
+  <div>
     <h5 class="mb-3">Отслеживаемые артисты</h5>
     <div class="grid-container">
       @for (artist of user()?.favoriteArtists; track artist.id) {

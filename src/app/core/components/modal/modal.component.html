@@ -1,5 +1,5 @@
 <div [class.hidden]="(isHidden$ | async)">
-  <div class="modal-shadow" (click)="hideModal()"></div>
+  <div [@manualFadeInOut]="!modalContent ? 'open' : 'closed'" class="modal-shadow" (click)="hideModal()"></div>
   <div [@manualSclaeInOut]="!modalContent ? 'open' : 'closed'" class="modal-container">
     <ng-container #modalContainer />
   </div>

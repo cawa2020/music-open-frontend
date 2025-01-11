@@ -1,5 +1,6 @@
 import { Injectable, ComponentRef, Type } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { CLOSE_ANIMATION_TIME } from '../../shared/animations/scaleInOut';
 
 export interface ModalContent<T> {
   component: Type<T>;
@@ -10,20 +11,20 @@ export interface ModalContent<T> {
   providedIn: 'root'
 })
 export class ModalService {
-  private modalContent: ModalContent<any> | null = null
-  public contentChanges$ = new Subject()
-
-  getModalContent() {
-    return this.modalContent
-  }
+  private modalContentSubject$ = new BehaviorSubject<ModalContent<any> | null>(null)
+  public modalContent$ = this.modalContentSubject$.asObservable()
+  public readonly isHidden$ = new BehaviorSubject<boolean>(true)
 
   openModal<T>(component: Type<T>, inputs?: Partial<T>): void {
-    this.modalContent = { component, inputs }
-    this.contentChanges$.next(1)
+    this.modalContentSubject$.next({ component, inputs })
+    this.isHidden$.next(false)
   }
 
   closeModal() {
-    this.modalContent = null
-    this.contentChanges$.next(1)
+    this.modalContentSubject$.next(null)
+
+    setTimeout(() => {
+      this.isHidden$.next(true);
+    }, CLOSE_ANIMATION_TIME);
   }
 }

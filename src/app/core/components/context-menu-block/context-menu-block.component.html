@@ -1,6 +1,8 @@
-@if (contextMenuEvent().items.length) {
-<div @fadeInOut class="context-menu-block" #contextMenuBlock [style.left]="contextMenuEvent().position[0] + 'px'" [style.top]="contextMenuEvent().position[1] + 'px'">
-  @for (item of contextMenuEvent().items; track $index) {
+@let contextMenuItems = contextMenuEvent().items;
+
+@if (contextMenuItems.length) {
+<div @fadeInOut class="context-menu-block" #contextMenuBlock [style.left]="left" [style.top]="top">
+  @for (item of contextMenuItems; track $index) {
   <button class="context-menu-item" (click)="onClick(item.event)">
     {{item.title}}
   </button>

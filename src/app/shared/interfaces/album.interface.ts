@@ -30,6 +30,10 @@ export interface Album {
   tracks: { data: Song[] }
 }
 
+export interface AlbumExtended extends Album {
+  songs_amount_name: string
+}
+
 export interface AlbumBrief {
   id: number
   title: string

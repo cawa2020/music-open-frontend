@@ -1,4 +1,4 @@
-import { Injectable, Signal, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { ContextMenuEvent } from '../../shared/interfaces/right-click.interface';
 
 @Injectable({
@@ -8,7 +8,7 @@ export class ContextMenuService {
   private event = signal<ContextMenuEvent | null>(null);
 
   getEvent(): ContextMenuEvent {
-    const emptyEvent = { id: '', items: [], position: [0, 0] }
+    const emptyEvent = { id: '', items: [], position: { x: 0, y: 0 } }
     return this.event() ?? emptyEvent
   }
 

@@ -1,8 +1,8 @@
 import { Component, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { ModalContent, ModalService } from '../../services/modal.service';
-import { CLOSE_ANIMATION_TIME, manualSclaeInOut } from '../../../shared/animations/scaleInOut';
+import { manualSclaeInOut } from '../../../shared/animations/scaleInOut';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject } from 'rxjs';
+import { manualFadeInOut } from '../../../shared/animations/fadeInOut';
 
 @Component({
   selector: 'app-modal',
@@ -10,38 +10,28 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css'],
   imports: [CommonModule],
-  animations: [manualSclaeInOut],
+  animations: [manualSclaeInOut, manualFadeInOut],
 })
 export class ModalComponent {
   private modalService = inject(ModalService)
-  
+
   public modalContent: ModalContent<any> | null = null
-  public readonly isHidden$ = new BehaviorSubject<boolean>(true);
+  public readonly isHidden$ = this.modalService.isHidden$
   @ViewChild('modalContainer', { read: ViewContainerRef }) modalContainer: ViewContainerRef | null = null;
 
   ngAfterViewInit() {
-    this.modalService.contentChanges$.subscribe(() => {
-      console.log(this.modalContainer)
-      this.modalContent = this.modalService.getModalContent()
+    this.modalService.modalContent$.subscribe((content) => {
+      this.modalContent = content
       if (!this.modalContainer || !this.modalContent) return
 
       this.modalContainer.clear();
       const componentRef = this.modalContainer.createComponent(this.modalContent.component);
 
       if (this.modalContent.inputs) Object.assign(componentRef.instance, this.modalContent.inputs);
-      this.isHidden$.next(false)
     })
   }
 
-  showModal() {
-    this.isHidden$.next(false);
-  }
-
   hideModal() {
-    this.modalContent = null;
-
-    setTimeout(() => {
-      this.isHidden$.next(true);
-    }, CLOSE_ANIMATION_TIME);
+    this.modalService.closeModal()
   }
 }

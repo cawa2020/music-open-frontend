@@ -6,10 +6,8 @@ import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../../shared/interfaces/auth.interface';
-import { ModalComponent } from "../modal/modal.component";
 import { AuthFormComponent } from '../auth-form/auth-form.component';
 import { fadeInOut } from '../../../shared/animations/fadeInOut';
-import { Subject } from 'rxjs';
 import { ModalService } from '../../services/modal.service';
 
 @Component({
@@ -17,7 +15,7 @@ import { ModalService } from '../../services/modal.service';
   standalone: true,
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
-  imports: [RouterLink, MatIconModule, FormsModule, AuthFormComponent, ModalComponent],
+  imports: [RouterLink, MatIconModule, FormsModule, ],
   animations: [fadeInOut],
 })
 export class NavComponent {

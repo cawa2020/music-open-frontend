@@ -90,7 +90,7 @@ export class ApiService {
     return this._requestLocal('POST', url, body);
   }
 
-  addTrackToPlaylist(body: Song[], id: number) {
+  toggleSongOnPlaylist(body: Song, id: number) {
     const url = `playlist/${id}/songs?token=${this.token}`;
     return this._requestLocal('PATCH', url, body);
   }
@@ -137,7 +137,7 @@ export class ApiService {
   private _requestPrivateAPI(
     method: Method,
     path: string,
-    body?: any
+    body?: unknown
   ): Observable<any> {
     const url =
       `https://thingproxy.freeboard.io/fetch/https://api.deezer.com/` + path;

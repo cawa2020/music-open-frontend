@@ -7,9 +7,9 @@
     }
   </h4>
   @if (type === 'registration') {
-  <input formControlName="username" placeholder="Никнейм" type="text">
+  <input formControlName="username" autocomplete="username" placeholder="Никнейм" type="text">
   }
-  <input formControlName="email" placeholder="Почта" type="email" name="email">
-  <input formControlName="password" placeholder="Пароль" type="password">
+  <input formControlName="email" autocomplete="email" placeholder="Почта" type="email" name="email">
+  <input formControlName="password" autocomplete="current-password" placeholder="Пароль" type="password">
   <button [disabled]="form.invalid" class="button">Подвердить</button>
 </form>

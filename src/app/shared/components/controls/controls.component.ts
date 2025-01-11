@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Signal, computed, effect } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnInit, Signal, computed } from '@angular/core';
 import { AudioService } from '../../../core/services/audio.service';
 import { SongService } from '../../../core/services/song.service';
 import { filter } from 'rxjs';
@@ -25,6 +25,15 @@ export class ControlsComponent implements OnInit {
       this.isPlaying = el.data
       this.cdr.markForCheck()
     })
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onSpaceEvent(e: KeyboardEvent) {
+    const isUserTypeInInput = document.activeElement?.tagName === 'INPUT'
+    const isKeySpace = e.code === 'Space'
+    if (!isKeySpace || isUserTypeInInput) return
+    e.preventDefault();
+    this.toggleTrack()
   }
 
   toggleShuffle() {

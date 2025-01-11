@@ -19,24 +19,19 @@ export class ContextMenuBlockComponent {
   public contextMenuEvent: Signal<ContextMenuEvent> = computed(() => {
     const event = this.contextMenuService.getEvent()
     if (!event) return event
-    if (event.position[0] + block_width > window.innerWidth) {
-      event.position[0] = event.position[0] - block_width / 1.5
+    if (event.position.x + block_width > window.innerWidth) {
+      event.position.x = event.position.x - block_width / 1.5
     }
 
     const parent_padding = 20
-    if (event.position[1] + event.items.length * 40 + parent_padding > window.innerHeight) {
-      event.position[1] = event.position[1] - event.items.length * 40 - 94
+    if (event.position.y + event.items.length * 40 + parent_padding > window.innerHeight) {
+      event.position.y = event.position.y - event.items.length * 40 - 94
     }
     return event
   })
   @ViewChild('contextMenuBlock') contextMenuBlock: ElementRef | undefined
 
   constructor(private contextMenuService: ContextMenuService) { }
-
-  onClick(func: () => void): void {
-    func()
-    this.contextMenuService.close()
-  }
 
   @HostListener('document:mousedown', ['$event'])
   onGlobalClick(event: any): void {
@@ -45,4 +40,19 @@ export class ContextMenuBlockComponent {
       this.contextMenuService.close()
     }
   }
+
+  get top() {
+    return this.contextMenuEvent().position.y + 'px'
+  }
+
+  get left() {
+    return this.contextMenuEvent().position.x + 'px'
+  }
+
+  onClick(func: () => void): void {
+    func()
+    this.contextMenuService.close()
+  }
+
+
 }

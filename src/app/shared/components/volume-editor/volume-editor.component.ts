@@ -15,7 +15,7 @@ export class VolumeEditorComponent implements OnInit {
   @Input() sliderWidth: string = '100%'
   public pastVolume: number = 0
   public volume: number = Number(localStorage.getItem('volume'))
-  private volumeTimeOut: any
+  private volumeTimeOut!: ReturnType<typeof setTimeout>
 
   constructor(private player: AudioService) { }
 

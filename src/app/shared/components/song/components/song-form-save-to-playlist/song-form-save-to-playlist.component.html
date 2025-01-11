@@ -11,11 +11,12 @@
     </div>
     <div class="max-h-[200px] overflow-y-auto space-y-4" formArrayName="playlists">
         @for (playlist of playlists(); track i; let i = $index) {
-
-        <div class="checkbox-wrapper-13">
-            <input [formControlName]="i" type="checkbox" [name]="playlist.id">
+        <div [formGroupName]="i" class="checkbox-wrapper">
+            <input formControlName="isAdded" type="checkbox" [id]="playlist.id">
             <label [for]="playlist.id" class="ml-3 truncate">{{ playlist.title }}</label>
         </div>
+        }@empty {
+        <p class="text-secondary">Вы не создали ни одного плейлиста :(</p>
         }
     </div>
     <button class="secondary-button w-full" (click)="createPlaylist()">New Playlist</button>

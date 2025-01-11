@@ -19,8 +19,9 @@ export class UserService {
     this.user.set(newUser);
   }
 
-  updateUser(newUser: User): void {
+  updateUser(newUser: Partial<User>): void {
     const user = this.user()
-    this.user.set({ ...user, ...newUser })
+    if (!user) return
+    this.user.set({ ...user, ...newUser } as User)
   }
 }

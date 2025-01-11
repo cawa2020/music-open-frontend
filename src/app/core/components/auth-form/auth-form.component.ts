@@ -48,7 +48,7 @@ export class AuthFormComponent {
 
     const token = res.access_token
     this.cookieService.set('access_token', token)
-    this.userApiService.fetchUserDataByToken(token).subscribe(user => {
+    this.userApiService.fetchUserDataByToken().subscribe(user => {
       if (!user) return
       this.userService.setUser(user)
       location.reload()

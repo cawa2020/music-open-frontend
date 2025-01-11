@@ -3,7 +3,7 @@
 }
 
 .song {
-  @apply rounded-lg cursor-pointer flex items-center gap-[10px] p-2 hover:bg-default transition-none relative;
+  @apply rounded-lg flex items-center gap-[10px] p-2 hover:bg-default transition-none relative;
 
   &:hover .equalizer {
     @apply hidden;

@@ -1,7 +1,0 @@
-.album-header {
-  @apply flex-col flex gap-5 mb-[30px];
-}
-
-.album-header__buttons {
-  @apply flex items-center gap-3 w-full;
-}

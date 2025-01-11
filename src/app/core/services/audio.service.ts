@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { SongService } from './song.service';
 import { volumeMultiplier } from '../../shared/constants/app.constant';
 import { Song } from '../../shared/interfaces/song.interface';
@@ -60,24 +60,25 @@ export class AudioService {
     this.playSong()
   }
 
-  private getIndexOfNextSong(direction: 'prev' | 'next', isEndedByItself?: boolean): number | null {
+  private getIndexOfNextSong(direction: 'prev' | 'next', isEndedByItself: boolean = false): number | null {
     const queue: Song[] | undefined = this.songData.getQueue()
     const index = queue?.findIndex(el => el.id === this.songData.getSong()?.id) ?? 0
     const isLastSong = index === (queue?.length ?? 9999) - 1
     const isFirstSong = index === 0
+    const isDirectionNext = direction === 'next'
     const repeatType = this.songData.getRepeat()()
 
     let newIndex
     if (isFirstSong && direction == 'prev') {
       newIndex = index
-    } else if ((repeatType === 'playlist' && isLastSong && direction === 'next') || (isLastSong && direction === 'next' && !isEndedByItself)) {
+    } else if ((repeatType === 'playlist' && isLastSong && isDirectionNext) || (isLastSong && isDirectionNext && !isEndedByItself)) {
       newIndex = 0
     } else if (repeatType === 'song' && this.audio.duration >= this.audio.currentTime && isEndedByItself) {
       newIndex = index
-    } else if (isLastSong && direction === 'next' && isEndedByItself) {
+    } else if (isLastSong && isDirectionNext && isEndedByItself) {
       newIndex = null
     } else {
-      newIndex = (direction === 'next' ? 1 : -1) + index
+      newIndex = (isDirectionNext ? 1 : -1) + index
     }
 
     return newIndex

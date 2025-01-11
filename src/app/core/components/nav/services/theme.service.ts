@@ -11,8 +11,6 @@ export class ThemeService {
     color: 'blue'
   }
 
-  constructor() { }
-
   getMode(): Mode {
     return this.active.mode
   }

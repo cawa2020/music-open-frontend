@@ -1,10 +1,27 @@
 @let playlist = playlist$ | async;
 
-@if (playlist) {
-<div>
-    {{playlist.title}}
-    @for (song of playlist.songs; track song.id) {
-        <app-song [song]="song" [queue]="playlist.songs" [index]="$index"/>
+<section class="h-full overflow-auto section-adaptive">
+    @if (!playlist) {
+    <div class="flex justify-center items-center w-full h-full">
+        <app-loader />
+    </div>
+    } @else {
+    <app-songs-compilation-template [data]="playlist">
+        <ng-container header-info>
+            <h3 class="text-balance">{{ playlist.title }}</h3>
+            <div class="flex items-center gap-2">
+                <div class="flex gap-1">
+                    <span class="text-secondary"> By </span>
+                    <a [routerLink]="['/profile', playlist.userId]">{{ playlist.userName }}</a>
+                </div>
+                <span class="text-secondary">·</span>
+                <span class="text-secondary">{{ playlist.creationDate | date: 'YYYY' }}</span>
+                <span class="text-secondary">·</span>
+                <span class="text-secondary">{{playlist.songs.length}} {{playlist.songs_amount_name}}</span>
+                <span class="text-secondary">·</span>
+                <span class="text-secondary">{{playlist.duration | time: 'hr min'}}</span>
+            </div>
+        </ng-container>
+    </app-songs-compilation-template>
     }
-</div>
-}
+</section>

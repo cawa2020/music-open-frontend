@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject, debounceTime, take } from 'rxjs';
+import { take } from 'rxjs';
 import { ApiService } from '../../core/services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';

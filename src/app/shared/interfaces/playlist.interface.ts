@@ -7,8 +7,14 @@ export interface CreatePlaylist {
 
 export interface Playlist extends CreatePlaylist {
   id: number
-  creation_date: string
-  md5_image: string
+  creationDate: string
   userId: string
+  userName: string
   type: 'playlist'
+  md5_image?: string
+}
+
+export interface ExtendedPlaylist extends Playlist {
+  songs_amount_name: string
+  duration: number
 }

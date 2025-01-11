@@ -1,5 +1,5 @@
 <div class="tabs">
-  @for (tab of tabs; track tab.title) {
+  @for (tab of tabs; track tab.value) {
   <button class="tab" [class.active-tab]="tab.value === currentTab" (click)="changeTab(tab.value)">
     {{tab.title}}
   </button>

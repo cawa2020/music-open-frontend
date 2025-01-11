@@ -21,6 +21,7 @@ import { FavoriteButtonComponent } from "../favorite-button/favorite-button.comp
 import { SongFormSaveToPlaylistComponent } from "./components/song-form-save-to-playlist/song-form-save-to-playlist.component";
 import { ModalService } from '../../../core/services/modal.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { ContextMenuEvent, Position } from '../../interfaces/right-click.interface';
 
 @Component({
   selector: 'app-song',
@@ -82,15 +83,14 @@ export class SongComponent implements OnInit {
     }
   }
 
-  isLastSong(index: number): boolean {
-    return index === (this.song.contributors?.length ?? 1) - 1;
-  }
-
-  toggleActions(event: MouseEvent) {
+  toggleActions(event: MouseEvent, useParent: boolean = false) {
     event.preventDefault()
-    const parent = (event.target as HTMLElement).parentElement
-    const height = parent?.clientHeight ?? 0
-    const coords = parent?.getBoundingClientRect() ?? { x: 0, y: 0 }
+
+    if (this.contextMenuService.getEvent().id === this.song.id.toString()) {
+      this.contextMenuService.close()
+      return
+    }
+
     const items = [
       { title: 'Добавить в очередь', event: () => { this.songService.addToQueue([this.song]) } },
       { title: 'Добавить в избранное', event: () => { this.toggleFavorite() } },
@@ -99,17 +99,27 @@ export class SongComponent implements OnInit {
       { title: 'Добавить в плейлист', event: () => { this.openModal() } }
     ]
 
-    if (this.contextMenuService.getEvent().id === this.song.id.toString()) {
-      this.contextMenuService.close()
-      return
+    let coords: Position
+    if (useParent) {
+      const parent = (event.target as HTMLElement).parentElement
+      const parentHeight = parent?.clientHeight ?? 0
+      const parentCoords = parent?.getBoundingClientRect() ?? { x: 0, y: 0 }
+      coords = { x: parentCoords.x, y: parentCoords.y + parentHeight + 20 }
+    } else {
+      coords = { x: event.clientX, y: event.clientY }
     }
 
-    this.contextMenuService.open({
-      parent: parent ?? undefined,
+    const contextMenuItem: ContextMenuEvent = {
       id: this.song.id.toString(),
       items: items,
-      position: [coords.x, coords.y + height + 20]
-    })
+      position: coords
+    }
+
+    if (useParent && parent instanceof HTMLElement) {
+      contextMenuItem.parent = parent
+    }
+
+    this.contextMenuService.open(contextMenuItem)
   }
 
   private openModal() {

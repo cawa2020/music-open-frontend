@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomeComponent } from "../../../pages/artist-page/home/home.component";
 import { AlbumsComponent } from "../../../pages/artist-page/albums/albums.component";
@@ -16,14 +16,14 @@ import { map } from 'rxjs';
   styleUrl: './artist-page-tabs.component.css'
 })
 export class ArtistPageTabsComponent implements OnInit {
-  public id!: number
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+
+  @Input() id!: number
   public tabs: { value: ArtistTab, title: string }[] = artistTabs
   public currentTab: ArtistTab = 'home'
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) { }
-
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params) => this.id = params['id'])
     this.activatedRoute.queryParams.subscribe((query: any) => {
       this.currentTab = query.tab ?? 'home'
     })

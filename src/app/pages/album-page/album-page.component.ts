@@ -1,17 +1,14 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService } from '../../core/services/api.service';
 import { CommonModule } from '@angular/common';
-import { SongComponent } from '../../shared/components/song/song.component';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
-import { Album } from '../../shared/interfaces/album.interface';
+import { AlbumExtended } from '../../shared/interfaces/album.interface';
 import { scaleInOut } from '../../shared/animations/scaleInOut';
-import { AlbumPageHeaderComponent } from './components/album-page-header/album-page-header.component';
-import { ModalService } from '../../core/services/modal.service';
-import { FullCoverComponent } from '../../shared/components/full-cover/full-cover.component';
+import { map, Observable, switchMap, tap } from 'rxjs';
+import { SongsCompilationTemplateComponent } from "../../shared/components/songs-compilation-template/songs-compilation-template.component";
+import { TimePipe } from "../../shared/pipes/time.pipe";
+import { getSongsAmountName } from '../../shared/utils/songs-compilation-utils';
 
 @Component({
   selector: 'app-album-page',
@@ -20,35 +17,20 @@ import { FullCoverComponent } from '../../shared/components/full-cover/full-cove
   styleUrl: './album-page.component.css',
   imports: [
     RouterLink,
-    SongComponent,
     CommonModule,
     LoaderComponent,
-    AlbumPageHeaderComponent
+    SongsCompilationTemplateComponent,
+    TimePipe
   ],
-  animations: [scaleInOut]
+  animations: [scaleInOut],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AlbumPageComponent implements OnInit {
-  public album: Album | null = null;
+export class AlbumPageComponent {
+  private route = inject(ActivatedRoute);
+  private apiService = inject(ApiService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private api: ApiService,
-    private modal: ModalService
-  ) { }
-
-  ngOnInit() {
-    this.initAlbum()
-  }
-
-  openFullCover() {
-    this.modal.openModal(FullCoverComponent, { img: this.album?.cover_xl })
-  }
-
-  private initAlbum() {
-    this.route.params.subscribe((params) => {
-      this.album = null
-      const id = Number(params['id']);
-      this.api.getAlbum(id).subscribe((res) => this.album = res);
-    });
-  }
+  private id$: Observable<number> = this.route.params.pipe(map((params) => params['id']))
+  public album$: Observable<AlbumExtended> = this.id$.pipe(
+    switchMap((id) => this.apiService.getAlbum(id)),
+    map((album) => ({ ...album, songs_amount_name: getSongsAmountName(album.tracks.data) })))
 }

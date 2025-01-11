@@ -4,5 +4,6 @@ import { CookieService } from '../services/cookie.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const cookie = inject(CookieService)
-  return !!cookie.get('access_token')
+  const token = cookie.get('access_token')
+  return !!token
 };

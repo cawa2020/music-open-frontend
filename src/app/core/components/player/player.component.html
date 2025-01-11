@@ -1,3 +1,5 @@
+@let song = song_data();
+
 <div class="player">
   <div class="player__controllers">
     <app-controls color="var(--text-color)" />
@@ -7,25 +9,25 @@
 
   <div class="player__info">
     <img class="rounded min-w-[51px] w-[51px] aspect-square"
-      [src]="song()?.album?.cover_small ?? '../../assets/imgs/placeholder.jpg'" alt="song cover" />
+      [src]="song?.album?.cover_small ?? '../../assets/imgs/placeholder.jpg'" alt="song cover" />
     <!-- <div tooltip="Во весь экран">
       <img class="rounded min-w-[51px] w-[51px] aspect-square hover:brightness-50" (click)="onToggleZen()"
         [src]="song?.album?.cover_small ?? '../../assets/placeholder.jpg'" alt="song cover" />
     </div> -->
     <div class="player__info-text">
-      <a appSlidingText class="player__info-title" [routerLink]="['/album', song()?.album?.id]">
-        {{ song()?.title }}
+      <a appSlidingText class="player__info-title" [routerLink]="['/album', song?.album?.id]">
+        {{ song?.title }}
       </a>
       <div class="player__info-artist">
-        @if (song()?.contributors?.length) {
-        @for (artist of song()?.contributors; track artist.id) {
+        @if (song?.contributors?.length) {
+        @for (artist of song?.contributors; track artist.id) {
         <a [routerLink]="['/artist', artist.id]">
           {{ artist.name }}
         </a>
         @if (!isLastElement($index)) {<span class="text-inherit">,&nbsp;</span>}
         }} @else {
-        <a [routerLink]="['/artist', song()?.artist?.id]">
-          {{ song()?.artist?.name }}
+        <a [routerLink]="['/artist', song?.artist?.id]">
+          {{ song?.artist?.name }}
         </a>
         }
       </div>
@@ -33,7 +35,7 @@
   </div>
 
   <div class="player__buttons">
-    <app-favorite-button [data]="song()" />
+    <app-favorite-button [data]="song" />
     <button tooltip="Очередь" [routerLink]="['/queue']">
       <svg width="42" height="41" viewBox="0 0 42 41" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M11.9946 14.248H29.9946" stroke-width="2" stroke-linecap="round" />

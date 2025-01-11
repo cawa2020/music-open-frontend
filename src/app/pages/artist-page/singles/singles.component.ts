@@ -3,9 +3,9 @@ import { ApiService } from '../../../core/services/api.service';
 import { LoaderComponent } from "../../../shared/components/loader/loader.component";
 import { AlbumCardComponent } from "../../../shared/components/album-card/album-card.component";
 import { of, map } from 'rxjs';
-import { SortService } from '../../../core/services/sort.service';
 import { AlbumBrief } from '../../../shared/interfaces/album.interface';
 import { CommonModule } from '@angular/common';
+import { sortAlbumByDate } from '../../../shared/utils/sort-utils';
 
 @Component({
   selector: 'app-singles',
@@ -16,13 +16,12 @@ import { CommonModule } from '@angular/common';
 })
 export class SinglesComponent {
   private api = inject(ApiService)
-  private sortService = inject(SortService)
   public id = input<number>()
   public singles = computed(() => {
     const id = this.id()
     if (!id) return of(null)
     return this.api.getArtistAlbums(id).pipe(
-      map((res) => this.sortService.sortAlbumByDate(res.data).filter((record: AlbumBrief) => record.record_type == 'single' || record.record_type == 'ep')),
+      map((res) => sortAlbumByDate(res.data).filter((record: AlbumBrief) => record.record_type == 'single' || record.record_type == 'ep')),
     )
   })
 }

@@ -29,8 +29,7 @@ export class GenreComponent {
   private initAlbum() {
     this.route.params.subscribe((params) => {
       const id = Number(params['id']);
-      console.log(id)
-      // this.album = null
+      // this.genre = null
       this.api.getGenre(String(id)).subscribe((res) => this.genre = res);
       this.api.getGenreArtists(String(id)).subscribe((res) => this.genreArtist = res.data);
     });

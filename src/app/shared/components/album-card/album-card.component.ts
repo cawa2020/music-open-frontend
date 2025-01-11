@@ -31,6 +31,8 @@ export class AlbumCardComponent {
 
   onRightClick(event: MouseEvent) {
     event.preventDefault()
-    this.contextMenu.open({ id: this.album.id.toString(), items: [{ event: this.pinAlbum, title: 'pin album' }], position: [event.clientX, event.clientY] })
+    const coords = { x: event.clientX, y: event.clientY }
+    const item = { event: this.pinAlbum, title: 'pin album' }
+    this.contextMenu.open({ id: this.album.id.toString(), items: [item], position: coords })
   }
 }

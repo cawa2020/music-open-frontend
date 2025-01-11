@@ -1,34 +1,38 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../core/services/api.service';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { SongComponent } from "../../shared/components/song/song.component";
-import { AudioService } from '../../core/services/audio.service';
 import { LoaderComponent } from "../../shared/components/loader/loader.component";
 import { Song } from '../../shared/interfaces/song.interface';
-import { Artist } from '../../shared/interfaces/artist.interface';
+import { debounceTime, tap } from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search',
   standalone: true,
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
-  imports: [FormsModule, SongComponent, LoaderComponent]
+  imports: [SongComponent, LoaderComponent, ReactiveFormsModule]
 })
 export class SearchComponent implements OnInit, AfterViewInit {
   @ViewChild('input') input!: ElementRef
-  private timeout!: any
-  public search: string = ''
+  public search = new FormControl<string>('')
   public findedSongs!: Song[]
-  public loading: boolean = false
+  public loading = false
 
-  constructor(private api: ApiService, private player: AudioService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params: any) => {
-      if (!params.q?.length) return
-      this.search = params.q;
-      this.getBySearch(this.search)
+    this.search.valueChanges
+      .pipe(tap(() => this.loading = true), debounceTime(500))
+      .subscribe(el => this.handleSearch(el ?? ''))
+
+    this.route.queryParams.subscribe((params) => {
+      const value = params['q']
+      if (!value || value === this.search.value) return
+      // this.loading = true
+      this.search.setValue(value)
+      // this.handleSearch(value)
     });
   }
 
@@ -38,26 +42,16 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   handleSearch(value: string) {
     this.loading = true
-    this.search = value
-
-    clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => {
-      this.getBySearch(this.search)
-      const params = { q: this.search }
-      this.router.navigate([], { queryParams: params, queryParamsHandling: 'merge' });
-    }, 300)
-  }
-
-  getBySearch(search: string) {
-    this.loading = true
-    this.api.getBySearch(search).subscribe((res: { data: Song[] }) => {
+    this.saveSearchToQuery()
+    this.api.getBySearch(value).subscribe((res: { data: Song[] }) => {
       this.findedSongs = res.data
       this.loading = false
     })
+  }
 
-    // this.api.getByArtistSearch(search).subscribe((res: { data: Artist[] }) => {
-    //   console.log(res)
-    //   // this.findedArtists = res.data
-    // })
+  private saveSearchToQuery() {
+    const params = { q: this.search.value }
+    const extras: NavigationExtras = { queryParams: params, queryParamsHandling: 'merge' }
+    this.router.navigate([], extras);
   }
 }

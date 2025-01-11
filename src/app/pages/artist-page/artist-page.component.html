@@ -1,3 +1,7 @@
+@let artist = artist$ | async;
+@let songs = (songs$ | async) ?? [];
+@let id = (id$ | async) ?? 0;
+
 <section class="w-full overflow-auto h-full">
   @if (!artist) {
   <div class="flex justify-center items-center w-full h-full">
@@ -5,6 +9,6 @@
   </div>
   } @else {
   <app-artist-page-header [queue]="songs" [artist]="artist"/>
-  <app-artist-page-tabs />
+  <app-artist-page-tabs [id]="id"/>
   }
 </section>

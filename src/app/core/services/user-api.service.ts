@@ -23,7 +23,9 @@ export class UserApiService {
     return this._request<User>('GET', userId);
   }
 
-  fetchUserDataByToken(token: string): Observable<User> {
+  fetchUserDataByToken(): Observable<User | null> {
+    const token = this.cookieService.get('access_token')
+    if (!token) return of(null)
     return this._request<User>('GET', `me/${token}`);
   }
 
