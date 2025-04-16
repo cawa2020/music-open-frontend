@@ -6,7 +6,7 @@ import { CookieService } from './cookie.service';
 import { Router } from '@angular/router';
 import { ToastService } from './toast.service';
 
-const AUTH_API_ENDPOINT = 'http://localhost:3000/auth/'
+const AUTH_API_ENDPOINT = 'https://music-open-backend-production.up.railway.app/auth/'
 
 @Injectable({
   providedIn: 'root',

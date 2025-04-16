@@ -152,7 +152,7 @@ export class ApiService {
     body?: any
   ): Observable<any> {
     let headers = new HttpHeaders();
-    const url = `http://localhost:3000/` + path;
+    const url = `https://music-open-backend-production.up.railway.app/` + path;
 
     const options = {
       headers: headers,

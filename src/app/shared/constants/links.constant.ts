@@ -1,1 +1,1 @@
-export const USER_ENDPOINT = 'http://localhost:3000/user/'
+export const USER_ENDPOINT = 'https://music-open-backend-production.up.railway.app/user/'
