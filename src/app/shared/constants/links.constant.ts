@@ -1,1 +1,1 @@
-export const USER_ENDPOINT = 'https://music-open-backend-production.up.railway.app/user/'
+export const USER_ENDPOINT = 'https://music-open-back.u-hu.site/user/'
