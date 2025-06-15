@@ -32,10 +32,10 @@ export class SongFormSaveToPlaylistComponent {
   public form = this.fb.group({ playlists: this.fb.array<FormGroup>([]) });
   public playlists = computed<Playlist[]>(() => {
     const playlists_data = this.userService.user()?.playlists ?? []
-    playlists_data.map((playlist) => {
+    playlists_data.map((playlist: any) => {
       const contoller = this.fb.group(
         {
-          isAdded: !!playlist.songs.find((el) => el.id === this.song.id),
+          isAdded: !!playlist.songs.find((el: any) => el.id === this.song.id),
           playlistId: playlist.id
         }
       )
@@ -45,12 +45,14 @@ export class SongFormSaveToPlaylistComponent {
   })
 
   ngOnInit() {
-    this.form.controls.playlists.valueChanges.subscribe((currPlaylists) => {
+    this.form.controls.playlists.valueChanges.subscribe((currPlaylists: any) => {
       const prevPlaylists = this.form.value.playlists
+      console.log(currPlaylists)
       for (const [index, item] of currPlaylists.entries()) {
         const isDifferentLength = prevPlaylists?.length !== currPlaylists.length
-        const isSameValue = item.isAdded === prevPlaylists?.[index]
+        const isSameValue = item.isAdded === prevPlaylists?.[index]?.isAdded
         if (isSameValue || isDifferentLength) continue;
+        console.log(isSameValue)
         this.addSongToPlaylist(item.playlistId);
       }
     })
@@ -62,7 +64,7 @@ export class SongFormSaveToPlaylistComponent {
 
   createPlaylist() {
     const body: CreatePlaylist = { title: this.song.title, songs: [this.song] }
-    this.apiService.createPlaylist(body).subscribe(playlist => {
+    this.apiService.createPlaylist(body).subscribe((playlist: any) => {
       if (!playlist.id) return
       const user = this.userService.user()
       if (!user) return
@@ -73,10 +75,11 @@ export class SongFormSaveToPlaylistComponent {
   }
 
   private addSongToPlaylist(playlistId: number) {
-    this.apiService.toggleSongOnPlaylist(this.song, playlistId).subscribe((res) => {
+    this.apiService.toggleSongOnPlaylist(this.song, playlistId).subscribe((res: any) => {
       if (!res.id) return
+      console.log(1)
       const playlists = this.userService.user()?.playlists ?? []
-      const playlistIndex = playlists.findIndex((el) => el.id === playlistId)
+      const playlistIndex = playlists.findIndex((el: any) => el.id === playlistId)
       playlists[playlistIndex] = res
       this.userService.updateUser({ playlists: playlists })
       this.toastService.success(`Трек "${this.song.title}" был успешно добавлен в "${res.title}"!`)
